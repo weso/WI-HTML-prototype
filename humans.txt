@@ -1,0 +1,18 @@
+# humanstxt.org/
+# The humans responsible & technology colophon
+
+# TEAM
+
+    Juan Castro Fernández -- Developer
+    Ignacio Fuertes Bernardo -- Developer
+    César Luis Alvargonzález -- Developer
+    Alejandro Montes García -- Developer
+
+# THANKS
+
+    
+
+# TECHNOLOGY COLOPHON
+
+    HTML5, CSS3
+    Normalize.css, jQuery, Modernizr, Foundation

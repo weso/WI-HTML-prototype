@@ -1,0 +1,21 @@
+.row {
+	margin-bottom: 1%;
+}
+
+#indicators-container {
+	height: 30em;
+	overflow-y: scroll;
+}
+
+.title {
+	text-transform: uppercase;
+	font-weight: bold;
+}
+
+.accordion section .title {
+	background-color: white;
+}
+
+.section-container>section>.title a {
+	color: #690;
+}
