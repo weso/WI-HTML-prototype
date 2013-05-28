@@ -16,6 +16,10 @@
 	background-color: white;
 }
 
-.section-container>section>.title a {
+.section-container>section>.title a, abbr {
 	color: #690;
+}
+
+.country-list {
+	font-size: 8.6pt;
 }
