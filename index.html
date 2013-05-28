@@ -15,6 +15,7 @@
 		<!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
 
 		<link rel="stylesheet" href="css/normalize.css">
+		<link rel="stylesheet" href="css/jquery-ui.css">
 		<link rel="stylesheet" href="css/main.css">
 		<link rel="stylesheet" href="css/foundation.min.css">
 		<link rel="stylesheet" href="css/app.css">
@@ -67,7 +68,7 @@
 		<section id="global">
 			<div class="row">
 				<div class="small-6 large-4 columns">
-					<a href="#" class="button expend">Compare countries</a>
+					<a href="#" class="button expand">Compare countries</a>
 				</div>
 			</div>
 			<div class="row">
@@ -75,7 +76,25 @@
 			</div>
 			<hr/>
 			<div class="row">
-				Year selector
+				<div id="year-selector-wrapper"><div id="year-selector"></div></div>
+				<div class="small-2 large-2 columns centered">
+					2007
+				</div>
+				<div class="small-2 large-2 columns centered">
+					2008
+				</div>
+				<div class="small-2 large-2 columns centered">
+					2009
+				</div>
+				<div class="small-2 large-2 columns centered">
+					2010
+				</div>
+				<div class="small-2 large-2 columns centered">
+					2011
+				</div>
+				<div class="small-2 large-2 columns centered">
+					2012
+				</div>
 			</div>
 		</section>
 
@@ -481,6 +500,7 @@
 			document.write('<script src=js/vendor/' + ('__proto__' in {} ? 'zepto' : 'jquery') + '.js><\/script>');
 		</script>
 		<script src="js/vendor/jquery.js"></script>
+		<script src="js/vendor/jquery-ui.js"></script>
 		<script src="js/vendor/jquery-jvectormap-1.2.2.min.js"></script>
 		<script src="js/vendor/world.map.js"></script>
 		<script src="js/vendor/foundation.min.js"></script>

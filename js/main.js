@@ -21,3 +21,15 @@ $(function() {
 		}
 	});
 });
+
+$(function() {
+	$("#year-selector").slider({
+		value : 2012,
+		min : 2007,
+		max : 2012,
+		step : 1,
+		slide : function(event, ui) {
+			console.log(ui.value);
+		}
+	});
+}); 

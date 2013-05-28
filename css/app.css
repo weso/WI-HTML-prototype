@@ -16,7 +16,7 @@
 	background-color: white;
 }
 
-.section-container>section>.title a, abbr {
+.section-container > section > .title a, abbr {
 	color: #690;
 }
 
@@ -26,4 +26,37 @@
 
 #world-map {
 	height: 30em;
+}
+
+.ui-state-hover, .ui-widget-content .ui-state-hover, .ui-widget-header .ui-state-hover, .ui-state-focus, .ui-widget-content .ui-state-focus, .ui-widget-header .ui-state-focus, .ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default {
+	background: #f00;
+	border: 1px solid #f00;
+	height: .95em;
+	width: 8em;
+	top: -10%;
+	border-radius: 0px;
+	margin-left: -4em;
+}
+
+.ui-corner-all {
+	border-radius: 0px;
+}
+
+.ui-widget-content {
+	margin-left: 4em;
+	background: #fff;
+	border: none;
+}
+
+.centered {
+	text-align: center;
+}
+
+#year-selector {
+	margin-left: 4em;
+	margin-right: 4em;
+}
+
+#year-selector-wrapper {
+	border: 1px solid #aaaaaa;
 }
