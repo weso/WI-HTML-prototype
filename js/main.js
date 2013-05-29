@@ -96,16 +96,17 @@ $(function() {
 	});
 });
 
-$(function() {
+$(window).resize(function() {
 	drawGraph("#barchart", data, {
 		marginTop : 0,
 		marginRight : 0,
 		marginBottom : 0,
 		marginLeft : 0,
-		width : 900,
+		width : $(".row").width() ,
 		height : 150
 	});
 	function drawGraph(selector, data, config) {
+		$("#barchart").empty();
 		var top = data.sort(function(a, b) {
 			return b.value - a.value;
 		});
@@ -126,6 +127,8 @@ $(function() {
 			return d.value;
 		})]);
 
+		var ramp=d3.scale.linear().domain([100,75,50,25,0]).range(["#343465","#269e45","#deb722","#e65e22","#8b2c30"]);
+
 		this.svg.selectAll(".bar").data(top).enter().append("rect").attr("class", "bar").attr("x", function(d) {
 			return x(d.code);
 		}).attr("width", x.rangeBand()).attr("y", function(d) {
@@ -133,7 +136,7 @@ $(function() {
 		}).attr("height", function(d) {
 			return config.height - y(d.value);
 		}).attr("fill", function(d) {
-			return "rgb(0, " + Math.round(d.value * 2.5) + ", 0)";
+			return ramp(d.value);
 		});
 	}
 

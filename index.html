@@ -71,29 +71,42 @@
 					<a href="#" class="button expand">Compare countries</a>
 				</div>
 			</div>
-			<div class="row" id="barchart">
-			</div>
+			<div class="row" id="barchart"></div>
 			<hr/>
+			<div class="row show-for-small">
+				<select id="year-select">
+					<option>2007</option>
+					<option>2008</option>
+					<option>2009</option>
+					<option>2010</option>
+					<option>2011</option>
+					<option>2012</option>
+				</select>
+			</div>
 			<div class="row hide-for-small">
-				<div id="year-selector-wrapper"><div id="year-selector"></div></div>
-				<div class="small-2 large-2 columns centered">
-					2007
+				<div id="year-selector-wrapper">
+					<div id="year-selector"></div>
 				</div>
-				<div class="small-2 large-2 columns centered">
-					2008
-				</div>
-				<div class="small-2 large-2 columns centered">
-					2009
-				</div>
-				<div class="small-2 large-2 columns centered">
-					2010
-				</div>
-				<div class="small-2 large-2 columns centered">
-					2011
-				</div>
-				<div class="small-2 large-2 columns centered">
-					2012
-				</div>
+				<section id="available-years">
+					<div class="small-2 large-2 columns centered">
+						<strong>2007</strong>
+					</div>
+					<div class="small-2 large-2 columns centered">
+						<strong>2008</strong>
+					</div>
+					<div class="small-2 large-2 columns centered">
+						<strong>2009</strong>
+					</div>
+					<div class="small-2 large-2 columns centered">
+						<strong>2010</strong>
+					</div>
+					<div class="small-2 large-2 columns centered">
+						<strong>2011</strong>
+					</div>
+					<div class="small-2 large-2 columns centered">
+						<strong>2012</strong>
+					</div>
+				</section>
 			</div>
 		</section>
 
@@ -470,10 +483,10 @@
 								<li>
 									<a href="#"><abbr title="League of Arab States">LoAS</abbr></a>
 								</li>
-								<li> 
+								<li>
 									<a href="#">Maghreb</a>
 								</li>
-								<li> 
+								<li>
 									<a href="#">Mercosur</a>
 								</li>
 								<li>
@@ -514,8 +527,7 @@
 
 		<!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
 		<script>
-			var _gaq = [['_setAccount', 'UA-XXXXX-X'], ['_trackPageview']];
-			( function(d, t) {
+			var _gaq = [['_setAccount', 'UA-XXXXX-X'], ['_trackPageview']]; ( function(d, t) {
 					var g = d.createElement(t), s = d.getElementsByTagName(t)[0];
 					g.src = '//www.google-analytics.com/ga.js';
 					s.parentNode.insertBefore(g, s)

@@ -16,7 +16,7 @@
 	background-color: white;
 }
 
-.section-container > section > .title a, abbr {
+.section-container > section > .title a, abbr, #available-years {
 	color: #690;
 }
 
@@ -29,13 +29,13 @@
 }
 
 .ui-state-hover, .ui-widget-content .ui-state-hover, .ui-widget-header .ui-state-hover, .ui-state-focus, .ui-widget-content .ui-state-focus, .ui-widget-header .ui-state-focus, .ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default {
-	background: #f00;
-	border: 1px solid #f00;
-	height: .95em;
-	width: 8em;
-	top: -10%;
+	background: #c92127;
+	border: none;
+	height: .8em;
+	width: 20%;
+	top: 0%;
 	border-radius: 0px;
-	margin-left: -4em;
+	margin-left: -10%;
 }
 
 .ui-corner-all {
@@ -43,7 +43,7 @@
 }
 
 .ui-widget-content {
-	margin-left: 4em;
+	margin-left: 8.33333%em;
 	background: #fff;
 	border: none;
 }
@@ -53,10 +53,11 @@
 }
 
 #year-selector {
-	margin-left: 4em;
-	margin-right: 4em;
+	margin-left: 8.33333%;
+	margin-right: 8.33333%;
+	background: #ccc;
 }
 
 #year-selector-wrapper {
-	border: 1px solid #aaaaaa;
+	background: #ccc;
 }
