@@ -37,6 +37,15 @@
 	border-radius: 0px;
 	margin-left: -10%;
 }
+.bgline {
+	background: #E1E1E1;
+	background-image: url('../img/bg-line.png');
+	background-size: 100% cover;
+}
+
+.bgline-text {
+	background: white;
+}
 
 .ui-corner-all {
 	border-radius: 0px;
@@ -60,4 +69,39 @@
 
 #year-selector-wrapper {
 	background: #ccc;
+}
+
+#indicator-info p {
+	font-size: .65em;
+	text-align: justify;
+}
+
+#indicator-info h3, .rank-header .tendency-score {
+	font-size: 1em;
+}
+
+#indicator-info h4, .rank-header {
+	font-size: 0.65em;
+	text-transform: uppercase;
+	padding: 0;
+	color: #6f6f6f;
+}
+
+.progress-score, .tendency-score {
+	color: #000;
+	font-size: 0.7em;
+	font-weight: bold;
+	text-align: right;
+	padding: 0;
+}
+
+#indicator-info #rank {
+	font-size: 1.75em;
+	font-weight: bold;
+	padding: .1em;
+	margin-top: -.25em;
+}
+
+.indicator-rank {
+	margin-top: .75em;
 }
