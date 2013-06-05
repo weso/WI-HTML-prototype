@@ -378,7 +378,7 @@ $(function() {
 			data : [6],
 			dataLabels : {
 				formatter : function() {
-					var normalised = this.y, raw = Math.round((normalised/5 -1) * 100) / 100;
+					var normalised = this.y, raw = Math.round((normalised / 5 - 1) * 100) / 100;
 					return '<span style="color:#339">Normalised: ' + normalised + '</span><br/>' + '<span style="color:#933">Raw: ' + raw + '</span>';
 				},
 				backgroundColor : {
@@ -393,5 +393,82 @@ $(function() {
 			}
 		}]
 
+	});
+});
+
+$(function() {
+	$('#group').highcharts({
+		chart : {
+			type : 'columnrange',
+			inverted : true
+		},
+		credits : {
+			href : "http://thewebindex.org/",
+			text : "thewebindex.org"
+		},
+		title : {
+			text : 'Group comparison'
+		},
+		subtitle : {
+			text : 'Source: thewebindex.org'
+		},
+		xAxis : {
+			categories : ['Europe', 'Africa', 'Mercosur']
+		},
+		series : [{
+			name : 'Indicator 1',
+			data : [[-9.7, 9.4], [-8.7, 6.5], [-3.5, 9.4]]
+		}, {
+			name : 'Indicator 2',
+			data : [[-3.7, 5.4], [-2.7, 4.5], [-1.5, 0.4]]
+		}]
+	});
+});
+
+$(function() {
+	$('#twocomparison').highcharts({
+		chart : {
+			type : 'bar'
+		},
+		credits : {
+			href : "http://thewebindex.org/",
+			text : "thewebindex.org"
+		},
+		title : {
+			text : 'Comparison between two items'
+		},
+		subtitle : {
+			text : 'Source: thewebindex.org'
+		},
+		yAxis : {
+			labels : {
+				formatter : function() {
+					return Math.abs(this.value);
+				}
+			},
+			min : -100,
+			max : 100
+		},
+		xAxis : [{
+			categories : ['Indicator 1', 'Indicator 2', 'Indicator 3'],
+			reversed : false
+		}, {
+			opposite : true,
+			reversed : false,
+			categories : ['Indicator 1', 'Indicator 2', 'Indicator 3'],
+			linkedTo : 0
+		}],
+		plotOptions : {
+			series : {
+				stacking : 'normal'
+			}
+		},
+		series : [{
+			name : 'Spain',
+			data : [90, 40, 70]
+		}, {
+			name : 'France',
+			data : [-100, -70, -65]
+		}]
 	});
 });
