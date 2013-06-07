@@ -1,3 +1,7 @@
+body {
+	font-family: 'trebuchet MS', verdana, arial, sans-serif;
+}
+
 .row {
 	margin-bottom: 1%;
 }
@@ -5,19 +9,21 @@
 #indicators-container {
 	height: 30em;
 	overflow-y: scroll;
+	font-family: 'trebuchet MS', verdana, arial, sans-serif;
+	font-size: 10pt;
 }
 
-.title {
+.title0 {
 	text-transform: uppercase;
 	font-weight: bold;
 }
 
-.accordion section .title {
-	background-color: white;
+.title1 {
+
 }
 
-.section-container > section > .title a, abbr, #available-years {
-	color: #690;
+.title2 {
+
 }
 
 .country-list {
@@ -26,6 +32,71 @@
 
 #world-map {
 	height: 30em;
+}
+
+.magnifier {
+	background-color: #99ca3c;
+	border: none;
+	padding: 4px 0px;
+	line-height: 0px;
+}
+
+.list-content
+{
+	display: none;
+}
+
+.list-element0
+{
+
+}
+
+.list-element1
+{
+	margin-left: 10px;
+}
+
+.list-element2
+{
+	margin-left: 5px;
+}
+
+.indicator-list .active-node a
+{
+	color: #000;
+}
+
+.indicator-list .active-node:before
+{
+	content: "\25A0";
+	position: absolute;
+	left: -8px;
+	font-size: 7pt;
+}
+
+.indicator-link:hover:before
+{
+	content: "\25A0";
+	position: absolute;
+	left: -8px;
+	font-size: 7pt;
+}
+
+.indicator-list section
+{
+	padding-bottom: 0px;
+	margin-bottom: 0px;
+	margin-top: 0.5em;
+}
+
+.indicator-list section p
+{
+	margin-bottom: 0.5em;
+}
+
+.indicator-section
+{
+	border-bottom: 1px solid #ccc;
 }
 
 .ui-state-hover, .ui-widget-content .ui-state-hover, .ui-widget-header .ui-state-hover, .ui-state-focus, .ui-widget-content .ui-state-focus, .ui-widget-header .ui-state-focus, .ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default {
@@ -37,14 +108,29 @@
 	border-radius: 0px;
 	margin-left: -10%;
 }
+
 .bgline {
-	background: #E1E1E1;
 	background-image: url('../img/bg-line.png');
-	background-size: 100% cover;
+	background-size: 100% contain;
+	height: 1em;
+	text-transform: uppercase;
 }
 
 .bgline-text {
 	background: white;
+	font-size: 1em;
+	font-weight: normal;
+	color: #aaa;
+	line-height: 1em;
+	height: 1em;
+	margin: 0px;
+	padding-right: 10px;
+}
+
+.blank {
+	background-color: white;
+	width: 20%;
+	padding-right: 10px;
 }
 
 .ui-corner-all {
@@ -61,14 +147,42 @@
 	text-align: center;
 }
 
-#year-selector {
+.year-selector
+{
+	color: #88b23d;
+}
+
+.year-selector-slider {
 	margin-left: 8.33333%;
 	margin-right: 8.33333%;
 	background: #ccc;
 }
 
-#year-selector-wrapper {
+.year-selector-wrapper {
 	background: #ccc;
+}
+
+.available-years div
+{
+	margin-top: 8px;
+	font-size: 1.1em;
+	font-weight: 100;
+}
+
+.year-name-selected
+{
+	color: #000;
+	cursor: default;
+}
+
+.year-name
+{
+	cursor: default;
+}
+
+#indicator-info h3 {
+	padding-top: 0;
+	margin-top: -3px;
 }
 
 #indicator-info p {
@@ -78,6 +192,10 @@
 
 #indicator-info h3, .rank-header .tendency-score {
 	font-size: 1em;
+}
+
+.rank-header {
+	line-height: 1.5em;
 }
 
 #indicator-info h4, .rank-header {
@@ -95,13 +213,165 @@
 	padding: 0;
 }
 
-#indicator-info #rank {
+.score-bar {
+	margin-left: 0;
+	margin-top: 2px;
+	padding: 0;
+	background-color: #d4e8af;
+	border: none;
+	height: 20px;
+}
+
+#score-progress {
+	background-color: #91bf39;
+}
+
+#rank, #wi-rank {
 	font-size: 1.75em;
 	font-weight: bold;
 	padding: .1em;
-	margin-top: -.25em;
+	
 }
 
 .indicator-rank {
-	margin-top: .75em;
+	margin-top: .50em;
+	padding-left: 0px;
+}
+
+#indicator-value, #wi-indicator-value {
+	padding: 0 20px 0 10px;
+}
+
+#indicator-tendency, #wi-indicator-tendency {
+	padding-right: 0;
+}
+
+#indicator-tendency img, #wi-indicator-tendency img {
+	max-width: none;
+}
+
+#indicator-tendency #tendency-arrow, #wi-indicator-tendency #wi-tendency-arrow {
+	padding-right: 0;
+	margin-right: 0;
+	text-align: right;
+}
+
+#compare {
+	border: none;
+	border-top: 1px solid #e5f4ca;
+	background: #9acc3d;
+	background: -webkit-gradient(linear, left top, left bottom, from(#aadf48), to(#9acc3d));
+	background: -webkit-linear-gradient(top, #aadf48, #9acc3d);
+	background: -moz-linear-gradient(top, #aadf48, #9acc3d);
+	background: -ms-linear-gradient(top, #aadf48, #9acc3d);
+	background: -o-linear-gradient(top, #aadf48, #9acc3d);
+	color: white;
+	text-decoration: none;
+	vertical-align: middle;
+	transition: none;
+	-moz-transition: none;
+	-webkit-transition: none;
+	font-size: 0.8em;
+	margin-top: 4px;
+	padding-top: 10px;
+	padding-bottom: 10px;
+}
+   
+#compare:hover {
+   border-top-color: #79b304;
+   background: #79b304;
+   color: #ffffff;
+}
+   
+#compare:active {
+   border-top-color: #718054;
+   background: #7dab20;
+}
+
+/* Tabla países */
+
+div.country-table {
+	float: left;
+	font-family: "Verdana";
+	font-size: 0.7em;
+	background-color: #fff;
+}
+
+div.country-table table
+{
+	border: none;
+}
+
+div.country-table table tr:nth-of-type(even)
+{
+	background-color: #fff;
+}
+
+
+div.country-table td.region {
+	color: #000;
+	cursor: pointer;
+}
+
+div.country-table td.country {
+	color: #669900;
+	padding: 1px 15px;
+	cursor: pointer;
+}
+
+div.country-table td.country:hover, div.country-table td.country-hover {
+	color: #fff;
+	background-color: #669900;
+	padding: 1px 15px;
+}
+
+#left-bar {
+	padding-left: 0px;
+}
+
+#region-title {
+	font-size: 0.8em;
+	color: #91bf39;
+}
+
+#country-title {
+	font-size: 1.2em;
+}
+
+#flag {
+	padding-right: 0;
+	text-align: right;
+}
+
+#country-info {
+	padding-right: 0;	
+	margin-top: 2px;
+}
+
+#country-extra {
+	padding-right: 0;
+}
+
+#country-map {
+	text-align: right;
+	padding-right: 0;
+}
+
+.organizations-title {
+	font-size: 0.5em;
+}
+
+.organization-name {
+	margin-top: 8px;
+	border: 1px solid #91bf39;
+	text-align: center;
+	color: #91bf39;
+}
+
+.organization-name.margin-left {
+	margin-right: 4px;
+}
+
+.organization-name.margin-right {
+	margin-left: 4px;
 }

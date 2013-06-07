@@ -67,12 +67,100 @@
 
 		<section id="global">
 			<div class="row">
-				<div class="small-6 large-4 columns">
-					<a href="#" class="button expand">Compare countries</a>
+				<div class="small-12 large-2 columns">
+					<a id="compare" href="#" class="button expand">Compare countries</a>
+				</div>
+				<div class="small-12 large-6 columns">
+					<div class="large-3 small-3 columns indicator-rank">
+						<div class="large-8 small-8 columns rank-header">
+							Rank<br/>out of 61
+						</div>
+						<div id="wi-rank" class="large-4 small-4 columns">
+							18
+						</div>
+					</div>
+					<div id="wi-indicator-value" class="large-6 small-6 columns">
+						<div class="row collapse">
+							<div class="large-7 small-7 columns rank-header">
+								Score
+							</div>
+							<div class="large-5 small-5 columns progress-score">
+								67
+							</div>
+						</div>
+						<div class="progress score-bar">
+							<span id="score-progress" class="meter" style="width:61%"></span>
+						</div>
+					</div>
+					<div id="wi-indicator-tendency" class="large-3 small-3 columns indicator-rank">
+						<div class="large-7 small-7 columns rank-header">
+							Tendency
+							<br />
+							<span class="tendency-score">Upward</span>
+						</div>
+						<div id="wi-tendency-arrow" class="large-5 small-5 columns">
+							<img src="img/arrow-up.png" alt="Upward tendency" />
+						</div>
+					</div>
+				</div>
+				<div id="country-info" class="small-12 large-4 columns">
+					<div class="large-8 small-8 columns">
+						<span id="region-title">Europe & Central Asia</span>
+						<br />
+						<span id="country-title">Spain</span>
+					</div>
+					<div id="flag" class="large-4 small-4 columns">
+						<img src="img/spain.png" alt="Country flag" />
+					</div>
 				</div>
 			</div>
-			<div class="row" id="barchart"></div>
-			<hr/>
+			<div class="row collapse">
+				<div id="barchart" class="small-12 large-8 columns">
+				</div>
+				<div id="country-extra" class="small-12 large-4 columns">
+					<div class="small-6 large-6 columns">
+						<div class="row collapse bgline">
+							<span class="bgline-text organizations-title">Organizations</span>
+						</div>
+						<div class="row collapse">
+							<div class="small-6 large-6 columns">
+								<div class="organization-name margin-left">OECD</div>
+							</div>
+							<div class="small-6 large-6 columns">
+								<div class="organization-name margin-right">NATO</div>
+							</div>
+						</div>
+						<div class="row collapse">
+							<div class="small-6 large-6 columns">
+								<div class="organization-name margin-left">EUROPE</div>
+							</div>
+							<div class="small-6 large-6 columns">
+								<div class="organization-name margin-right">EU</div>
+							</div>
+						</div>
+						<div class="row collapse">
+							<div class="small-6 large-6 columns">
+								<div class="organization-name margin-left">EURO</div>
+							</div>
+							<div class="small-6 large-6 columns">
+								<div class="organization-name margin-right">IBERO</div>
+							</div>
+						</div>
+						<div class="row collapse">
+							<div class="small-6 large-6 columns">
+								<div class="organization-name margin-left">EDA</div>
+							</div>
+							<div class="small-6 large-6 columns">
+								<div class="organization-name margin-right">OSCE</div>
+							</div>
+						</div>
+					</div>
+					<div id="country-map" class="small-6 large-6 columns">
+						<img src="img/map.png" alt="Country map" />
+					</div>
+				</div>
+			</div>
+			<br />
 			<div class="row show-for-small">
 				<select id="year-select">
 					<option>2007</option>
@@ -84,157 +172,32 @@
 				</select>
 			</div>
 			<div class="row hide-for-small">
-				<div id="year-selector-wrapper">
-					<div id="year-selector"></div>
+					<div id="year-selector">
 				</div>
-				<section id="available-years">
-					<div class="small-2 large-2 columns centered">
-						<strong>2007</strong>
-					</div>
-					<div class="small-2 large-2 columns centered">
-						<strong>2008</strong>
-					</div>
-					<div class="small-2 large-2 columns centered">
-						<strong>2009</strong>
-					</div>
-					<div class="small-2 large-2 columns centered">
-						<strong>2010</strong>
-					</div>
-					<div class="small-2 large-2 columns centered">
-						<strong>2011</strong>
-					</div>
-					<div class="small-2 large-2 columns centered">
-						<strong>2012</strong>
-					</div>
-				</section>
 			</div>
+			<br />
 			<div class="row bgline">
-				<div class="small-12 large-3 columns bgline-text">
-					<h2 class="subheader">Indicator</h2>
-				</div>
+				<span class="bgline-text">Indicators</span>
 			</div>
+			<br />
 		</section>
 
 		<section id="selectors" class="row">
-			<aside class="small-12 large-3 columns">
-				<div class="row collapse">
-					<label>Search an indicator</label>
+			<aside id="left-bar" class="small-12 large-3 columns">
+				
+				<div id="search" class="row collapse">
 					<div class="small-9 columns">
-						<input type="text" placeholder="Search an indicator">
+						<input id="autocomplete" type="text" placeholder="Search an indicator">
 					</div>
 					<div class="small-3 columns">
-						<span class="postfix">IMG</span>
+						<div class="postfix magnifier"><img id='magnifier' src='img/magnifier.png' alt='Search an indicator' /></div>
 					</div>
 				</div>
-				<div id="indicators-container" class="row">
-					<div class="section-container accordion" data-section="accordion">
-						<section>
-							<p class="title" data-section-title>
-								<a href="#">Impact</a>
-							</p>
-							<div class="content" data-section-content>
-								<nav>
-									<ul class="no-bullet">
-										<li>
-											<a href="#">Indicator</a>
-										</li>
-										<li>
-											<a href="#">Indicator</a>
-										</li>
-										<li>
-											<a href="#">Indicator</a>
-										</li>
-										<li>
-											<a href="#">Indicator</a>
-										</li>
-										<li>
-											<a href="#">Indicator</a>
-										</li>
-										<li>
-											<a href="#">Indicator</a>
-										</li>
-										<li>
-											<a href="#">Indicator</a>
-										</li>
-										<li>
-											<a href="#">Indicator</a>
-										</li>
-									</ul>
-								</nav>
-							</div>
-						</section>
-						<section>
-							<p class="title" data-section-title>
-								<a href="#">Readiness</a>
-							</p>
-							<div class="content" data-section-content>
-								<nav>
-									<ul class="no-bullet">
-										<li>
-											<a href="#">Indicator</a>
-										</li>
-										<li>
-											<a href="#">Indicator</a>
-										</li>
-										<li>
-											<a href="#">Indicator</a>
-										</li>
-										<li>
-											<a href="#">Indicator</a>
-										</li>
-										<li>
-											<a href="#">Indicator</a>
-										</li>
-										<li>
-											<a href="#">Indicator</a>
-										</li>
-										<li>
-											<a href="#">Indicator</a>
-										</li>
-										<li>
-											<a href="#">Indicator</a>
-										</li>
-									</ul>
-								</nav>
-							</div>
-						</section>
-						<section>
-							<p class="title" data-section-title>
-								<a href="#">The web</a>
-							</p>
-							<div class="content" data-section-content>
-								<nav>
-									<ul class="no-bullet">
-										<li>
-											<a href="#">Indicator</a>
-										</li>
-										<li>
-											<a href="#">Indicator</a>
-										</li>
-										<li>
-											<a href="#">Indicator</a>
-										</li>
-										<li>
-											<a href="#">Indicator</a>
-										</li>
-										<li>
-											<a href="#">Indicator</a>
-										</li>
-										<li>
-											<a href="#">Indicator</a>
-										</li>
-										<li>
-											<a href="#">Indicator</a>
-										</li>
-										<li>
-											<a href="#">Indicator</a>
-										</li>
-									</ul>
-								</nav>
-							</div>
-						</section>
+				<div id="indicators-container" class="row collapse">
+					<div id='accordion' class='indicator-list'>
 					</div>
 				</div>
+				
 			</aside>
 
 			<section id="indicator-info" class="large-6 small-12 columns">
@@ -242,16 +205,18 @@
 				<p>
 					Survey Question: To what extent are Web applications and services in areas such as health, education, security, budgets etc "built" on top of government data (i.e. there has been new and useful information and services derived from the published government data in those fields? [1 = none at all; 10 = extensive applications and services]
 				</p>
-				<h4 class="subheader">World ranking</h4>
+				<div class="bgline">
+					<h4 class="subheader blank">World ranking</h4>
+				</div>
 				<div class="large-3 small-3 columns indicator-rank">
-					<div class="large-8 small-12 columns rank-header">
+					<div class="large-8 small-8 columns rank-header">
 						Rank<br/>out of 61
 					</div>
-					<div id="rank" class="large-4 small-12 columns">
+					<div id="rank" class="large-4 small-4 columns">
 						18
 					</div>
 				</div>
-				<div class="large-6 small-6 columns">
+				<div id="indicator-value" class="large-6 small-6 columns">
 					<div class="row collapse">
 						<div class="large-7 small-7 columns rank-header">
 							Score
@@ -260,18 +225,18 @@
 							67
 						</div>
 					</div>
-					<div class="row progress">
-						<span class="meter" style="width:61%"></span>
+					<div class="progress score-bar">
+						<span id="score-progress" class="meter" style="width:61%"></span>
 					</div>
 				</div>
-				<div class="large-3 small-3 columns indicator-rank">
-					<div class="large-7 small-12 columns rank-header">
+				<div id="indicator-tendency" class="large-3 small-3 columns indicator-rank">
+					<div class="large-7 small-7 columns rank-header">
 						Tendency
 						<br />
 						<span class="tendency-score">Upward</span>
 					</div>
-					<div class="large-4 small-12 columns">
-						IMG
+					<div id="tendency-arrow" class="large-5 small-5 columns">
+						<img src="img/arrow-up.png" alt="Upward tendency" />
 					</div>
 				</div>
 			</section>
@@ -285,27 +250,6 @@
 							<div class="content" data-section-content>
 								<nav>
 									<ul class="no-bullet">
-										<li>
-											<a href="#">Country</a>
-										</li>
-										<li>
-											<a href="#">Country</a>
-										</li>
-										<li>
-											<a href="#">Country</a>
-										</li>
-										<li>
-											<a href="#">Country</a>
-										</li>
-										<li>
-											<a href="#">Country</a>
-										</li>
-										<li>
-											<a href="#">Country</a>
-										</li>
-										<li>
-											<a href="#">Country</a>
-										</li>
 										<li>
 											<a href="#">Country</a>
 										</li>
@@ -323,27 +267,6 @@
 										<li>
 											<a href="#">Country</a>
 										</li>
-										<li>
-											<a href="#">Country</a>
-										</li>
-										<li>
-											<a href="#">Country</a>
-										</li>
-										<li>
-											<a href="#">Country</a>
-										</li>
-										<li>
-											<a href="#">Country</a>
-										</li>
-										<li>
-											<a href="#">Country</a>
-										</li>
-										<li>
-											<a href="#">Country</a>
-										</li>
-										<li>
-											<a href="#">Country</a>
-										</li>
 									</ul>
 								</nav>
 							</div>
@@ -355,27 +278,6 @@
 							<div class="content" data-section-content>
 								<nav>
 									<ul class="no-bullet">
-										<li>
-											<a href="#">Country</a>
-										</li>
-										<li>
-											<a href="#">Country</a>
-										</li>
-										<li>
-											<a href="#">Country</a>
-										</li>
-										<li>
-											<a href="#">Country</a>
-										</li>
-										<li>
-											<a href="#">Country</a>
-										</li>
-										<li>
-											<a href="#">Country</a>
-										</li>
-										<li>
-											<a href="#">Country</a>
-										</li>
 										<li>
 											<a href="#">Country</a>
 										</li>

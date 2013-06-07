@@ -1,4 +1,4 @@
-var data = [{"code":"SE", "value": 100},
+var graphData = [{"code":"SE", "value": 100},
 {"code":"US", "value": 97.42},
 {"code":"GB", "value": 93.81},
 {"code":"CA", "value": 93.56},
@@ -58,58 +58,105 @@ var data = [{"code":"SE", "value": 100},
 {"code":"BJ", "value": 9.960000000000001},
 {"code":"BF", "value": 8.119999999999999},
 {"code":"ZW", "value": 1.96},
-{"code":"YE", "value": 0}]
+{"code":"YE", "value": 0}];
 
-$(function() {
-	var map = new jvm.WorldMap({
-		container : $("#world-map"),
-		map : 'world_merc_en',
-		zoomOnScroll : false,
-		regionsSelectable : true,
-		regionStyle : {
-			initial : {
-				fill : '#669900'
-			},
-			selected : {
-				fill : '#177081'
-			},
-		},
-		backgroundColor : '#FFFFFF',
-		onRegionSelected : function(e, code, isSelected, selectedRegions) {
-			$('#bt_create').removeAttr('disabled')
-			if (isSelected) {
-				var countryName = map.getRegionName(code);
+function YearSelector(container, minYear, maxYear, selectedYear)
+{
+	var selected = null;
+	var slider = null;
+	
+	selectYear(selectedYear ? selectedYear : maxYear);
+	init();
+	
+	function selectYear(year)
+	{
+		if (selected)
+			selected.className = "year-name";
+			
+		selected = document.getElementById(container + "-" + year);
+		
+		if (selected)
+			selected.className = "year-name-selected";
+	}
+	
+	function selectYearByName(year)
+	{
+		selectYear(year);
+		$(slider).slider('value', year);
+	}
+	
+	function init()
+	{
+		var parent = document.getElementById(container);
+		parent.className = "year-selector";
+		
+		var div = document.createElement("div");
+		div.className = "year-selector-wrapper";
+		parent.appendChild(div);
+		
+		slider = document.createElement("div");
+		slider.className = "year-selector-slider";
+		div.appendChild(slider);
+	
+		$(slider).slider({
+			value : selectedYear,
+			min : minYear,
+			max : maxYear,
+			step : 1,
+			slide : function(event, ui) {
+				selectYear(ui.value);
+			}
+		});
+		
+		var years = document.createElement("section");
+		years.className = "available-years";
+		parent.appendChild(years);
+		
+		for (var i = minYear; i <= maxYear; i++)
+		{
+			var div = document.createElement("div");
+			div.className = "small-2 large-2 columns centered";
+			years.appendChild(div);
+			
+			var strong = document.createElement("strong");
+			strong.id = container + "-" + i;
+			text(strong, i);
+			strong.year = i;
+			strong.className = "year-name";
+			div.appendChild(strong);
+			
+			strong.onclick = function() {
+				selectYearByName(this.year);
+			}
+			
+			if (i == selectedYear)
+			{
+				strong.className = "year-name-selected";
+				selected = strong;
 			}
 		}
-	});
-});
+	}
+}
 
 $(function() {
-	$("#year-selector").slider({
-		value : 2012,
-		min : 2007,
-		max : 2012,
-		step : 1,
-		slide : function(event, ui) {
-			console.log(ui.value);
-		}
-	});
+	new YearSelector("year-selector", 2007, 2012, 2012)
 });
 
 $(window).resize(function() {
-	drawGraph("#barchart", data, {
+	drawGraph("#barchart", graphData, {
 		marginTop : 0,
 		marginRight : 0,
 		marginBottom : 0,
-		marginLeft : 0,
-		width : $(".row").width() ,
-		height : 150
+		marginLeft : 20,
+		width : $("#barchart").width() ,
+		height : 120
 	});
 	function drawGraph(selector, data, config) {
 		$("#barchart").empty();
 		var top = data.sort(function(a, b) {
 			return b.value - a.value;
 		});
+		
 		var x = d3.scale.ordinal().rangeRoundBands([0, config.width], .1, 1);
 
 		var y = d3.scale.linear().range([config.height, 0]);
@@ -126,14 +173,16 @@ $(window).resize(function() {
 		y.domain([0, d3.max(data, function(d) {
 			return d.value;
 		})]);
-
+		
 		var ramp=d3.scale.linear().domain([100,75,50,25,0]).range(["#343465","#269e45","#deb722","#e65e22","#8b2c30"]);
 
 		this.svg.selectAll(".bar").data(top).enter().append("rect").attr("class", "bar").attr("x", function(d) {
 			return x(d.code);
 		}).attr("width", x.rangeBand()).attr("y", function(d) {
 			return y(d.value);
+
 		}).attr("height", function(d) {
+		
 			return config.height - y(d.value);
 		}).attr("fill", function(d) {
 			return ramp(d.value);
@@ -141,3 +190,175 @@ $(window).resize(function() {
 	}
 
 });
+
+
+// Listado de indicadores
+
+var indicators = { indicators : [
+									{
+										title: "Impact",
+										indicators: [{title: "Indicator 1"}, {title: "Indicator 2"}]
+									},
+									{
+										title: "Readiness",
+										indicators: [{title: "Indicator 3"}, {title: "Indicator 4"}]
+									},
+									{
+										title: "The Web",
+										indicators: [{title: "Web Content", indicators: [{title: "Indicator 5"}]}, 
+										{title: "Web Use", indicators: [{title: "Indicator 5"}]}]
+									}									
+								] };
+
+
+
+$(function() 
+{
+	var accordion = $("#accordion");
+	
+	var autocompleteTags = [];
+
+	var indicatorList = indicators.indicators;
+
+	new IndicatorList(accordion, indicatorList, autocompleteTags);
+	
+	autocomplete(autocompleteTags) 
+});
+
+function IndicatorList(accordion, indicatorList, autocompleteTags)
+{
+	var openedTab = [];
+	var selectedTitle = [];
+	
+	init();
+
+	function init()
+	{
+		for (var i = 0; i < indicatorList.length; i++)
+		{
+			var section = createIndicatorListSection(indicatorList[i], autocompleteTags, 0);
+		
+			accordion.append(section);
+		}
+	}
+
+	function createIndicatorListSection (indicator, autocompleteTags, depth)
+	{
+		if (indicator.indicators)
+		{	
+			var section  = document.createElement('section');
+			section.className = (depth == 0 ? 'indicator-section' : '');
+			section.id = indicator.title;
+								
+			var p = document.createElement('p');
+			p.className = "title" + depth;
+			section.appendChild(p);
+			
+			var a = document.createElement('a');
+			a.className = 'indicator-link';
+			a.href = "#";
+			text(a, indicator.title);
+			
+			a.paragraph = p;
+			a.depth = depth;
+			
+			a.onclick = function() { setAsActive(this, depth); };
+			
+			p.appendChild(a);
+			
+			autocompleteTags.push(indicator.title);
+			
+			var content = document.createElement('div');
+			content.className = "list-content";
+			section.appendChild(content);
+			a.content = content;
+			
+			var nav = document.createElement('nav');
+			content.appendChild(nav);
+			
+			var ul = document.createElement('ul');
+			ul.className = "no-bullet";
+			nav.appendChild(ul);
+			
+			for (var i = 0; i < indicator.indicators.length; i++)
+			{
+				var li = document.createElement('li');
+				li.className = "list-element" + (depth + 1);
+				ul.appendChild(li);
+				
+				autocompleteTags.push(indicator.indicators[i].title);
+				
+				if (indicator.indicators[i].indicators)
+				{
+					var node = document.createElement('div');
+				
+					var subSection = createIndicatorListSection (indicator.indicators[i], autocompleteTags, depth + 1);
+					node.appendChild(subSection);
+					
+					li.appendChild(node)
+				}
+				else
+				{
+					var p = document.createElement('paragraph');
+					li.appendChild(p);
+					
+					var a = document.createElement('a');
+					a.href = "#";
+					a.paragraph = p;
+					a.depth = depth + 1;
+					text(a, indicator.indicators[i].title);
+					p.appendChild(a);
+					
+					a.onclick = function() { setAsActive(this, depth + 1); };
+				}
+			}
+			
+			return section;
+		}
+	}
+	
+	function setAsActive(element, depth)
+	{
+		for (var i = element.depth; i < openedTab.length; i++)
+			openedTab[i].style.display = "none";
+			
+		if (element.content)
+		{
+			openedTab[element.depth] = element.content;
+			openedTab[element.depth].style.display = "block";
+		}
+		
+		for (var i = 0; i < selectedTitle.length; i++)
+			selectedTitle[i].className = "title" + i;
+			
+		selectedTitle[element.depth] = element.paragraph;
+		selectedTitle[element.depth].className = "title" + depth + " active-node";
+	}
+}
+
+function text(obj, content)
+{
+	if (obj.innerText)
+		obj.innerText = content;
+	else
+		obj.textContent = content;
+}
+
+// Autocompletar
+
+function autocomplete(availableTags) 
+{
+	$( "#autocomplete" ).autocomplete({
+		source: availableTags
+	});
+	
+	// Hover states on the static widgets
+	$( "#dialog-link, #icons li" ).hover(
+		function() {
+			$( this ).addClass( "ui-state-hover" );
+		},
+		function() {
+			$( this ).removeClass( "ui-state-hover" );
+		}
+	);
+}
