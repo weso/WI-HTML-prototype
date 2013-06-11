@@ -147,7 +147,7 @@ $(window).resize(function() {
 		marginTop : 0,
 		marginRight : 0,
 		marginBottom : 0,
-		marginLeft : 20,
+		marginLeft : 0,
 		width : $("#barchart").width() ,
 		height : 120
 	});
