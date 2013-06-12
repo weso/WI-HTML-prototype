@@ -81,16 +81,18 @@
 		<script type="text/javascript" src="js/vendor/nvd3/models/distribution.js"></script>
 		<script type="text/javascript" src="js/vendor/nvd3/models/scatter.js"></script>
 		<script type="text/javascript" src="js/vendor/nvd3/models/scatterChart.js"></script>
-		<script type="text/javascript" src="js/vendor/nvd3/models/discreteBar.js"></script>
-		<script type="text/javascript" src="js/vendor/nvd3/models/discreteBarChart.js"></script>
+		<script type="text/javascript" src="js/vendor/nvd3/models/multiBar.js"></script>
+		<script type="text/javascript" src="js/vendor/nvd3/models/multiBarChart.js"></script>
 		<script type="text/javascript" src="js/vendor/nvd3/models/line.js"></script>
 		<script type="text/javascript" src="js/vendor/nvd3/models/lineChart.js"></script>
 		<script type="text/javascript" src="js/wesCountry.js"></script>
+		<script type="text/javascript" src="js/HighchartsConnector.js"></script>
+		<script type="text/javascript" src="js/D3Connector.js"></script>
 		<script>
 			$(function() {
 				var p = new Params();
-				p.regions[0] = new Region("Pola de Siero", [100]);
-				p.regions[1] = new Region("Oviedo", [50]);
+				p.regions[0] = new Region("Pola de Siero", [100, 50]);
+				p.regions[1] = new Region("Oviedo", [50, 25]);
 				p.container = "#highcharts-barchart";
 				new HighchartsConnector().drawBarchart(p);
 				p.container = "#nvd3-barchart";

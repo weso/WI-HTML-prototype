@@ -36,7 +36,7 @@ var data = [
     { "label": { "type": "literal", "xml:lang": "en", "value": "Namibia" }	, "code": { "type": "literal", "value": "NA" }	, "regionLabel": { "type": "literal", "xml:lang": "en", "value": "Africa" }},
     { "label": { "type": "literal", "xml:lang": "en", "value": "Korea, Republic of" }	, "code": { "type": "literal", "value": "KR" }	, "regionLabel": { "type": "literal", "xml:lang": "en", "value": "Asia Pacific" }},
     { "label": { "type": "literal", "xml:lang": "en", "value": "Mali" }	, "code": { "type": "literal", "value": "ML" }	, "regionLabel": { "type": "literal", "xml:lang": "en", "value": "Africa" }},
-    { "label": { "type": "literal", "xml:lang": "en", "value": "Ejjjpannña" }	, "code": { "type": "literal", "value": "ES" }	, "regionLabel": { "type": "literal", "xml:lang": "en", "value": "Europe" }},
+    { "label": { "type": "literal", "xml:lang": "en", "value": "Spain" }	, "code": { "type": "literal", "value": "ES" }	, "regionLabel": { "type": "literal", "xml:lang": "en", "value": "Europe" }},
     { "label": { "type": "literal", "xml:lang": "en", "value": "Bangladesh" }	, "code": { "type": "literal", "value": "BD" }	, "regionLabel": { "type": "literal", "xml:lang": "en", "value": "Asia Pacific" }},
     { "label": { "type": "literal", "xml:lang": "en", "value": "Egypt" }	, "code": { "type": "literal", "value": "EG" }	, "regionLabel": { "type": "literal", "xml:lang": "en", "value": "Africa" }},
     { "label": { "type": "literal", "xml:lang": "en", "value": "Colombia" }	, "code": { "type": "literal", "value": "CO" }	, "regionLabel": { "type": "literal", "xml:lang": "en", "value": "Americas" }},
