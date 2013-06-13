@@ -1,12 +1,10 @@
 function D3Connector() {
-	
+
 	var createContainer = function(params) {
 		$(params.container).empty();
-		$(params.container).append('<svg></svg>');
-		$(params.container + ' svg').width(params.options.width);
-		$(params.container + ' svg').height(params.options.height);
+		d3.select(params.container).append('svg').attr("width", params.options.width).attr("height", params.options.height);
 	}
-	
+
 	this.drawBarchart = function(params) {
 		var data = [];
 		params = composeParams(params);
@@ -25,14 +23,18 @@ function D3Connector() {
 		createContainer(params);
 		nv.addGraph(function() {
 			var chart = nv.models.multiBarChart();
+			chart.height(params.options.height - params.options.margins[0]);
 			chart.yAxis.axisLabel(params.options.yAxisName);
 			chart.xAxis.axisLabel(params.options.xAxisName).tickFormat(function(d, i) {
 				return params.indexes[i]
 			});
 			chart.forceY([params.options.min, params.options.max]);
-
+			d3.select(params.container + ' svg').append("text").attr("x", (params.options.width / 2)).attr("y", params.options.margins[0]).attr("text-anchor", "middle").style("font-size", "16px").style("text-decoration", "underline").text(params.options.title);
+			d3.select(params.container + ' svg').style("background-color", params.options.bgColour);
 			d3.select(params.container + ' svg').datum(data).transition().duration(500).call(chart);
-			d3.select(params.container + ' svg').append("text").attr("y", 15).attr("x", params.options.width / 2).attr("text-anchor", "middle").text(params.options.title);
+			var oldX = d3.select(params.container + ' svg g').attr("transform").split("(")[1].split(",")[0];
+			var oldY = d3.select(params.container + ' svg g').attr("transform").split(",")[1].split(")")[0];
+			d3.select(params.container + ' svg g').attr("transform", "translate(" + oldX + ", " + ((parseInt(oldY) + params.options.margins[0]) + ")")).attr("height", params.options.margins[0]);
 			nv.utils.windowResize(chart.update);
 			return chart;
 		});

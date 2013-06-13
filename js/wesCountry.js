@@ -22,7 +22,7 @@ function Options() {
 	this.legend = true;
 	this.legendVerticalPosition = 'bottom';
 	this.legendAlign = 'center';
-	this.tooltipEnabled = false;
+	this.tooltipEnabled = true;
 	this.tooltipHeader = "";
 	this.tooltip = "";
 	this.tooltipFooter = "";
