@@ -16,21 +16,29 @@ function Options() {
 	this.margins = [0, 0, 0, 0];
 	this.title = 'My awesome wesCountry chart';
 	this.bgColour = '#fff';
-	this.colours = ['#2f7ed8', '#0d233a', '#8bbc21', '#910000', '#1aadce', '#492970', '#f28f43', '#77a1e5', '#c42525', '#a6c96a'];
-	this.colourGradient = false;
+	this.colours = ['#343465', '#669900', '#ffeeaa', '#ccffaa', '#aabbcc', '#c92127', '#fabada'];
+	this.colourGradient = false; //TODO Mirar como meter esto
 	//Indica si la transición entre colores ha de hacerse mediante degradado
-	this.legend = false;
-	this.legendPosition = 'bottom';
+	this.legend = true;
+	this.legendVerticalPosition = 'bottom';
+	this.legendAlign = 'center';
+	this.tooltipEnabled = false;
+	this.tooltipHeader = "";
 	this.tooltip = "";
+	this.tooltipFooter = "";
 	//HTML que se mostrará al hacer hover sobre un dato
-	this.onClickDatum = function() {
+	this.onClickDatum = function(e) {
+		console.log("this:");
+		console.log(this);
+		console.log("e:");
+		console.log(e);
 	};
 	//Evento al hacer click sobre un dato
 	this.min = null;
 	this.max = null;
 	this.yAxisName = 'Value';
 	this.xAxisName = 'Domain';
-	this.axisColour = '#ccc'
+	this.axisColour = '#ccc';
 }
 
 function composeParams(params) {

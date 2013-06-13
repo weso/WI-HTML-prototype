@@ -1,4 +1,49 @@
 function HighchartsConnector() {
+	var getDefaultConstructor = function(params, data) {
+		return {
+			chart : {
+				width : params.options.width,
+				height : params.options.height,
+				margin : params.options.margin,
+				backgroundColor : params.options.bgColour
+			},
+			title : {
+				text : params.options.title
+			},
+			xAxis : {
+				title : {
+					text : params.options.xAxisName
+				},
+				lineColor : params.options.axisColour
+			},
+			yAxis : {
+				title : {
+					text : params.options.yAxisName
+				},
+				max : params.options.max,
+				min : params.options.min,
+				lineColor : params.options.axisColour
+			},
+			colors : params.options.colours,
+			legend : {
+				enabled : params.options.legend,
+				align : params.options.legendAlign,
+				verticalAlign : params.options.legendVerticalPosition
+			},
+			credits : {
+				enabled : false
+			},
+			tooltip : {
+				enabled : params.options.tolltipEnabled,
+				useHTML : true,
+				headerFormat : params.options.tooltipHeader,
+				pointFormat : params.options.tooltip,
+				footerFormat : params.options.tooltipFooter
+			},
+			series : data
+		};
+	}
+	
 	this.drawBarchart = function(params) {
 		var data = [];
 		params = composeParams(params);
@@ -8,15 +53,17 @@ function HighchartsConnector() {
 				data : params.regions[i].data
 			};
 		}
-		$(params.container).highcharts({
-			chart : {
-				type : 'column'
-			},
-			xAxis : {
-				categories : params.indexes
-			},
-			series : data
-		});
+		var constructor = getDefaultConstructor(params, data);
+		constructor.chart.type = 'column';
+		constructor.xAxis.categories = params.indexes;
+		constructor.plotOptions = {
+				column : {
+					events : {
+						click : params.options.onClickDatum
+					}
+				}
+		};
+		$(params.container).highcharts(constructor);
 	}
 	this.drawScatterplot = function(params) {
 		var data = [];
@@ -27,13 +74,10 @@ function HighchartsConnector() {
 				data : params.regions[i].data
 			};
 		}
-		$(params.container).highcharts({
-			chart : {
-				type : 'scatter',
-				zoomType : 'xy'
-			},
-			series : data
-		});
+		var constructor = getDefaultConstructor(params, data);
+		constructor.chart.type = 'scatter';
+		constructor.chart.zoomType = 'xy';
+		$(params.container).highcharts(constructor);
 	}
 
 	this.drawLineChart = function(params) {
@@ -45,12 +89,9 @@ function HighchartsConnector() {
 				data : params.regions[i].data
 			};
 		}
-		$(params.container).highcharts({
-			chart : {
-				type : 'line',
-			},
-			series : data
-		});
+		var constructor = getDefaultConstructor(params, data);
+		constructor.chart.type = 'line';
+		$(params.container).highcharts(constructor);
 	}
 
 	this.drawPolarChart = function(params) {
@@ -63,11 +104,11 @@ function HighchartsConnector() {
 				data : params.regions[i].data
 			};
 		}
-		$(params.container).highcharts({
-			chart : {
-				polar : true
-			},
-			series : data
-		});
+		var constructor = getDefaultConstructor(params, data);
+		constructor.chart.polar = true;
+		constructor.xAxis.title.text = "";
+		constructor.xAxis.categories = params.indexes;
+		constructor.yAxis.title.text = "";
+		$(params.container).highcharts(constructor);
 	}
 }
