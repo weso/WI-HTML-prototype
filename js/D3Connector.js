@@ -150,7 +150,7 @@ function D3Connector() {
 
 	this.drawPolarChart = function(params) {
 		params = composeParams(params);
-		var series, indicators, minVal, maxVal, vizPadding = {
+		var series, indicators, vizPadding = {
 			top : 10,
 			right : 0,
 			bottom : 15,
@@ -170,10 +170,6 @@ function D3Connector() {
 			for (var i = 0; i < series.length; i++) {
 				mergedArr = mergedArr.concat(series[i]);
 			}
-			minVal = d3.min(mergedArr);
-			maxVal = d3.max(mergedArr);
-			maxVal = maxVal + ((maxVal - minVal) * 0.25);
-			minVal = 0;
 			for (var i = 0; i < series.length; i++) {
 				series[i].push(series[i][0]);
 			}
@@ -190,8 +186,8 @@ function D3Connector() {
 			heightCircleConstraint = params.options.height - vizPadding.top - vizPadding.bottom;
 			widthCircleConstraint = params.options.width - vizPadding.left - vizPadding.right;
 			circleConstraint = d3.min([heightCircleConstraint, widthCircleConstraint]);
-			radius = d3.scale.linear().domain([minVal, maxVal]).range([0, (circleConstraint / 2)]);
-			radiusLength = radius(maxVal);
+			radius = d3.scale.linear().domain([0, params.options.max]).range([0, (circleConstraint / 2)]);
+			radiusLength = radius(params.options.max);
 			centerXPos = widthCircleConstraint / 2 + vizPadding.left;
 			centerYPos = heightCircleConstraint / 2 + vizPadding.top;
 			vizBody.attr("transform", "translate(" + centerXPos + ", " + centerYPos + ")");
@@ -214,10 +210,10 @@ function D3Connector() {
 			}).text(String);
 
 			lineAxes = vizBody.selectAll('.line-ticks').data(indicators).enter().append('svg:g').attr("transform", function(d, i) {
-				return "rotate(" + ((i / indicators.length * 360) - 90) + ")translate(" + radius(maxVal) + ")";
+				return "rotate(" + ((i / indicators.length * 360) - 90) + ")translate(" + radius(params.options.max) + ")";
 			}).attr("class", "line-ticks");
 
-			lineAxes.append('svg:line').attr("x2", -1 * radius(maxVal)).style("stroke", params.options.axisColour).style("fill", "none");
+			lineAxes.append('svg:line').attr("x2", -1 * radius(params.options.max)).style("stroke", params.options.axisColour).style("fill", "none");
 
 			lineAxes.append('svg:text').text(String).attr("text-anchor", "middle").attr("transform", function(d, i) {
 				return (i / indicators.length * 360) < 180 ? null : "rotate(180)";
