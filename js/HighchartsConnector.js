@@ -34,16 +34,33 @@ function HighchartsConnector() {
 				enabled : false
 			},
 			tooltip : {
-				enabled : params.options.tolltipEnabled,
+				enabled : params.options.tooltipEnabled,
 				useHTML : true,
 				headerFormat : params.options.tooltipHeader,
 				pointFormat : params.options.tooltip,
 				footerFormat : params.options.tooltipFooter
 			},
+			plotOptions : {
+				column : {
+					events : {
+						click : params.options.onClickDatum
+					}
+				},
+				scatter : {
+					events : {
+						click : params.options.onClickDatum
+					}
+				},
+				line : {
+					events : {
+						click : params.options.onClickDatum
+					}
+				}
+			},
 			series : data
 		};
 	}
-	
+
 	this.drawBarchart = function(params) {
 		var data = [];
 		params = composeParams(params);
@@ -56,13 +73,6 @@ function HighchartsConnector() {
 		var constructor = getDefaultConstructor(params, data);
 		constructor.chart.type = 'column';
 		constructor.xAxis.categories = params.indexes;
-		constructor.plotOptions = {
-				column : {
-					events : {
-						click : params.options.onClickDatum
-					}
-				}
-		};
 		$(params.container).highcharts(constructor);
 	}
 	this.drawScatterplot = function(params) {
@@ -93,7 +103,6 @@ function HighchartsConnector() {
 		constructor.chart.type = 'line';
 		$(params.container).highcharts(constructor);
 	}
-
 	this.drawPolarChart = function(params) {
 		var data = [];
 		params = composeParams(params);

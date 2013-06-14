@@ -4,6 +4,65 @@ function D3Connector() {
 		$(params.container).empty();
 		d3.select(params.container).append('svg').attr("width", params.options.width).attr("height", params.options.height);
 	}
+	var customize = function(params, chart, data) {
+		if (params.options.margins[0] < 15) {
+			params.options.margins[0] = 15;
+		}
+		if (params.options.margins[2] < 25) {
+			params.options.margins[2] = 25;
+		}
+		if (params.options.margins[3] < 35) {
+			params.options.margins[3] = 35;
+		}
+		chart.height(params.options.height - params.options.margins[0] - params.options.margins[2]);
+		chart.width(params.options.width - params.options.margins[1] - params.options.margins[3]);
+		chart.tooltipContent(function(key, y, e, graph) {
+			return params.options.tooltipHeader + params.options.tooltip + params.options.tooltipFooter;
+		});
+		chart.margin({
+			top : params.options.margins[0],
+			right : params.options.margins[1],
+			bottom : params.options.margins[2],
+			left : params.options.margins[3]
+		});
+		chart.yAxis.axisLabel(params.options.yAxisName);
+		chart.tooltips(params.options.tooltipsEnabled);
+		chart.forceY([params.options.min, params.options.max]);
+		chart.showLegend(params.options.legend);
+		d3.select(params.container + ' svg').append("text").attr("x", (params.options.width / 2)).attr("y", params.options.margins[0]).attr("text-anchor", "middle").style("font-size", "16px").style("text-decoration", "underline").text(params.options.title);
+		d3.select(params.container + ' svg').style("background-color", params.options.bgColour);
+		d3.select(params.container + ' svg').datum(data).transition().duration(500).call(chart);
+		var oldX = d3.select(params.container + ' svg g').attr("transform").split("(")[1].split(",")[0];
+		var oldY = d3.select(params.container + ' svg g').attr("transform").split(",")[1].split(")")[0];
+		d3.select(params.container + ' svg g').attr("transform", "translate(" + oldX + ", " + ((parseInt(oldY) + params.options.margins[0]) + ")")).attr("height", params.options.margins[0]);
+		d3.select('.nv-controlsWrap').remove();
+		oldX = parseInt(d3.select('.nv-legendWrap').attr("transform").split("(")[1].split(",")[0]);
+		oldY = parseInt(d3.select('.nv-legendWrap').attr("transform").split(",")[1].split(")")[0]);
+		var newX, newY;
+		switch(params.options.legendVerticalPosition) {
+			case 'middle':
+				newY = oldY + chart.height() / 2;
+				break;
+			case 'bottom' :
+				newY = chart.height() + oldY;
+				break;
+			default :
+				newY = oldY;
+				break;
+		}
+		switch(params.options.legendAlign) {
+			case 'center':
+				newX = 0;
+				break;
+			case 'left' :
+				newX = -oldX
+				break;
+			default :
+				newX = oldX;
+				break;
+		}
+		d3.select('.nv-legendWrap').attr("transform", "translate(" + newX + ", " + newY + ")").attr("height", params.options.margins[0]);
+	}
 
 	this.drawBarchart = function(params) {
 		var data = [];
@@ -11,6 +70,7 @@ function D3Connector() {
 		for (var i = 0; i < params.regions.length; i++) {
 			data[i] = {
 				key : params.regions[i].name,
+				color : params.options.colours[i % params.options.colours.length],
 				values : []
 			};
 			for (var j = 0; j < params.regions[i].data.length; j++) {
@@ -23,18 +83,11 @@ function D3Connector() {
 		createContainer(params);
 		nv.addGraph(function() {
 			var chart = nv.models.multiBarChart();
-			chart.height(params.options.height - params.options.margins[0]);
-			chart.yAxis.axisLabel(params.options.yAxisName);
 			chart.xAxis.axisLabel(params.options.xAxisName).tickFormat(function(d, i) {
-				return params.indexes[i]
+				return params.indexes[i];
 			});
-			chart.forceY([params.options.min, params.options.max]);
-			d3.select(params.container + ' svg').append("text").attr("x", (params.options.width / 2)).attr("y", params.options.margins[0]).attr("text-anchor", "middle").style("font-size", "16px").style("text-decoration", "underline").text(params.options.title);
-			d3.select(params.container + ' svg').style("background-color", params.options.bgColour);
-			d3.select(params.container + ' svg').datum(data).transition().duration(500).call(chart);
-			var oldX = d3.select(params.container + ' svg g').attr("transform").split("(")[1].split(",")[0];
-			var oldY = d3.select(params.container + ' svg g').attr("transform").split(",")[1].split(")")[0];
-			d3.select(params.container + ' svg g').attr("transform", "translate(" + oldX + ", " + ((parseInt(oldY) + params.options.margins[0]) + ")")).attr("height", params.options.margins[0]);
+			customize(params, chart, data);
+			d3.selectAll(".nv-bar").on('click', params.options.onClickDatum);
 			nv.utils.windowResize(chart.update);
 			return chart;
 		});
@@ -46,24 +99,22 @@ function D3Connector() {
 		for (var i = 0; i < params.regions.length; i++) {
 			data[i] = {
 				key : params.regions[i].name,
+				color : params.options.colours[i % params.options.colours.length],
 				values : []
 			};
 			for (var j = 0; j < params.regions[i].data.length; j++) {
 				data[i].values[j] = {
 					x : params.regions[i].data[j][0],
 					y : params.regions[i].data[j][1],
-					size : 0.5
+					size : 0.75
 				}
 			}
 		}
 		createContainer(params);
 		nv.addGraph(function() {
-			chart = nv.models.scatterChart().showDistX(true).showDistY(true).useVoronoi(true).color(d3.scale.category10().range());
-			d3.select(params.container + ' svg').datum(data).transition().duration(500).call(chart);
+			chart = nv.models.scatterChart().showDistX(true).showDistY(true).useVoronoi(true);
+			customize(params, chart, data);
 			nv.utils.windowResize(chart.update);
-			chart.dispatch.on('stateChange', function(e) {
-				nv.log('New State:', JSON.stringify(e));
-			});
 			return chart;
 		});
 	}
@@ -74,6 +125,7 @@ function D3Connector() {
 		for (var i = 0; i < params.regions.length; i++) {
 			data[i] = {
 				key : params.regions[i].name,
+				color : params.options.colours[i % params.options.colours.length],
 				values : []
 			};
 			for (var j = 0; j < params.regions[i].data.length; j++) {
@@ -88,9 +140,9 @@ function D3Connector() {
 		nv.addGraph(function() {
 			chart = nv.models.lineChart();
 			chart.x(function(d, i) {
-				return i
+				return i;
 			})
-			d3.select(params.container + ' svg').datum(data).transition().duration(500).call(chart);
+			customize(params, chart, data);
 			nv.utils.windowResize(chart.update);
 			return chart;
 		});
