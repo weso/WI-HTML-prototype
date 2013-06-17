@@ -4,16 +4,19 @@ function D3Connector() {
 		$(params.container).empty();
 		d3.select(params.container).append('svg').attr("width", params.options.width).attr("height", params.options.height);
 	}
+	var minMargins = function(margins) {
+		if (margins[0] < 15) {
+			margins[0] = 15;
+		}
+		if (margins[2] < 35) {
+			margins[2] = 35;
+		}
+		if (margins[3] < 35) {
+			margins[3] = 35;
+		}
+	}
 	var customize = function(params, chart, data) {
-		if (params.options.margins[0] < 15) {
-			params.options.margins[0] = 15;
-		}
-		if (params.options.margins[2] < 35) {
-			params.options.margins[2] = 35;
-		}
-		if (params.options.margins[3] < 35) {
-			params.options.margins[3] = 35;
-		}
+		minMargins(params.options.margins);
 		chart.height(params.options.height - params.options.margins[0] - params.options.margins[2]);
 		chart.width(params.options.width - params.options.margins[1] - params.options.margins[3]);
 		chart.tooltipContent(function(key, y, e, graph) {
@@ -158,7 +161,7 @@ function D3Connector() {
 					d3.select(params.container + ' .nv-legend :first-child').attr("transform", "translate(" + (chart.width() - (params.options.margins[1] + params.options.margins[3]) * 4.5) / 2 + ", 5)");
 					break;
 				case 'left' :
-					d3.select(params.container + ' .nv-legend :first-child').attr("transform", "translate(" + ((chart.width() / 3)  - (params.options.margins[1] + params.options.margins[3]) * 4.5) + ", 5)");
+					d3.select(params.container + ' .nv-legend :first-child').attr("transform", "translate(" + ((chart.width() / 3) - (params.options.margins[1] + params.options.margins[3]) * 4.5) + ", 5)");
 					break;
 				default :
 					break;
@@ -170,11 +173,12 @@ function D3Connector() {
 
 	this.drawPolarChart = function(params) {
 		params = composeParams(params);
+		minMargins(params.options.margins);
 		var series, indicators, vizPadding = {
-			top : 10,
-			right : 0,
-			bottom : 15,
-			left : 0
+			top : params.options.margins[0],
+			right : params.options.margins[1],
+			bottom : params.options.margins[2],
+			left : params.options.margins[3]
 		}, radius, radiusLength;
 		var loadData = function(countries) {
 			series = [];
@@ -203,40 +207,41 @@ function D3Connector() {
 
 		var setScales = function() {
 			var heightCircleConstraint, widthCircleConstraint, circleConstraint, centerXPos, centerYPos;
-			heightCircleConstraint = params.options.height - vizPadding.top - vizPadding.bottom;
-			widthCircleConstraint = params.options.width - vizPadding.left - vizPadding.right;
+			heightCircleConstraint = params.options.height - (vizPadding.top + vizPadding.bottom) * 2;
+			widthCircleConstraint = params.options.width - (vizPadding.left + vizPadding.right) * 2;
 			circleConstraint = d3.min([heightCircleConstraint, widthCircleConstraint]);
 			radius = d3.scale.linear().domain([0, params.options.max]).range([0, (circleConstraint / 2)]);
 			radiusLength = radius(params.options.max);
 			centerXPos = widthCircleConstraint / 2 + vizPadding.left;
-			centerYPos = heightCircleConstraint / 2 + vizPadding.top;
+			centerYPos = heightCircleConstraint / 2 + vizPadding.top + vizPadding.bottom;
 			vizBody.attr("transform", "translate(" + centerXPos + ", " + centerYPos + ")");
 		};
 
 		var addAxes = function() {
 			var radialTicks = radius.ticks(5), i, circleAxes, lineAxes;
-
 			vizBody.selectAll('.circle-ticks').remove();
 			vizBody.selectAll('.line-ticks').remove();
-
 			circleAxes = vizBody.selectAll('.circle-ticks').data(radialTicks).enter().append('svg:g').attr("class", "circle-ticks");
-
 			circleAxes.append("svg:circle").attr("r", function(d, i) {
 				return radius(d);
 			}).attr("class", "circle").style("stroke", params.options.axisColour).style("fill", "none");
-
 			circleAxes.append("svg:text").attr("text-anchor", "middle").attr("dy", function(d) {
 				return -1 * radius(d);
 			}).text(String);
-
 			lineAxes = vizBody.selectAll('.line-ticks').data(indicators).enter().append('svg:g').attr("transform", function(d, i) {
 				return "rotate(" + ((i / indicators.length * 360) - 90) + ")translate(" + radius(params.options.max) + ")";
 			}).attr("class", "line-ticks");
-
 			lineAxes.append('svg:line').attr("x2", -1 * radius(params.options.max)).style("stroke", params.options.axisColour).style("fill", "none");
-
 			lineAxes.append('svg:text').text(String).attr("text-anchor", "middle").attr("transform", function(d, i) {
-				return (i / indicators.length * 360) < 180 ? null : "rotate(180)";
+				if ((i / indicators.length * 360) === 0) {
+					return "rotate(90) translate(0, -5)";
+				} else if ((i / indicators.length * 360) === 180) {
+					return "rotate(-90) translate(0, 5)";
+				} else if ((i / indicators.length * 360) < 180) {
+					return null;
+				} else {
+					return "rotate(180)";
+				}
 			});
 		};
 
@@ -253,6 +258,7 @@ function D3Connector() {
 		}
 		var drawLines = function(lines, ranks) {
 			lines.attr("d", d3.svg.line.radial().radius(function(d) {
+				console.log(radius(d));
 				return radius(d);
 			}).angle(function(d, i) {
 				if (i === ranks) {
@@ -273,10 +279,22 @@ function D3Connector() {
 			lines = getLines(groups, ranks, false);
 			drawLines(lines, ranks);
 		};
+
 		loadData(params.regions);
 		buildBase();
 		setScales();
 		addAxes();
 		draw(params.regions[0].data.length);
+
+		d3.select(params.container + ' svg').append("text").attr("x", (params.options.width / 2)).attr("y", params.options.margins[0]).attr("text-anchor", "middle").style("font-size", "16px").style("text-decoration", "underline").text(params.options.title);
+		d3.select(params.container + ' svg').style("background-color", params.options.bgColour);
+		if(params.legend) {
+			//TODO poner leyenda en su sitio
+		}
+		
+		if(params.tooltipEnabled) {
+			//TODO poner tooltips
+		}
+		//TODO onclick	
 	}
 }

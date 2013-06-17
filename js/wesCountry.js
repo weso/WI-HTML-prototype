@@ -17,8 +17,6 @@ function Options() {
 	this.title = 'My awesome wesCountry chart';
 	this.bgColour = '#fff';
 	this.colours = ['#343465', '#669900', '#ffeeaa', '#ccffaa', '#aabbcc', '#c92127', '#fabada'];
-	this.colourGradient = false; //TODO Mirar como meter esto
-	//Indica si la transición entre colores ha de hacerse mediante degradado
 	this.legend = true;
 	this.legendVerticalPosition = 'bottom';
 	this.legendAlign = 'center';
