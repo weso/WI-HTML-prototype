@@ -8,8 +8,8 @@ function D3Connector() {
 		if (params.options.margins[0] < 15) {
 			params.options.margins[0] = 15;
 		}
-		if (params.options.margins[2] < 25) {
-			params.options.margins[2] = 25;
+		if (params.options.margins[2] < 35) {
+			params.options.margins[2] = 35;
 		}
 		if (params.options.margins[3] < 35) {
 			params.options.margins[3] = 35;
@@ -36,8 +36,8 @@ function D3Connector() {
 		var oldY = d3.select(params.container + ' svg g').attr("transform").split(",")[1].split(")")[0];
 		d3.select(params.container + ' svg g').attr("transform", "translate(" + oldX + ", " + ((parseInt(oldY) + params.options.margins[0]) + ")")).attr("height", params.options.margins[0]);
 		d3.select('.nv-controlsWrap').remove();
-		oldX = parseInt(d3.select('.nv-legendWrap').attr("transform").split("(")[1].split(",")[0]);
-		oldY = parseInt(d3.select('.nv-legendWrap').attr("transform").split(",")[1].split(")")[0]);
+		oldX = parseInt(d3.select(params.container + ' .nv-legendWrap').attr("transform").split("(")[1].split(",")[0]);
+		oldY = parseInt(d3.select(params.container + ' .nv-legendWrap').attr("transform").split(",")[1].split(")")[0]);
 		var newX, newY;
 		switch(params.options.legendVerticalPosition) {
 			case 'middle':
@@ -61,7 +61,7 @@ function D3Connector() {
 				newX = oldX;
 				break;
 		}
-		d3.select('.nv-legendWrap').attr("transform", "translate(" + newX + ", " + newY + ")").attr("height", params.options.margins[0]);
+		d3.select(params.container + ' .nv-legendWrap').attr("transform", "translate(" + newX + ", " + newY + ")");
 	}
 
 	this.drawBarchart = function(params) {
@@ -114,6 +114,16 @@ function D3Connector() {
 		nv.addGraph(function() {
 			chart = nv.models.scatterChart().showDistX(true).showDistY(true).useVoronoi(true);
 			customize(params, chart, data);
+			switch(params.options.legendAlign) {
+				case 'center':
+					d3.select(params.container + ' .nv-legend :first-child').attr("transform", "translate(" + (chart.width() - (params.options.margins[1] + params.options.margins[3]) * 4.5) / 2 + ", 5)");
+					break;
+				case 'left' :
+					d3.select(params.container + ' .nv-legend :first-child').attr("transform", "translate(" + (chart.width() / 1.75) + ", 5)");
+					break;
+				default :
+					break;
+			}
 			nv.utils.windowResize(chart.update);
 			return chart;
 		});
@@ -143,6 +153,16 @@ function D3Connector() {
 				return i;
 			})
 			customize(params, chart, data);
+			switch(params.options.legendAlign) {
+				case 'center':
+					d3.select(params.container + ' .nv-legend :first-child').attr("transform", "translate(" + (chart.width() - (params.options.margins[1] + params.options.margins[3]) * 4.5) / 2 + ", 5)");
+					break;
+				case 'left' :
+					d3.select(params.container + ' .nv-legend :first-child').attr("transform", "translate(" + ((chart.width() / 3)  - (params.options.margins[1] + params.options.margins[3]) * 4.5) + ", 5)");
+					break;
+				default :
+					break;
+			}
 			nv.utils.windowResize(chart.update);
 			return chart;
 		});
