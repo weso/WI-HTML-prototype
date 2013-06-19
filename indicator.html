@@ -197,7 +197,9 @@
 					<div id='accordion' class='indicator-list'>
 					</div>
 				</div>
-				
+				<button onclick="indicador_creciente()">Indicador creciente</button>
+				<button onclick="indicador_decreciente()">Indicador decreciente</button>
+				<button onclick="indicador_constante()">Indicador estable</button>
 			</aside>
 
 			<section id="indicator-info" class="large-6 small-12 columns">
@@ -212,7 +214,7 @@
 					<div class="large-8 small-8 columns rank-header">
 						Rank<br/>out of 61
 					</div>
-					<div id="rank" class="large-4 small-4 columns">
+					<div id="indicator-rank" class="large-4 small-4 columns">
 						18
 					</div>
 				</div>
@@ -222,21 +224,20 @@
 							Score
 						</div>
 						<div class="large-5 small-5 columns progress-score">
-							67
+							<span id="indicator-value-text"></span>
 						</div>
 					</div>
-					<div class="progress score-bar">
-						<span id="score-progress" class="meter" style="width:61%"></span>
+					<div id="indicator-score-bar" class="progress score-bar">
 					</div>
 				</div>
 				<div id="indicator-tendency" class="large-3 small-3 columns indicator-rank">
 					<div class="large-7 small-7 columns rank-header">
 						Tendency
 						<br />
-						<span class="tendency-score">Upward</span>
+						<span id="tendency-text" class="tendency-score"></span>
 					</div>
 					<div id="tendency-arrow" class="large-5 small-5 columns">
-						<img src="img/arrow-up.png" alt="Upward tendency" />
+	
 					</div>
 				</div>
 			</section>
@@ -299,8 +300,10 @@
 		<script src="js/vendor/world.map.js"></script>
 		<script src="js/vendor/d3.v3.js"></script>
 		<script src="js/vendor/foundation.min.js"></script>
+		<script src="js/vendor/jQueryRotateCompressed.js"></script>
 		<script src="js/plugins.js"></script>
 		<script src="js/main.js"></script>
+		<script src="js/webindex.js"></script>
 		<script>
 			$(function() {
 				$(document).foundation();

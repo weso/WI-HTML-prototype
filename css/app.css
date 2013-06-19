@@ -222,11 +222,13 @@ body {
 	height: 20px;
 }
 
-#score-progress {
+.score-progress {
 	background-color: #91bf39;
+	height: 100%;
+	display: block;
 }
 
-#rank, #wi-rank {
+#indicator-rank, #wi-rank {
 	font-size: 1.75em;
 	font-weight: bold;
 	padding: .1em;
@@ -366,6 +368,8 @@ div.country-table td.country:hover, div.country-table td.country-hover {
 	border: 1px solid #91bf39;
 	text-align: center;
 	color: #91bf39;
+	font-size: 0.9em;
+	padding: 1px 0px;
 }
 
 .organization-name.margin-left {
@@ -374,4 +378,14 @@ div.country-table td.country:hover, div.country-table td.country-hover {
 
 .organization-name.margin-right {
 	margin-left: 4px;
+}
+
+.indicator-score-bar-svg {
+	width: 100%;
+	height: 20px;
+	background-color: #d4e8af;
+}
+
+.no-display {
+	display: none;
 }
