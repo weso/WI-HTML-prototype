@@ -1,0 +1,194 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+  	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Bar Chart</title>
+		<script type="text/javascript" src="js/vendor/jquery.js"></script>
+		<script src="http://code.highcharts.com/highcharts.js"></script>
+		<script src="http://code.highcharts.com/modules/exporting.js"></script>
+		<script src="http://code.highcharts.com/highcharts-more.js"></script>
+		<script type="text/javascript" src="js/vendor/d3.v3.js"></script>
+		<script type="text/javascript" src="js/vendor/nv.d3.min.js"></script>
+		<script type="text/javascript" src="js/vendor/nvd3/tooltip.js"></script>
+		<script type="text/javascript" src="js/vendor/nvd3/utils.js"></script>
+		<script type="text/javascript" src="js/vendor/nvd3/models/legend.js"></script>
+		<script type="text/javascript" src="js/vendor/nvd3/models/axis.js"></script>
+		<script type="text/javascript" src="js/vendor/nvd3/models/distribution.js"></script>
+		<script type="text/javascript" src="js/vendor/nvd3/models/scatter.js"></script>
+		<script type="text/javascript" src="js/vendor/nvd3/models/scatterChart.js"></script>
+		<script type="text/javascript" src="js/vendor/nvd3/models/multiBar.js"></script>
+		<script type="text/javascript" src="js/vendor/nvd3/models/multiBarChart.js"></script>
+		<script type="text/javascript" src="js/vendor/nvd3/models/line.js"></script>
+		<script type="text/javascript" src="js/vendor/nvd3/models/lineChart.js"></script>
+		<script type="text/javascript" src="js/wesCountry.js"></script>
+		<script type="text/javascript" src="js/HighchartsConnector.js"></script>
+		<script type="text/javascript" src="js/D3Connector.js"></script>
+<style>
+
+body {
+  font: 10px sans-serif;
+}
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #ccc;
+  shape-rendering: crispEdges;
+}
+
+.bar {
+  fill: steelblue;
+}
+
+.x.axis path, .y.axis path {
+  display: none;
+}
+
+</style>
+  </head>
+  <body>
+  <div id="vis"></div>
+    <script type="text/javascript">
+    
+	var labels = ["Indicador 1", "Indicador 2", "Indicador 3", "Indicador 4", "Indicador 5"];
+	var params = new Params();
+	params.regions[0] = new Region("Gijón", [10, 9, 8, 7, 8]);
+	params.regions[1] = new Region("Oviedo", [9, 9, 8, 7, 1]);
+	params.regions[2] = new Region("Avilés", [8, 6, 3, 8, 2]);
+	params.container = "#vis";
+	
+	var options = new Options();
+	options.colours = [ "#E41A1C", "#377EB8", "#4DAF4A" ];
+	options.margins = [10, 20, 40, 30];
+	params.options = options;
+
+///
+	
+	params = composeParams(params);
+
+  // This is a reimplementation of the Grouped Bar Chart by Mike Bostock
+  // (http://bl.ocks.org/882152). Although useful, I found the original's
+  // minimal comments and inverted axes hard to follow, so I created the
+  // version you see here.
+
+  // First, we define sizes and colours...
+  var outerW = params.options.width;
+  var outerH = params.options.height;
+  //var padding = { t: 0, r: 0, b: 0, l: 0 };
+  var width = outerW - params.options.margins[3] - params.options.margins[1]; // inner width
+  var height = outerH - params.options.margins[0] - params.options.margins[2]; // inner height
+  var colours = params.options.colours; // ColorBrewer Set 1
+
+  // Second, we define our data...
+  // Create a two-dimensional array.
+  // The first dimension has as many Array elements as there are series.
+  // The second dimension has as many Number elements as there are groups.
+  // It looks something like this...
+  
+  var data = [];
+  var topValue = 0;
+  
+  for (var i = 0; i < params.regions.length; i++)
+  {
+  	data[i] = params.regions[i].data;
+  	topValue = Math.max(topValue, Math.max.apply(null, data[i]));
+  }
+
+  var numberGroups = data[0].length; // groups
+  var numberSeries = data.length;  // series in each group
+  //var data = d3.range(numberSeries).map(function () { return d3.range(numberGroups).map(Math.random); });
+
+  // Visualisation selection
+  var svg = d3.select(params.container)
+      .append("svg:svg")
+      .attr("width", outerW)
+      .attr("height", outerH)
+      .append("g")
+    .attr("transform", "translate(" + params.options.margins[3] + "," + params.options.margins[0] + ")");
+
+  // Third, we define our scales...
+  // Groups scale, x axis
+  var x0 = d3.scale.ordinal()
+      .domain(labels)
+      .rangeBands([0, width], 0.2);
+
+  // Series scale, x axis
+  // It might help to think of the series scale as a child of the groups scale
+  var x1 = d3.scale.ordinal()
+      .domain(d3.range(numberSeries))
+      .rangeBands([0, x0.rangeBand()]);
+
+  // Values scale, y axis
+  
+   var y = d3.scale.linear()
+      .domain([0, topValue])
+      .range([height, 0]);
+
+var xAxis = d3.svg.axis()
+    .scale(x0)
+    .orient("bottom");
+
+var yAxis = d3.svg.axis()
+    .scale(y)
+    .orient("left")
+    .tickFormat(d3.format(".2s"))
+    .tickSize(-width, 0, 0);
+
+svg.append("g")
+      .attr("class", "x axis")
+      .attr("transform", "translate(0," + height + ")")
+      .call(xAxis)
+      .append("text")
+      .attr("y", 30)
+      .attr("x", width / 2)
+      .attr("dy", ".71em")
+      .style("text-anchor", "middle")
+      .text(params.options.xAxisName);
+      
+  svg.append("g")
+      .attr("class", "y axis")
+      .call(yAxis)
+    .append("text")
+      .attr("transform", "rotate(-90)")
+      .attr("y", -30)
+      .attr("x", - height / 2)
+      .attr("dy", ".71em")
+      .style("text-anchor", "middle")
+      .text(params.options.yAxisName);
+
+  // Series selection
+  // We place each series into its own SVG group element. In other words,
+  // each SVG group element contains one series (i.e. bars of the same colour).
+  // It might be helpful to think of each SVG group element as containing one bar chart.
+  var series = svg.selectAll("g.series")
+      .data(data)
+    .enter().append("svg:g")
+      .attr("class", "series") // Not strictly necessary, but helpful when inspecting the DOM
+      .attr("fill", function (d, i) { return colours[i]; })
+      .attr("transform", function (d, i) { return "translate(" + x1(i) + ")"; });
+
+  // Groups selection
+  var groups = series.selectAll("rect")
+      .data(Object) // The second dimension in the two-dimensional data array
+    .enter().append("svg:rect")
+        .attr("x", 0)
+        .attr("y", function (d) { return y(d); })
+        .attr("width", x1.rangeBand())
+        .attr("height", function (d) { return height - y(d); })
+        .attr("transform", function (d, i) { return "translate(" + x0(i) + ")"; });
+        
+  var text = svg.selectAll("text")
+    .data(d3.range(numberGroups))
+  .enter().append("svg:text")
+    .attr("class", "group")
+    .attr("transform", function(d, i) { return "translate(" + x0(i) + ",0)"; })
+    .attr("x", x0.rangeBand() / 2)
+    .attr("y", height)
+    .attr("dy", ".71em")
+    .attr("text-anchor", "middle")
+    .text(function(d, i) { return labels[i]; });
+
+    </script>
+  </body>
+</html>

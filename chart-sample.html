@@ -90,15 +90,21 @@
 		<script type="text/javascript" src="js/D3Connector.js"></script>
 		<script>
 			$(function() {
+				var colours = ['#8cb937', '#222'];
+				var options = new Options();
+				options.colours = colours;
+			
 				var p = new Params();
-				p.regions[0] = new Region("Pola de Siero", [100, 50]);
+				p.regions[0] = new Region("Gijón", [100, 50]);
 				p.regions[1] = new Region("Oviedo", [50, 25]);
+				p.options = options;
+				
 				p.container = "#highcharts-barchart";
 				new HighchartsConnector().drawBarchart(p);
 				p.container = "#nvd3-barchart";
 				new D3Connector().drawBarchart(p);
 				
-				p.regions[0] = new Region("Pola de Siero", [70, 90, 80, 95]);
+				p.regions[0] = new Region("Gijón", [70, 90, 80, 95]);
 				p.regions[1] = new Region("Oviedo", [30, 50, 40, 5]);
 				p.container = "#highcharts-line";
 				new HighchartsConnector().drawLineChart(p);
@@ -110,7 +116,7 @@
 				p.container = "#nvd3-polar";
 				new D3Connector().drawPolarChart(p);
 				
-				p.regions[0] = new Region("Pola de Siero", [[100, 2], [50, 50], [70, 35], [10, 80], [75, 80]]);
+				p.regions[0] = new Region("Gijón", [[100, 2], [50, 50], [70, 35], [10, 80], [75, 80]]);
 				p.regions[1] = new Region("Oviedo", [[4, 98], [40, 60], [30, 75], [90, 20], [35, 15]]);
 				p.container = "#highcharts-scatterplot";
 				new HighchartsConnector().drawScatterplot(p);

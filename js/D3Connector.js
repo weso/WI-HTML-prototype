@@ -245,6 +245,12 @@ function D3Connector() {
 			});
 		};
 
+		var getPoints = function(series) {
+			var point = series.append('svg:circle').attr("class", "line").attr("r", 10).style("stroke-width", 3).style("fill", "#000000");
+			
+			return point;
+		}
+		
 		var getLines = function(series, ranks, dashed) {
 			var line = series.append('svg:path').attr("class", "line").attr("d", d3.svg.line.radial().radius(function(d) {
 				return 0;
@@ -253,12 +259,18 @@ function D3Connector() {
 					i = 0;
 				}
 				return (i / ranks) * 2 * Math.PI;
-			})).style("stroke-width", 3).style("fill", "none")
+			})).style("stroke-width", 3).style("fill", "none");
+			
+			line.on('mouseover', function() { this.setAttribute("style", "stroke-width: 5; fill: none"); });
+			line.on('mouseout', function() { this.setAttribute("style", "stroke-width: 3; fill: none"); });
+			line.on('click', function() { console.log(this) });
+			
 			return dashed ? line.style("stroke-dasharray", ("3, 3")) : line;
 		}
+		
 		var drawLines = function(lines, ranks) {
 			lines.attr("d", d3.svg.line.radial().radius(function(d) {
-				console.log(radius(d));
+				//console.log(radius(d));
 				return radius(d);
 			}).angle(function(d, i) {
 				if (i === ranks) {
@@ -278,6 +290,10 @@ function D3Connector() {
 			groups.exit().remove();
 			lines = getLines(groups, ranks, false);
 			drawLines(lines, ranks);
+			
+			points = getPoints(groups);
+			//console.log(groups)
+			//console.log(ranks)
 		};
 
 		loadData(params.regions);

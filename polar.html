@@ -1,0 +1,184 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>New Web Project</title>
+		<style>
+			.nvd3 {
+				width: 50%;
+				float: right;
+			}
+			.highcharts {
+				width: 50%;
+				float: left;
+			}
+			.double-chart-container {
+				height: 500px;
+			}
+		</style>
+		<link rel="stylesheet" href="css/nv.d3.css">
+	</head>
+	<body>
+		<h1>New Web Project Page</h1>
+		<div id="d3-polar" style="width:300px; height:300px"></div>
+		<script type="text/javascript" src="js/vendor/jquery.js"></script>
+		<script src="http://code.highcharts.com/highcharts.js"></script>
+		<script src="http://code.highcharts.com/modules/exporting.js"></script>
+		<script src="http://code.highcharts.com/highcharts-more.js"></script>
+		<script type="text/javascript" src="js/vendor/d3.v3.js"></script>
+		<script type="text/javascript" src="js/vendor/nv.d3.min.js"></script>
+		<script type="text/javascript" src="js/vendor/nvd3/tooltip.js"></script>
+		<script type="text/javascript" src="js/vendor/nvd3/utils.js"></script>
+		<script type="text/javascript" src="js/vendor/nvd3/models/legend.js"></script>
+		<script type="text/javascript" src="js/vendor/nvd3/models/axis.js"></script>
+		<script type="text/javascript" src="js/vendor/nvd3/models/distribution.js"></script>
+		<script type="text/javascript" src="js/vendor/nvd3/models/scatter.js"></script>
+		<script type="text/javascript" src="js/vendor/nvd3/models/scatterChart.js"></script>
+		<script type="text/javascript" src="js/vendor/nvd3/models/multiBar.js"></script>
+		<script type="text/javascript" src="js/vendor/nvd3/models/multiBarChart.js"></script>
+		<script type="text/javascript" src="js/vendor/nvd3/models/line.js"></script>
+		<script type="text/javascript" src="js/vendor/nvd3/models/lineChart.js"></script>
+		<script type="text/javascript" src="js/wesCountry.js"></script>
+		<script type="text/javascript" src="js/HighchartsConnector.js"></script>
+		<script type="text/javascript" src="js/D3Connector.js"></script>
+		<script>
+		$(function() {
+		
+			//function Polar(x, y, radius, indicators, indicatorNames)
+			function Polar(params)
+			{	
+				params = composeParams(params);
+				var radius = 0.4 * Math.min(params.options.width, params.options.height);
+				var x = params.options.width / 2;
+				var y = params.options.height / 2;
+				var number_axis = params.regions[0].data.length;
+				var axis_inc = radius / number_axis;
+				var max_value = 100;
+				
+				var svg = d3.select(params.container).append("svg")
+			                                    .attr("width", params.options.width)
+			                                    .attr("height", params.options.height);
+			    
+			    // Axis Circles
+			    
+			    for (var i = number_axis; i >= 1; i--)
+			    {
+				    var circle = svg.append("circle");
+				    
+				    circle
+				    	.attr("cx", x)
+				        .attr("cy", y)
+				        .attr("r", i * axis_inc)
+				        .style("fill", "#efefef")
+				        .style("stroke", "#ddd")
+				        .style("stroke-width", 1);
+			    }
+			    
+			    // Axis
+		  
+		        var angle = 2 * Math.PI / number_axis;
+		        var radialPoints = []; 
+		        
+		        var startPoint = angle / 2;
+		        
+		        for (var i = 0; i < number_axis; i++) 
+		        { 
+		        	var x2 = radius * Math.cos(angle * i) + x;
+		            var y2 = radius * Math.sin(angle * i) + y;
+		            
+		            radialPoints.push([x2,y2]);
+		        } 
+		    
+		        svg.selectAll("line")
+			        .data(radialPoints) 
+			        .enter().append("svg:line") 
+			        .attr("x1", x) 
+			        .attr("y1", y) 
+			        .attr("x2", function(p){ return p[0]; }) 
+			        .attr("y2", function(p){ return p[1]; }) 
+			        .attr("stroke", "#ddd")
+			        .style("stroke-width", 1);
+			        
+			    for (var j = 0; j < params.regions.length; j++)
+			    {
+				    // Polygon
+				    
+				    var vertex = [];
+				    var names = [];
+				   
+			        for (var i = 0; i < params.regions[j].data.length; i++) 
+			        { 
+			        	var value = params.regions[j].data[i] / max_value * radius;
+			       
+			        	var x2 = value * Math.cos(startPoint + angle * i) + x;
+			            var y2 = value * Math.sin(startPoint + angle * i) + y;
+			            
+			            vertex.push({ x : x2, y : y2, colour: params.options.colours[0] });
+			            
+			            var namePosition = radius * 1.3;
+			            
+			        	x2 = namePosition * Math.cos(startPoint + angle * i) + x;
+			            y2 = namePosition * Math.sin(startPoint + angle * i) + y;
+			            
+			            names.push({ x : x2, y : y2, name : params.regions[j].name }); 
+			        }
+		        
+			        // First one is added to complete the path
+			      
+			        vertex.push(vertex[0]);
+			       
+			        var edge = d3.svg.line()
+	                	.x(function(d) { return d.x; })
+	                    .y(function(d) { return d.y; })
+	                    .interpolate("linear");
+			        
+			        var lineGraph = svg.append("path")
+	                	.attr("d", edge(vertex))
+	                	.attr("stroke", params.options.colours[j])
+	                    .attr("stroke-width", 2)
+	                    .attr("fill", params.options.colours[j])
+	                    .attr("opacity", 0.7)
+	                    .on("mouseover", function() { this.setAttribute("stroke-width", 4); })
+	                    .on("mouseout", function() { this.setAttribute("stroke-width", 2); });
+	                    
+	                // Vertex
+	                
+	                vertex.pop();
+	               
+	                svg.selectAll("body").data(vertex).enter().append("circle")
+					    .attr("cx", function(p){ return p.x; })
+					    .attr("cy", function(p){ return p.y; })
+					    .attr("r", 5)
+					    .attr("fill", params.options.colours[j])
+					    .attr("stroke", params.options.colours[j])
+					    .attr("stroke-width", 1)
+	                    .on("mouseover", function() { this.setAttribute("stroke-width", 3); })
+	                    .on("mouseout", function() { this.setAttribute("stroke-width", 1); });
+               }
+               // Names
+               
+               svg.selectAll("body").data(names).enter().append("text")
+               		.text(function(p){return p.name;})
+               		.attr("dx", function(p){ return p.x - this.getComputedTextLength() / 2; })
+               		.attr("dy", function(p){ return p.y; });
+			}
+			
+			$(function() {
+				var colours = ['#8cb937', '#222'];
+				var options = new Options();
+				options.colours = colours;
+			
+				var p = new Params();
+				p.regions[0] = new Region("Gijón", [70, 90, 80, 95]);
+				p.regions[1] = new Region("Oviedo", [30, 50, 40, 5]);			
+				p.options = options;
+				p.container = "#d3-polar";
+				
+				new Polar(p);
+			});
+			//new Polar(300, 200, 150, [50, 50, 50, 50], ["Indicador 1", "Indicador 2", "Indicador 3", "Indicador 4"]);
+		});
+		</script>
+	</body>
+</html>
