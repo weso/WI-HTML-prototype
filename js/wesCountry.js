@@ -17,7 +17,7 @@ function Options() {
 	this.title = 'My awesome wesCountry chart';
 	this.bgColour = '#fff';
 	this.colours = ['#343465', '#669900', '#ffeeaa', '#ccffaa', '#aabbcc', '#c92127', '#fabada'];
-	this.legend = true;
+	this.legend = false;
 	this.legendVerticalPosition = 'bottom';
 	this.legendAlign = 'center';
 	this.tooltipEnabled = false;
@@ -36,7 +36,7 @@ function Options() {
 	this.max = null;
 	this.yAxisName = 'Value';
 	this.xAxisName = 'Domain';
-	this.axisColour = '#ccc';
+	this.axisColour = '#000';
 }
 
 function composeParams(params) {
