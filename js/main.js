@@ -377,5 +377,17 @@ $(function()
 	
 	new D3Connector().drawBarChart(p);
 	
+	p = new Params();
+	
+	p.container = "#indicator-main-indicator";
+	p.labels = ["Indicador 1"];
+	p.options.groupPadding = 0;
+	p.options.barPadding = 1;
+	p.options.margins = [10, 0, 40, 30];
+	p.options.height = 150;
+	p.options.showLabels = true;
+	p.options.showXAxisLabel = true;
+	p.options.showYAxisLabel = true;
+	
 	new D3Connector().drawBarChart(p);
 });
