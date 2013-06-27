@@ -143,51 +143,37 @@ $(function() {
 });
 
 $(window).resize(function() {
-	drawGraph("#barchart", graphData, {
-		marginTop : 0,
-		marginRight : 0,
-		marginBottom : 0,
-		marginLeft : 0,
-		width : $("#barchart").width() ,
-		height : 120
-	});
-	function drawGraph(selector, data, config) {
-		$("#barchart").empty();
-		var top = data.sort(function(a, b) {
-			return b.value - a.value;
-		});
-		
-		var x = d3.scale.ordinal().rangeRoundBands([0, config.width], .1, 1);
 
-		var y = d3.scale.linear().range([config.height, 0]);
+	var p = new Params();
 
-		var xAxis = d3.svg.axis().scale(x).orient("bottom");
+	for (var i = 0; i < graphData.length; i++)
+		p.regions[i] = new Region(graphData[i].code, [graphData[i].value]);	
 
-		var yAxis = d3.svg.axis().scale(y).orient("left");
+	p.container = "#country-webindex";
+	p.labels = ["Indicador 1"];
+	p.options.groupPadding = 0;
+	p.options.barPadding = 1;
+	p.options.margins = [10, 10, 1, 30];
+	p.options.height = 120;
+	p.options.showLabels = false;
+	p.options.showXAxisLabel = false;
+	p.options.showYAxisLabel = true
+	p.options.yAxisName = "WEB INDEX";
+	
+	var numberOfColours = graphData.length;
+	var colours = [];
 
-		this.svg = d3.select(selector).append("svg").attr("width", config.width + config.marginLeft + config.marginRight).attr("height", config.height + config.marginTop + config.marginBottom).append("g").attr("transform", "translate(" + config.marginLeft + "," + config.marginTop + ")");
+	while(numberOfColours) 
+		colours[--numberOfColours]= "#c9e1ab";
 
-		x.domain(top.map(function(d) {
-			return d.code;
-		}));
-		y.domain([0, d3.max(data, function(d) {
-			return d.value;
-		})]);
-		
-		var ramp=d3.scale.linear().domain([100,75,50,25,0]).range(["#343465","#269e45","#deb722","#e65e22","#8b2c30"]);
+	colours[17] = "#91bf39";
 
-		this.svg.selectAll(".bar").data(top).enter().append("rect").attr("class", "bar").attr("x", function(d) {
-			return x(d.code);
-		}).attr("width", x.rangeBand()).attr("y", function(d) {
-			return y(d.value);
+	p.options.colours = colours;
+	p.options.ticks = 2;
+	
+	$(p.container).html("");
+	new D3Connector().drawBarChart(p);
 
-		}).attr("height", function(d) {
-		
-			return config.height - y(d.value);
-		}).attr("fill", function(d) {
-			return ramp(d.value);
-		});
-	}
 
 });
 
@@ -362,3 +348,34 @@ function autocomplete(availableTags)
 		}
 	);
 }
+
+// Indicadores
+
+$(function() 
+{
+	var p = new Params();
+
+	for (var i = 0; i < graphData.length; i++)
+		p.regions[i] = new Region(graphData[i].code, [graphData[i].value]);	
+
+	p.container = "#indicator-world-position";
+	p.labels = ["Indicador 1"];
+	p.options.groupPadding = 0;
+	p.options.barPadding = 1;
+	p.options.margins = [10, 0, 40, 30];
+	p.options.height = 150;
+	p.options.showLabels = true;
+	p.options.showXAxisLabel = true;
+	p.options.showYAxisLabel = true;
+	
+	var rainbow = new Rainbow();
+	rainbow.setSpectrum('#343465', '#269e45', '#deb722', '#932b2f');
+	rainbow.setNumberRange(0, graphData.length);
+
+	p.options.colours = rainbow.getColours(); p.options.colours[17] = "#333";
+	p.options.ticks = 2;
+	
+	new D3Connector().drawBarChart(p);
+	
+	new D3Connector().drawBarChart(p);
+});

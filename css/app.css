@@ -389,3 +389,7 @@ div.country-table td.country:hover, div.country-table td.country-hover {
 .no-display {
 	display: none;
 }
+
+#indicator-world-position, #country-webindex {
+	font: 10px sans-serif;
+}

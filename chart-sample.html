@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-		<title>New Web Project</title>
+		<title>HighCharts vs. D3.js</title>
 		<style>
 			.nvd3 {
 				width: 50%;
@@ -16,11 +16,31 @@
 			.double-chart-container {
 				height: 500px;
 			}
+			
+			body {
+			  font: 10px sans-serif;
+			}
+			
+			.axis path,
+			.axis line {
+			  fill: none;
+			  stroke: #ccc;
+			  shape-rendering: crispEdges;
+			}
+			
+			.bar {
+			  fill: steelblue;
+			}
+			
+			.x.axis path, .y.axis path {
+			  display: none;
+			}
+
 		</style>
-		<link rel="stylesheet" href="css/nv.d3.css">
+		<link rel="stylesheet" href="css/tipsy.css">
 	</head>
 	<body>
-		<h1>New Web Project Page</h1>
+		<h1>HighCharts vs. D3.js</h1>
 		<section class="double-chart-container">
 			<h2>Barchart</h2>
 			<section class="highcharts">
@@ -28,7 +48,7 @@
 				<div id="highcharts-barchart"></div>
 			</section>
 			<section class="nvd3">
-				<h3>NVD3</h3>
+				<h3>D3.js</h3>
 				<div id="nvd3-barchart" class="chartWrap"></div>
 			</section>
 		</section>
@@ -40,7 +60,7 @@
 				<div id="highcharts-scatterplot"></div>
 			</section>
 			<section class="nvd3">
-				<h3>NVD3</h3>
+				<h3>D3.js</h3>
 				<div id="nvd3-scatterplot" class="chartWrap"></div>
 			</section>
 		</section>
@@ -52,7 +72,7 @@
 				<div id="highcharts-line"></div>
 			</section>
 			<section class="nvd3">
-				<h3>NVD3</h3>
+				<h3>D3.js</h3>
 				<div id="nvd3-line" class="chartWrap"></div>
 			</section>
 		</section>
@@ -64,64 +84,50 @@
 				<div id="highcharts-polar"></div>
 			</section>
 			<section class="nvd3">
-				<h3>NVD3</h3>
+				<h3>D3.js</h3>
 				<div id="nvd3-polar" class="chartWrap"></div>
 			</section>
 		</section>
 		<script type="text/javascript" src="js/vendor/jquery.js"></script>
+		<script type="text/javascript" src="js/wesCountry.js"></script>
+		<script type="text/javascript" src="js/D3Connector.js"></script>
 		<script src="http://code.highcharts.com/highcharts.js"></script>
 		<script src="http://code.highcharts.com/modules/exporting.js"></script>
 		<script src="http://code.highcharts.com/highcharts-more.js"></script>
 		<script type="text/javascript" src="js/vendor/d3.v3.js"></script>
-		<script type="text/javascript" src="js/vendor/nv.d3.min.js"></script>
-		<script type="text/javascript" src="js/vendor/nvd3/tooltip.js"></script>
-		<script type="text/javascript" src="js/vendor/nvd3/utils.js"></script>
-		<script type="text/javascript" src="js/vendor/nvd3/models/legend.js"></script>
-		<script type="text/javascript" src="js/vendor/nvd3/models/axis.js"></script>
-		<script type="text/javascript" src="js/vendor/nvd3/models/distribution.js"></script>
-		<script type="text/javascript" src="js/vendor/nvd3/models/scatter.js"></script>
-		<script type="text/javascript" src="js/vendor/nvd3/models/scatterChart.js"></script>
-		<script type="text/javascript" src="js/vendor/nvd3/models/multiBar.js"></script>
-		<script type="text/javascript" src="js/vendor/nvd3/models/multiBarChart.js"></script>
-		<script type="text/javascript" src="js/vendor/nvd3/models/line.js"></script>
-		<script type="text/javascript" src="js/vendor/nvd3/models/lineChart.js"></script>
-		<script type="text/javascript" src="js/wesCountry.js"></script>
 		<script type="text/javascript" src="js/HighchartsConnector.js"></script>
-		<script type="text/javascript" src="js/D3Connector.js"></script>
+		<script type="text/javascript" src="js/vendor/jquery.tipsy.js"></script>
+		<script type="text/javascript" src="js/vendor/colorlegend.js"></script>
 		<script>
 			$(function() {
-				var colours = ['#8cb937', '#222'];
-				var options = new Options();
-				options.colours = colours;
-			
 				var p = new Params();
-				p.regions[0] = new Region("Gijón", [100, 50]);
+				p.regions[0] = new Region("Pola de Siero", [100, 50]);
 				p.regions[1] = new Region("Oviedo", [50, 25]);
-				p.options = options;
-				
 				p.container = "#highcharts-barchart";
 				new HighchartsConnector().drawBarchart(p);
 				p.container = "#nvd3-barchart";
-				new D3Connector().drawBarchart(p);
-				
-				p.regions[0] = new Region("Gijón", [70, 90, 80, 95]);
+				p.labels = ["Indicador 1", "Indicador 2"];
+				p.options.margins = [10, 20, 40, 30];
+				new D3Connector().drawBarChart(p);
+
+				p.regions[0] = new Region("Pola de Siero", [70, 90, 80, 95]);
 				p.regions[1] = new Region("Oviedo", [30, 50, 40, 5]);
 				p.container = "#highcharts-line";
-				new HighchartsConnector().drawLineChart(p);
+				//new HighchartsConnector().drawLineChart(p);
 				p.container = "#nvd3-line";
 				new D3Connector().drawLineChart(p);
-				
+
 				p.container = "#highcharts-polar";
 				new HighchartsConnector().drawPolarChart(p);
 				p.container = "#nvd3-polar";
 				new D3Connector().drawPolarChart(p);
-				
-				p.regions[0] = new Region("Gijón", [[100, 2], [50, 50], [70, 35], [10, 80], [75, 80]]);
+
+				p.regions[0] = new Region("Pola de Siero", [[100, 2], [50, 50], [70, 35], [10, 80], [75, 80]]);
 				p.regions[1] = new Region("Oviedo", [[4, 98], [40, 60], [30, 75], [90, 20], [35, 15]]);
 				p.container = "#highcharts-scatterplot";
 				new HighchartsConnector().drawScatterplot(p);
 				p.container = "#nvd3-scatterplot";
-				new D3Connector().drawScatterplot(p);
+				//new D3Connector().drawScatterplot(p);
 			});
 		</script>
 	</body>

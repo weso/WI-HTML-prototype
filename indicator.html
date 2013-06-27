@@ -19,6 +19,7 @@
 		<link rel="stylesheet" href="css/main.css">
 		<link rel="stylesheet" href="css/foundation.min.css">
 		<link rel="stylesheet" href="css/app.css">
+		<link rel="stylesheet" href="css/wesCountry.css">
 		<script src="js/vendor/custom.modernizr.js"></script>
 	</head>
 	<body>
@@ -115,7 +116,7 @@
 				</div>
 			</div>
 			<div class="row collapse">
-				<div id="barchart" class="small-12 large-8 columns">
+				<div id="country-webindex" class="small-12 large-8 columns">
 				</div>
 				<div id="country-extra" class="small-12 large-4 columns">
 					<div class="small-6 large-6 columns">
@@ -210,36 +211,44 @@
 				<div class="bgline">
 					<h4 class="subheader blank">World ranking</h4>
 				</div>
-				<div class="large-3 small-3 columns indicator-rank">
-					<div class="large-8 small-8 columns rank-header">
-						Rank<br/>out of 61
+				<div class="row collapse">
+					<div class="large-3 small-3 columns indicator-rank">
+						<div class="large-8 small-8 columns rank-header">
+							Rank<br/>out of 61
+						</div>
+						<div id="indicator-rank" class="large-4 small-4 columns">
+							18
+						</div>
 					</div>
-					<div id="indicator-rank" class="large-4 small-4 columns">
-						18
+					<div id="indicator-value" class="large-6 small-6 columns">
+						<div class="row collapse">
+							<div class="large-7 small-7 columns rank-header">
+								Score
+							</div>
+							<div class="large-5 small-5 columns progress-score">
+								<span id="indicator-value-text"></span>
+							</div>
+						</div>
+						<div id="indicator-score-bar" class="progress score-bar">
+						</div>
 					</div>
-				</div>
-				<div id="indicator-value" class="large-6 small-6 columns">
-					<div class="row collapse">
+					<div id="indicator-tendency" class="large-3 small-3 columns indicator-rank">
 						<div class="large-7 small-7 columns rank-header">
-							Score
+							Tendency
+							<br />
+							<span id="tendency-text" class="tendency-score"></span>
 						</div>
-						<div class="large-5 small-5 columns progress-score">
-							<span id="indicator-value-text"></span>
+						<div id="tendency-arrow" class="large-5 small-5 columns">
+		
 						</div>
-					</div>
-					<div id="indicator-score-bar" class="progress score-bar">
 					</div>
 				</div>
-				<div id="indicator-tendency" class="large-3 small-3 columns indicator-rank">
-					<div class="large-7 small-7 columns rank-header">
-						Tendency
-						<br />
-						<span id="tendency-text" class="tendency-score"></span>
-					</div>
-					<div id="tendency-arrow" class="large-5 small-5 columns">
-	
-					</div>
+				<div id="indicator-world-position" class="row collapse">
 				</div>
+				<div class="bgline">
+					<h4 class="subheader blank">Indicator</h4>
+				</div>
+				<div id="indicator-main-indicator" class="row collapse">
 			</section>
 			<section id="country-selector" class="large-3 small-12 columns">
 				<div class="row">
@@ -304,6 +313,9 @@
 		<script src="js/plugins.js"></script>
 		<script src="js/main.js"></script>
 		<script src="js/webindex.js"></script>
+		<script type="text/javascript" src="js/wesCountry.js"></script>
+		<script type="text/javascript" src="js/D3Connector.js"></script>
+		<script type="text/javascript" src="js/vendor/rainbowvis.js"></script>
 		<script>
 			$(function() {
 				$(document).foundation();
