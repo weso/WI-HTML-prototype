@@ -17,10 +17,10 @@ function Options() {
 	this.title = 'My awesome wesCountry chart';
 	this.bgColour = '#fff';
 	this.colours = ['#343465', '#669900', '#ffeeaa', '#ccffaa', '#aabbcc', '#c92127', '#fabada'];
-	this.legend = false;
+	this.legend = true;
 	this.legendVerticalPosition = 'bottom';
 	this.legendAlign = 'center';
-	this.tooltipEnabled = false;
+	this.tooltipEnabled = true;
 	this.tooltipHeader = "";
 	this.tooltip = "";
 	this.tooltipFooter = "";
