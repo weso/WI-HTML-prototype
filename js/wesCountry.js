@@ -21,9 +21,9 @@ function Options() {
 	this.legendVerticalPosition = 'bottom';
 	this.legendAlign = 'center';
 	this.tooltipEnabled = true;
-	this.tooltipHeader = "";
-	this.tooltip = "";
-	this.tooltipFooter = "";
+	this.tooltipMessage = function(params) {
+		return params.region + " @ " + params.indicator + " = " + params.value
+	}
 	//HTML que se mostrará al hacer hover sobre un dato
 	this.onClickDatum = function(e) {
 		console.log("this:");

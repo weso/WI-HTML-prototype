@@ -36,9 +36,12 @@ function HighchartsConnector() {
 			tooltip : {
 				enabled : params.options.tooltipEnabled,
 				useHTML : true,
-				headerFormat : params.options.tooltipHeader,
-				pointFormat : params.options.tooltip,
-				footerFormat : params.options.tooltipFooter
+				pointFormat : params.options.tooltipMessage({
+					indicator : "{point.x}",
+					region : "{series.name}",
+					value : "{point.y}"
+				}),
+				headerFormat : ""
 			},
 			plotOptions : {
 				column : {
@@ -89,7 +92,6 @@ function HighchartsConnector() {
 		constructor.chart.zoomType = 'xy';
 		$(params.container).highcharts(constructor);
 	}
-
 	this.drawLineChart = function(params) {
 		var data = [];
 		params = composeParams(params);

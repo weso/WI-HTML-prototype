@@ -17,7 +17,11 @@ function D3Connector() {
 			gravity : 'sw',
 			html : true,
 			title : function() {
-				return params.regions[this.getAttribute("series")].name + " @ " + params.indexes[this.getAttribute("indicator")] + " = " + this.__data__;
+				return params.options.tooltipMessage({
+					region : params.regions[this.getAttribute("series")].name,
+					indicator : params.indexes[this.getAttribute("indicator")],
+					value : this.__data__
+				});
 			}
 		});
 	};
