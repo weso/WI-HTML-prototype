@@ -48,7 +48,8 @@ function D3Connector() {
 		$(params.container + " .legend").css({
 			position : "absolute",
 			top : top + "px",
-			left : left + "px"
+			left : left + "px",
+			height : "25px"
 		});
 	};
 
@@ -82,10 +83,14 @@ function D3Connector() {
 				return x(i) + (params.options.width / params.indexes.length) / 2;
 			}).attr("cy", function(d) {
 				return y(d);
-			}).attr("r", 5).style("fill", params.options.colours[currentSeries % params.options.colours.length]).attr("series", currentSeries).attr("indicator", function(d, i) {
+			}).attr("r", 4).style("fill", params.options.colours[currentSeries % params.options.colours.length]).attr("series", currentSeries).attr("indicator", function(d, i) {
 				return i;
 			}).on("click", function(d, i) {
-				params.options.onClickDatum(d3.event.srcElement.attributes);
+				params.options.onClickDatum(d3.select(this.attributes));
+			}).on("mouseover", function() {
+				d3.select(this).transition().duration(100).attr("r", 8);
+			}).on("mouseout", function() {
+				d3.select(this).transition().duration(100).attr("r", 4);
 			});
 			return line(d.data);
 		}).style("stroke-width", "2px").attr("fill", "none");
@@ -353,7 +358,11 @@ function D3Connector() {
 			}).attr("r", 3.5).style("fill", params.options.colours[i % params.options.colours.length]).attr("series", i).attr("indicator", function(d, i) {
 				return i;
 			}).on("click", function(d, i) {
-				params.options.onClickDatum(d3.event.srcElement.attributes);
+				params.options.onClickDatum(d3.select(this.attributes));
+			}).on("mouseover", function() {
+				d3.select(this).transition().duration(100).attr("r", 8);
+			}).on("mouseout", function() {
+				d3.select(this).transition().duration(100).attr("r", 4);
 			});
 		}
 		if (params.options.legend) {
