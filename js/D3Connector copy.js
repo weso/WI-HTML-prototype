@@ -315,11 +315,9 @@ function D3Connector() {
 	  // We place each series into its own SVG group element. In other words,
 	  // each SVG group element contains one series (i.e. bars of the same colour).
 	  // It might be helpful to think of each SVG group element as containing one bar chart.
-	  var gSeries = svg.selectAll("g.series")
+	  var series = svg.selectAll("g.series")
 	      .data(data)
-	    .enter();
-	    
-	  var series =  gSeries.append("svg:g")
+	    .enter().append("svg:g")
 	      .attr("class", "series") // Not strictly necessary, but helpful when inspecting the DOM
 	      .attr("fill", function (d, i) { return colours[i]; })
 	      .attr("transform", function (d, i) { return "translate(" + x1(i) + ")"; });
@@ -327,26 +325,18 @@ function D3Connector() {
 	  // Groups selection
 	  var groups = series.selectAll("rect")
 	      .data(Object) // The second dimension in the two-dimensional data array
-	    .enter();
-	    
-	    groups.append("svg:rect")
+	    .enter().append("svg:rect")
 	        .attr("x", 0)
 	        .attr("y", function (d) { return y(d); })
 	        .attr("width", x1.rangeBand() - params.options.barPadding)
 	        .attr("height", function (d) { return height - y(d); })
 	        .attr("transform", function (d, i) { return "translate(" + x0(i) + ")"; });
-	 /*       
-	    gSeries.append("text")
-		        .attr("x", (x1.rangeBand() - params.options.barPadding) / 2)
-		        .attr("y", height + 10)
-		        .attr("transform", function (d, i) { return "translate(" + x0(i) + ")"; })
-		        .style("text-anchor", "middle")
-		        .style("fill", "#333")
-		        .text(function(d, i) { console.log(d);return d.name; });  
-	  */      
+	        
 	 if (params.options.showValueOnBar)
 	 {
-		 var number = groups.append("text")
+		 var number = series.selectAll("text")
+		      .data(Object) // The second dimension in the two-dimensional data array
+		    .enter().append("text")
 		        .attr("x", (x1.rangeBand() - params.options.barPadding) / 2)
 		        .attr("y", function (d) { return y(d) + 15; })
 		        .attr("transform", function (d, i) { return "translate(" + x0(i) + ")"; })

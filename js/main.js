@@ -379,15 +379,24 @@ $(function()
 	
 	p = new Params();
 	
+	p.regions[4] = new Region("United States", [9]);
+	p.regions[3] = new Region("Spain", [7]);
+	p.regions[2] = new Region("Turkey", [5]);
+	p.regions[1] = new Region("Switzerland", [4]);
+	p.regions[0] = new Region("Zimbabwe", [1]);
+	
 	p.container = "#indicator-main-indicator";
 	p.labels = ["Indicador 1"];
-	p.options.groupPadding = 0;
-	p.options.barPadding = 1;
+	p.options.groupPadding = 40;
+	p.options.barPadding = 40;
 	p.options.margins = [10, 0, 40, 30];
-	p.options.height = 150;
+	p.options.height = 280;
 	p.options.showLabels = true;
 	p.options.showXAxisLabel = true;
 	p.options.showYAxisLabel = true;
+	p.options.showValueOnBar = true;
 	
+	p.options.colours = ["#91bf39", "#91bf39", "#91bf39", "#333", "#91bf39"];
+
 	new D3Connector().drawBarChart(p);
 });
