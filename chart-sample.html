@@ -35,6 +35,11 @@
 			.x.axis path, .y.axis path {
 			  display: none;
 			}
+			
+			.axis .tick {
+				fill: #000;
+				stroke: none;
+			}
 
 		</style>
 		<link rel="stylesheet" href="css/tipsy.css">
@@ -109,11 +114,12 @@
 				p.labels = ["Indicador 1", "Indicador 2"];
 				p.options.margins = [10, 20, 40, 30];
 				new D3Connector().drawBarChart(p);
-
+				p.options.min = null;
+				p.options.max = null;
 				p.regions[0] = new Region("Pola de Siero", [70, 90, 80, 95]);
 				p.regions[1] = new Region("Oviedo", [30, 50, 40, 5]);
 				p.container = "#highcharts-line";
-				//new HighchartsConnector().drawLineChart(p);
+				new HighchartsConnector().drawLineChart(p);
 				p.container = "#nvd3-line";
 				new D3Connector().drawLineChart(p);
 
@@ -127,7 +133,7 @@
 				p.container = "#highcharts-scatterplot";
 				new HighchartsConnector().drawScatterplot(p);
 				p.container = "#nvd3-scatterplot";
-				//new D3Connector().drawScatterplot(p);
+				new D3Connector().drawScatterplot(p);
 			});
 		</script>
 	</body>

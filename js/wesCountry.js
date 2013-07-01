@@ -17,13 +17,13 @@ function Options() {
 	this.title = 'My awesome wesCountry chart';
 	this.bgColour = '#fff';
 	this.colours = ['#343465', '#669900', '#ffeeaa', '#ccffaa', '#aabbcc', '#c92127', '#fabada'];
-	this.legend = false;
+	this.legend = true;
 	this.legendVerticalPosition = 'bottom';
 	this.legendAlign = 'center';
-	this.tooltipEnabled = false;
-	this.tooltipHeader = "";
-	this.tooltip = "";
-	this.tooltipFooter = "";
+	this.tooltipEnabled = true;
+	this.tooltipMessage = function(params) {
+		return params.region + " @ " + params.indicator + " = " + params.value
+	}
 	//HTML que se mostrará al hacer hover sobre un dato
 	this.onClickDatum = function(e) {
 		console.log("this:");
