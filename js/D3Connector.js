@@ -65,7 +65,7 @@ function D3Connector() {
 		var x = d3.scale.ordinal().domain(d3.range(params.indexes.length)).rangeRoundBands([0, params.options.width]);
 		var y = d3.scale.linear().range([params.options.height, 0]);
 		var xAxis = d3.svg.axis().scale(x).orient("bottom").tickValues(params.indexes);
-		var yAxis = d3.svg.axis().scale(y).orient("left");
+		var yAxis = d3.svg.axis().scale(y).orient("left").ticks(params.options.ticks);;
 		var line = d3.svg.line().x(function(d, i) {
 			return x(i) + (params.options.width / params.indexes.length) / 2;
 		}).y(function(d) {
@@ -218,256 +218,236 @@ function D3Connector() {
 
 	this.drawBarChart = function(params) {
 		params = composeParams(params);
-<<<<<<< HEAD
 	
-	  // This is a reimplementation of the Grouped Bar Chart by Mike Bostock
-	  // (http://bl.ocks.org/882152). Although useful, I found the original's
-	  // minimal comments and inverted axes hard to follow, so I created the
-	  // version you see here.
+		// This is a reimplementation of the Grouped Bar Chart by Mike Bostock
+		  // (http://bl.ocks.org/882152). Although useful, I found the original's
+		  // minimal comments and inverted axes hard to follow, so I created the
+		  // version you see here.
+		
+		  // First, we define sizes and colours...
+		  var outerW = params.options.width;
+		  var outerH = params.options.height;
+		  //var padding = { t: 0, r: 0, b: 0, l: 0 };
+		  var width = outerW - params.options.margins[3] - params.options.margins[1]; // inner width
+		  var height = outerH - params.options.margins[0] - params.options.margins[2]; // inner height
+		  var colours = params.options.colours; // ColorBrewer Set 1
 	
-	  // First, we define sizes and colours...
-	  var outerW = params.options.width;
-	  var outerH = params.options.height;
-	  //var padding = { t: 0, r: 0, b: 0, l: 0 };
-	  var width = outerW - params.options.margins[3] - params.options.margins[1]; // inner width
-	  var height = outerH - params.options.margins[0] - params.options.margins[2]; // inner height
-	  var colours = params.options.colours; // ColorBrewer Set 1
-
-	  // Second, we define our data...
-	  // Create a two-dimensional array.
-	  // The first dimension has as many Array elements as there are series.
-	  // The second dimension has as many Number elements as there are groups.
-	  // It looks something like this...
-	  
-	  var data = [];
-	  var topValue = 0;
-	  
-	  for (var i = 0; i < params.regions.length; i++)
-	  {
-	  	data[i] = params.regions[i].data;
-	  	topValue = Math.max(topValue, Math.max.apply(null, data[i]));
-	  }
+		  // Second, we define our data...
+		  // Create a two-dimensional array.
+		  // The first dimension has as many Array elements as there are series.
+		  // The second dimension has as many Number elements as there are groups.
+		  // It looks something like this...
+		  
+		  var data = [];
+		  var topValue = 0;
+		  
+		  for (var i = 0; i < params.regions.length; i++)
+		  {
+		  	data[i] = [];
+	  	
+		  	for (var j = 0; j < params.regions[i].data.length; j++)
+		  	{
+		  		data[i][j] = new Object();
+		  		
+		  		data[i][j].value = params.regions[i].data[j];	
+		  		data[i][j].name = params.indexes[i] ? params.indexes[i] : "";
+		  		
+		  		topValue = Math.max(topValue, data[i][j].value);
+		  	}
+		  }
+		  	  	
+		  var numberGroups = data[0].length; // groups
+		  var numberSeries = data.length;  // series in each group
+		  //var data = d3.range(numberSeries).map(function () { return d3.range(numberGroups).map(Math.random); });
+		
+		  // Visualisation selection
+		  var svg = d3.select(params.container)
+		      .append("svg:svg")
+		      .attr("width", outerW)
+		      .attr("height", outerH)
+		      .append("g")
+		    .attr("transform", "translate(" + params.options.margins[3] + "," + params.options.margins[0] + ")");
+		
+		  // Third, we define our scales...
+		  // Groups scale, x axis
+		  var x0 = d3.scale.ordinal()
+		      .domain(params.labels)
+		      .rangeBands([0, width], params.options.groupPadding);
+		
+		  // Series scale, x axis
+		  // It might help to think of the series scale as a child of the groups scale
+		  var x1 = d3.scale.ordinal()
+		      .domain(d3.range(numberSeries))
+		      .rangeBands([0, x0.rangeBand()]);
 	
-	  var numberGroups = data[0].length; // groups
-	  var numberSeries = data.length;  // series in each group
-	  //var data = d3.range(numberSeries).map(function () { return d3.range(numberGroups).map(Math.random); });
-	
-	  // Visualisation selection
-	  var svg = d3.select(params.container)
-	      .append("svg:svg")
-	      .attr("width", outerW)
-	      .attr("height", outerH)
-	      .append("g")
-	    .attr("transform", "translate(" + params.options.margins[3] + "," + params.options.margins[0] + ")");
-	
-	  // Third, we define our scales...
-	  // Groups scale, x axis
-	  var x0 = d3.scale.ordinal()
-	      .domain(params.labels)
-	      .rangeBands([0, width], params.options.groupPadding);
-	
-	  // Series scale, x axis
-	  // It might help to think of the series scale as a child of the groups scale
-	  var x1 = d3.scale.ordinal()
-	      .domain(d3.range(numberSeries))
-	      .rangeBands([0, x0.rangeBand()]);
-
-	  // Values scale, y axis
-	  
-	   var y = d3.scale.linear()
-	      .domain([0, topValue])
-	      .range([height, 0]);
-	
-	var xAxis = d3.svg.axis()
-	    .scale(x0)
-	    .orient("bottom");
-	
-	var yAxis = d3.svg.axis()
-	    .scale(y)
-	    .orient("left")
-	    .tickFormat(d3.format(".2s"))
-	    .tickSize(-width, 0, 0)
-	    .ticks(params.options.ticks);
-	
-	if (params.options.showLabels)
-	{
-		var xAxisContainer = svg.append("g")
-		      .attr("class", "x axis")
-		      .attr("transform", "translate(0," + height + ")")
-		      .call(xAxis)
+		  // Values scale, y axis
+		  
+		   var y = d3.scale.linear()
+		      .domain([0, topValue])
+		      .range([height, 0]);
+		
+		var xAxis = d3.svg.axis()
+		    .scale(x0)
+		    .orient("bottom");
+		
+		var yAxis = d3.svg.axis()
+		    .scale(y)
+		    .orient("left")
+		    .tickFormat(d3.format(".2s"))
+		    .tickSize(-width, 0, 0)
+		    .ticks(params.options.ticks);
+		
+		if (params.options.showLabels)
+		{
+			var xAxisContainer = svg.append("g")
+			      .attr("class", "x axis")
+			      .attr("transform", "translate(0," + height + ")")
+			      .call(xAxis)
+			      
+			 if (params.options.showXAxisLabel)
+			 {
+			      xAxisContainer.append("text")
+			      .attr("y", 30)
+			      .attr("x", width / 2)
+			      .attr("dy", ".71em")
+			      .style("text-anchor", "middle")
+			      .text(params.options.xAxisName);
+			 }
+		 }
 		      
-		 if (params.options.showXAxisLabel)
+		 var yAxisContainer = svg.append("g")
+		      .attr("class", "y axis")
+		      .call(yAxis);
+		 
+		 if (params.options.showYAxisLabel)
 		 {
-		      xAxisContainer.append("text")
-		      .attr("y", 30)
-		      .attr("x", width / 2)
+		    yAxisContainer.append("text")
+		      .attr("transform", "rotate(-90)")
+		      .attr("y", -30)
+		      .attr("x", - height / 2)
 		      .attr("dy", ".71em")
 		      .style("text-anchor", "middle")
-		      .text(params.options.xAxisName);
+		      .text(params.options.yAxisName);
 		 }
-	 }
-	      
-	 var yAxisContainer = svg.append("g")
-	      .attr("class", "y axis")
-	      .call(yAxis);
+		
+		  // Series selection
+		  // We place each series into its own SVG group element. In other words,
+		  // each SVG group element contains one series (i.e. bars of the same colour).
+		  // It might be helpful to think of each SVG group element as containing one bar chart.
+		  var gSeries = svg.selectAll("g.series")
+		      .data(data)
+		    .enter();
+		    
+		  var series =  gSeries.append("svg:g")
+		      .attr("class", "series") // Not strictly necessary, but helpful when inspecting the DOM
+		      .attr("fill", function (d, i) { return colours[i]; })
+		      .attr("transform", function (d, i) { return "translate(" + x1(i) + ")"; });
+		
+		  // Groups selection
+		  var groups = series.selectAll("rect")
+		      .data(Object) // The second dimension in the two-dimensional data array
+		    .enter();
+		    
+		    groups.append("svg:rect")
+		        .attr("x", params.options.barPadding / 2)
+		        .attr("y", function (d) { return y(d.value); })
+		        .attr("width", x1.rangeBand() - params.options.barPadding)
+		        .attr("height", function (d) { return height - y(d.value); })
+		        .attr("transform", function (d, i) { return "translate(" + x0(i) + ")"; });
+		      
+		 if (params.options.showBarLabels)
+		 {  
+		    var barLabels = groups.append("text")
+			        .attr("x", x1.rangeBand() / 2)
+			        .attr("y", height + 10)
+			        .attr("transform", function (d, i) { return "translate(" + x0(i) + ")"; })
+			        .style("fill", "#333")
+			        .text(function(d, i) { return d.name; })
+			        .style("text-anchor", "middle");
+		 }  
+		      
+		 if (params.options.showValueOnBar)
+		 {
+			 var number = groups.append("text")
+			        .attr("x", x1.rangeBand() / 2)
+			        .attr("y", function (d) { return y(d.value) + 15; })
+			        .attr("transform", function (d, i) { return "translate(" + x0(i) + ")"; })
+			        .style("text-anchor", "middle")
+			        .style("fill", "#fff")
+			        .text(function (d) { return d.value; });
+		 }
+		 
+		 // Mean
+		 
+		 var mean = params.options.mean ? params.options.mean : 0;
+		 var median = params.options.median ? params.options.median : 0;
+		 
+		 if (params.options.mean)
+		 {
+		 	 var value = height - height * (mean / topValue);
+			 var textPos = mean > median ? value - 5 : value + 12;
 	 
-	 if (params.options.showYAxisLabel)
-	 {
-	    yAxisContainer.append("text")
-	      .attr("transform", "rotate(-90)")
-	      .attr("y", -30)
-	      .attr("x", - height / 2)
-	      .attr("dy", ".71em")
-	      .style("text-anchor", "middle")
-	      .text(params.options.yAxisName);
-	 }
-	
-	  // Series selection
-	  // We place each series into its own SVG group element. In other words,
-	  // each SVG group element contains one series (i.e. bars of the same colour).
-	  // It might be helpful to think of each SVG group element as containing one bar chart.
-	  var gSeries = svg.selectAll("g.series")
-	      .data(data)
-	    .enter();
-	    
-	  var series =  gSeries.append("svg:g")
-	      .attr("class", "series") // Not strictly necessary, but helpful when inspecting the DOM
-	      .attr("fill", function (d, i) { return colours[i]; })
-	      .attr("transform", function (d, i) { return "translate(" + x1(i) + ")"; });
-	
-	  // Groups selection
-	  var groups = series.selectAll("rect")
-	      .data(Object) // The second dimension in the two-dimensional data array
-	    .enter();
-	    
-	    groups.append("svg:rect")
-	        .attr("x", 0)
-	        .attr("y", function (d) { return y(d); })
-	        .attr("width", x1.rangeBand() - params.options.barPadding)
-	        .attr("height", function (d) { return height - y(d); })
-	        .attr("transform", function (d, i) { return "translate(" + x0(i) + ")"; });
-	 /*       
-	    gSeries.append("text")
-		        .attr("x", (x1.rangeBand() - params.options.barPadding) / 2)
-		        .attr("y", height + 10)
-		        .attr("transform", function (d, i) { return "translate(" + x0(i) + ")"; })
-		        .style("text-anchor", "middle")
-		        .style("fill", "#333")
-		        .text(function(d, i) { console.log(d);return d.name; });  
-	  */      
-	 if (params.options.showValueOnBar)
-	 {
-		 var number = groups.append("text")
-		        .attr("x", (x1.rangeBand() - params.options.barPadding) / 2)
-		        .attr("y", function (d) { return y(d) + 15; })
-		        .attr("transform", function (d, i) { return "translate(" + x0(i) + ")"; })
-		        .style("text-anchor", "middle")
-		        .style("fill", "#fff")
-		        .text(String);
-	   }
-=======
-
-		// This is a reimplementation of the Grouped Bar Chart by Mike Bostock
-		// (http://bl.ocks.org/882152). Although useful, I found the original's
-		// minimal comments and inverted axes hard to follow, so I created the
-		// version you see here.
-
-		// First, we define sizes and colours...
-		var outerW = params.options.width;
-		var outerH = params.options.height;
-		//var padding = { t: 0, r: 0, b: 0, l: 0 };
-		var width = outerW - params.options.margins[3] - params.options.margins[1];
-		// inner width
-		var height = outerH - params.options.margins[0] - params.options.margins[2];
-		// inner height
-		var colours = params.options.colours;
-		// ColorBrewer Set 1
-
-		// Second, we define our data...
-		// Create a two-dimensional array.
-		// The first dimension has as many Array elements as there are series.
-		// The second dimension has as many Number elements as there are groups.
-		// It looks something like this...
-
-		var data = [];
-		var topValue = 0;
-
-		for (var i = 0; i < params.regions.length; i++) {
-			data[i] = params.regions[i].data;
-			topValue = Math.max(topValue, Math.max.apply(null, data[i]));
-		}
-
-		var numberGroups = data[0].length;
-		// groups
-		var numberSeries = data.length;
-		// series in each group
-		//var data = d3.range(numberSeries).map(function () { return d3.range(numberGroups).map(Math.random); });
-
-		// Visualisation selection
-		var svg = d3.select(params.container).append("svg:svg").attr("width", outerW).attr("height", outerH).append("g").attr("transform", "translate(" + params.options.margins[3] + "," + params.options.margins[0] + ")");
-
-		// Third, we define our scales...
-		// Groups scale, x axis
-		var x0 = d3.scale.ordinal().domain(params.labels).rangeBands([0, width], params.options.groupPadding);
-
-		// Series scale, x axis
-		// It might help to think of the series scale as a child of the groups scale
-		var x1 = d3.scale.ordinal().domain(d3.range(numberSeries)).rangeBands([0, x0.rangeBand()]);
-
-		// Values scale, y axis
-
-		var y = d3.scale.linear().domain([0, topValue]).range([height, 0]);
-
-		var xAxis = d3.svg.axis().scale(x0).orient("bottom");
-
-		var yAxis = d3.svg.axis().scale(y).orient("left").tickFormat(d3.format(".2s")).tickSize(-width, 0, 0).ticks(params.options.ticks);
-
-		if (params.options.showLabels) {
-			var xAxisContainer = svg.append("g").attr("class", "x axis").attr("transform", "translate(0," + height + ")").call(xAxis)
-
-			if (params.options.showXAxisLabel) {
-				xAxisContainer.append("text").attr("y", 30).attr("x", width / 2).attr("dy", ".71em").style("text-anchor", "middle").text(params.options.xAxisName);
-			}
-		}
-
-		var yAxisContainer = svg.append("g").attr("class", "y axis").call(yAxis);
-
-		if (params.options.showYAxisLabel) {
-			yAxisContainer.append("text").attr("transform", "rotate(-90)").attr("y", -30).attr("x", -height / 2).attr("dy", ".71em").style("text-anchor", "middle").text(params.options.yAxisName);
-		}
-
-		// Series selection
-		// We place each series into its own SVG group element. In other words,
-		// each SVG group element contains one series (i.e. bars of the same colour).
-		// It might be helpful to think of each SVG group element as containing one bar chart.
-		var series = svg.selectAll("g.series").data(data).enter().append("svg:g").attr("class", "series")// Not strictly necessary, but helpful when inspecting the DOM
-		.attr("fill", function(d, i) {
-			return colours[i];
-		}).attr("transform", function(d, i) {
-			return "translate(" + x1(i) + ")";
-		});
-
-		// Groups selection
-		var groups = series.selectAll("rect").data(Object)// The second dimension in the two-dimensional data array
-		.enter().append("svg:rect").attr("x", 0).attr("y", function(d) {
-			return y(d);
-		}).attr("width", x1.rangeBand() - params.options.barPadding).attr("height", function(d) {
-			return height - y(d);
-		}).attr("transform", function(d, i) {
-			return "translate(" + x0(i) + ")";
-		});
-		/*
-		 var text = svg.selectAll("text")
-		 .data(d3.range(numberGroups))
-		 .enter().append("svg:text")
-		 .attr("class", "group")
-		 .attr("transform", function(d, i) { return "translate(" + x0(i) + ",0)"; })
-		 .attr("x", x0.rangeBand() / 2)
-		 .attr("y", height)
-		 .attr("dy", ".71em")
-		 .attr("text-anchor", "middle")
-		 .text(function(d, i) { return labels[i]; });
-		 */
+			 svg.append("line")
+	         	.attr("x1", 0)
+	            .attr("y1", value)
+	            .attr("x2", width)
+	            .attr("y2", value)
+	            .attr("stroke-width", 2)                         
+	            .attr("stroke", params.options.meanColour);
+	            
+	         svg.append("text")
+                .attr("x", 0)
+                .attr("y", textPos)
+                .text("MEAN")
+                .attr("font-family", "sans-serif")
+                .attr("font-size", "11px")
+                .attr("fill", "#000");
+                
+            svg.append("text")
+                .attr("x", width)
+                .attr("y", textPos)
+                .attr("text-anchor", "end")
+                .text(mean)
+                .attr("font-family", "sans-serif")
+                .attr("text-align", "right")
+                .attr("font-size", "11px")
+                .attr("fill", "#000");
+		 }
+		 
+		 // Median
+		 
+		 if (params.options.median)
+		 {
+			 var value = height - height * (median / topValue);
+			 var textPos = median > mean ? value - 5 : value + 12;
+	 
+			 svg.append("line")
+	         	.attr("x1", 0)
+	            .attr("y1", value)
+	            .attr("x2", width)
+	            .attr("y2", value)
+	            .attr("stroke-width", 1)                         
+	            .attr("stroke", params.options.medianColour)
+	            .attr("stroke-dasharray", "8, 8");
+	            
+	         svg.append("text")
+                .attr("x", 0)
+                .attr("y", textPos)
+                .text("MEDIAN")
+                .attr("font-family", "sans-serif")
+                .attr("font-size", "11px")
+                .attr("fill", "#000");
+                
+            svg.append("text")
+                .attr("x", width)
+                .attr("y", textPos)
+                .attr("text-anchor", "end")
+                .text(median)
+                .attr("font-family", "sans-serif")
+                .attr("text-align", "right")
+                .attr("font-size", "11px")
+                .attr("fill", "#000");
+		 }
 	}
 
 	this.drawScatterplot = function(params) {
@@ -523,6 +503,5 @@ function D3Connector() {
 		if (params.options.tooltipEnabled) {
 			addTooltips(params);
 		}
->>>>>>> f94521be52d88a297a71f71a3a2813e0717b71a9
 	}
 }

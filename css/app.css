@@ -393,3 +393,18 @@ div.country-table td.country:hover, div.country-table td.country-hover {
 .chart {
 	font: 10px sans-serif;
 }
+
+.big-trend {
+	float: right;
+}
+
+.progression-year {
+	color: #88b23d;
+	text-align: right;
+	font-size: 1.2em;
+}
+
+.progression-text {
+	text-transform: uppercase;
+	font-size: 0.6em;
+}
