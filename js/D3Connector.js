@@ -35,7 +35,7 @@ function D3Connector() {
 		var oScale = d3.scale.category20().domain(labels).range(params.options.colours);
 		colorlegend(params.container + " .legend", oScale, "ordinal", {
 			boxHeight : 10,
-			boxWidth : 75
+			boxWidth : 65
 		});
 		var top = $(params.container).position().top;
 		if (params.options.legendVerticalPosition == 'middle') {
@@ -43,7 +43,7 @@ function D3Connector() {
 		} else if (params.options.legendVerticalPosition == 'bottom') {
 			top += params.options.height + params.options.margins[0] + 10;
 		}
-		var left = $(params.container).position().left;
+		var left = $(params.container).position().right;
 		if (params.options.legendAlign == 'center') {
 			left += (params.options.width - (10 + labels.length * 13.5) * labels.length) / 2;
 		} else if (params.options.legendAlign == 'right') {
@@ -59,24 +59,36 @@ function D3Connector() {
 
 	this.drawLineChart = function(params) {
 		params = composeParams(params);
-		minMargins(params.options.margins);
+		//minMargins(params.options.margins);
+		
 		params.options.width = params.options.width - params.options.margins[1] - params.options.margins[3];
 		params.options.height = params.options.height - params.options.margins[0] - params.options.margins[2];
+		
 		var x = d3.scale.ordinal().domain(d3.range(params.indexes.length)).rangeRoundBands([0, params.options.width]);
 		var y = d3.scale.linear().range([params.options.height, 0]);
+		
 		var xAxis = d3.svg.axis().scale(x).orient("bottom").tickValues(params.indexes);
-		var yAxis = d3.svg.axis().scale(y).orient("left").ticks(params.options.ticks);;
+		var yAxis = d3.svg.axis().scale(y).orient("left").ticks(params.options.ticks);
+		
 		var line = d3.svg.line().x(function(d, i) {
 			return x(i) + (params.options.width / params.indexes.length) / 2;
 		}).y(function(d) {
 			return y(d);
 		});
+
 		var svg = d3.select(params.container).append("svg").attr("width", params.options.width + params.options.margins[1] + params.options.margins[3]).attr("height", params.options.height + params.options.margins[0] + params.options.margins[2]).append("g").attr("transform", "translate(" + params.options.margins[3] + "," + params.options.margins[0] + ")");
+		
 		y.domain([params.options.min, params.options.max]);
-		svg.append("g").attr("class", "x axis").attr("transform", "translate(0," + params.options.height + ")").attr("style", "fill: none; stroke-width: 1px; stroke: " + params.options.axisColour + ";").call(xAxis);
+		
+		if (params.options.showXAxisLabel)
+		{
+			svg.append("g").attr("class", "x axis").attr("transform", "translate(0," + params.options.height + ")").attr("style", "fill: " + params.options.axisColour + ";").call(xAxis);
+		}
 		svg.append("g").attr("class", "y axis").attr("style", "fill: none; stroke-width: 1px; stroke: " + params.options.axisColour + ";").call(yAxis).append("text").attr("transform", "rotate(-90)").attr("y", 6).attr("dy", ".71em").style("text-anchor", "end");
+		
 		var region = svg.selectAll(".region").data(params.regions).enter().append("g").attr("class", "region");
 		var currentSeries = -1;
+		
 		region.append("path").attr("class", "line").style("stroke", function(d, i) {
 			return params.options.colours[i % params.options.colours.length];
 		}).attr("d", function(d) {
@@ -98,9 +110,11 @@ function D3Connector() {
 			});
 			return line(d.data);
 		}).style("stroke-width", "2px").attr("fill", "none");
+		
 		if (params.options.legend) {
 			addLegend(params);
 		}
+		
 		if (params.options.tooltipEnabled) {
 			addTooltips(params);
 		}
@@ -260,13 +274,18 @@ function D3Connector() {
 		  var numberSeries = data.length;  // series in each group
 		  //var data = d3.range(numberSeries).map(function () { return d3.range(numberGroups).map(Math.random); });
 		
+		  var svgId = "svg" + Math.floor(Math.random() * 10000);
+		
 		  // Visualisation selection
-		  var svg = d3.select(params.container)
+		  var svgElement = d3.select(params.container)
 		      .append("svg:svg")
+		      .attr("id", svgId)
 		      .attr("width", outerW)
-		      .attr("height", outerH)
+		      .attr("height", outerH);
+		  
+		  var svg = svgElement
 		      .append("g")
-		    .attr("transform", "translate(" + params.options.margins[3] + "," + params.options.margins[0] + ")");
+		      .attr("transform", "translate(" + params.options.margins[3] + "," + params.options.margins[0] + ")");
 		
 		  // Third, we define our scales...
 		  // Groups scale, x axis
@@ -448,6 +467,8 @@ function D3Connector() {
                 .attr("font-size", "11px")
                 .attr("fill", "#000");
 		 }
+		 
+		 return svgId;
 	}
 
 	this.drawScatterplot = function(params) {
