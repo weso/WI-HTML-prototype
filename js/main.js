@@ -416,7 +416,7 @@ $(function()
 	p = new Params();
 	
 	p.regions[4] = new Region("United States", [9]);
-	p.regions[3] = new Region("Spain", [7]);
+	p.regions[3] = new Region("Spain", [8]);
 	p.regions[2] = new Region("Turkey", [5]);
 	p.regions[1] = new Region("Switzerland", [4]);
 	p.regions[0] = new Region("Zimbabwe", [1]);
@@ -596,12 +596,12 @@ $(function()
 	
 	p = new Params();
 	
-	p.regions[5] = new Region("2007", [8]);
-	p.regions[4] = new Region("2008", [7]);
-	p.regions[3] = new Region("2009", [8]);
-	p.regions[2] = new Region("2010", [7]);
-	p.regions[1] = new Region("2011", [7]);
-	p.regions[0] = new Region("2012", [7]);
+	p.regions[5] = new Region("2007", [10]);
+	p.regions[4] = new Region("2008", [9]);
+	p.regions[3] = new Region("2009", [9]);
+	p.regions[2] = new Region("2010", [8]);
+	p.regions[1] = new Region("2011", [8]);
+	p.regions[0] = new Region("2012", [8]);
 	
 	p.indexes = ["2007", "2008", "2009", "2010", "2011", "2012"];
 	
@@ -635,7 +635,7 @@ $(function()
 	p.indexes = ["2007", "2008", "2009", "2010", "2011", "2012"];
 	p.options.min = null;
 	p.options.max = null;
-	p.regions[0] = new Region("Spain", [7, 7, 7, 8, 7, 8]);
+	p.regions[0] = new Region("Spain", [8, 8, 8, 9, 9, 10]);
 	p.options.height = 220;
 	p.options.ticks = 3;
 	p.options.legend = false;
