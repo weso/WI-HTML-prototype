@@ -60,6 +60,18 @@ var graphData = [{"code":"SE", "value": 100},
 {"code":"ZW", "value": 1.96},
 {"code":"YE", "value": 0}];
 
+function setBasicYearSelector(container, yeminYear, maxYearars) {
+	var yearSelector = document.getElementById(container);
+	
+	for (var i = minYear; i <= maxYear; i++)
+	{
+		var option = document.createElement("option");
+		yearSelector.appendChild(option);
+		
+		text(option, i);
+	}
+}
+
 function YearSelector(container, minYear, maxYear, selectedYear)
 {
 	var selected = null;
@@ -112,10 +124,12 @@ function YearSelector(container, minYear, maxYear, selectedYear)
 		years.className = "available-years";
 		parent.appendChild(years);
 		
+		var columnWidth = 12 / (maxYear - minYear + 1);
+		
 		for (var i = minYear; i <= maxYear; i++)
 		{
 			var div = document.createElement("div");
-			div.className = "small-2 large-2 columns centered";
+			div.className = "small-" + columnWidth + " large-" + columnWidth + " columns centered";
 			years.appendChild(div);
 			
 			var strong = document.createElement("strong");
@@ -137,10 +151,6 @@ function YearSelector(container, minYear, maxYear, selectedYear)
 		}
 	}
 }
-
-$(function() {
-	new YearSelector("year-selector", 2007, 2012, 2012)
-});
 
 $(window).resize(function() {
 
@@ -180,6 +190,7 @@ $(window).resize(function() {
 
 // Listado de indicadores
 
+/*
 var indicators = { indicators : [
 									{
 										title: "Impact",
@@ -209,7 +220,7 @@ $(function()
 	new IndicatorList(accordion, indicatorList, autocompleteTags);
 	
 	autocomplete(autocompleteTags) 
-});
+}); */
 
 function IndicatorList(accordion, indicatorList, autocompleteTags)
 {
@@ -234,7 +245,7 @@ function IndicatorList(accordion, indicatorList, autocompleteTags)
 		{	
 			var section  = document.createElement('section');
 			section.className = (depth == 0 ? 'indicator-section' : '');
-			section.id = indicator.title;
+			section.id = indicator.name;
 								
 			var p = document.createElement('p');
 			p.className = "title" + depth;
@@ -243,7 +254,7 @@ function IndicatorList(accordion, indicatorList, autocompleteTags)
 			var a = document.createElement('a');
 			a.className = 'indicator-link';
 			a.href = "#";
-			text(a, indicator.title);
+			text(a, indicator.name);
 			
 			a.paragraph = p;
 			a.depth = depth;
@@ -271,8 +282,8 @@ function IndicatorList(accordion, indicatorList, autocompleteTags)
 				var li = document.createElement('li');
 				li.className = "list-element" + (depth + 1);
 				ul.appendChild(li);
-				
-				autocompleteTags.push(indicator.indicators[i].title);
+			
+				autocompleteTags.push(indicator.indicators[i].name);
 				
 				if (indicator.indicators[i].indicators)
 				{
@@ -289,16 +300,16 @@ function IndicatorList(accordion, indicatorList, autocompleteTags)
 					li.appendChild(p);
 					
 					var a = document.createElement('a');
-					a.href = "#";
+					a.href = indicator.indicators[i].uri;
 					a.paragraph = p;
 					a.depth = depth + 1;
-					text(a, indicator.indicators[i].title);
+					text(a, indicator.indicators[i].name);
 					p.appendChild(a);
 					
 					a.onclick = function() { setAsActive(this, depth + 1); };
 				}
 			}
-			
+		console.log(section)	
 			return section;
 		}
 	}
@@ -662,3 +673,90 @@ $(function()
 
 	new D3Connector().drawLineChart(p);
 });
+
+
+// AJAX
+
+$(function(){
+	$.ajax({
+	  type: "GET",
+	  url: "http://156.35.82.101:9006/wiLodPortal/observations/ESP",
+	  dataType: "json",
+	  contentType: "application/javascript; charset=UTF-8"
+	}).done(function ( data ) {
+		processCountryData(data);
+	});
+});
+
+function processCountryData(data) {
+	var indicatorsPerYear = [];
+	var maxYear = 0;
+	var minYear = Number.MAX_VALUE;
+
+	for (var i = 0; i < data.observations.collection.length; i++)
+	{
+		var value = data.observations.collection[i];
+		var year = value.year;
+		
+		if (year > maxYear)
+			maxYear = year;
+			
+		if (year < minYear)
+			minYear = year;
+		
+		var indicator = value.indicator;
+		
+		if (!indicatorsPerYear[year])
+			indicatorsPerYear[year] = [];
+			
+		indicatorsPerYear[year].push(indicator);
+	}
+
+	var accordion = $("#accordion");
+	
+	var autocompleteTags = [];
+
+	var indicatorList = new Object();
+	indicatorList.name = "Indicators";
+	indicatorList.indicators = indicatorsPerYear[maxYear];
+
+	new IndicatorList(accordion, [ indicatorList ], autocompleteTags);
+	
+	new YearSelector("year-selector", minYear, maxYear, maxYear);
+	setBasicYearSelector("year-select", yeminYear, maxYearars)
+}
+
+
+
+/*
+var indicators = { indicators : [
+									{
+										title: "Impact",
+										indicators: [{title: "Indicator 1"}, {title: "Indicator 2"}]
+									},
+									{
+										title: "Readiness",
+										indicators: [{title: "Indicator 3"}, {title: "Indicator 4"}]
+									},
+									{
+										title: "The Web",
+										indicators: [{title: "Web Content", indicators: [{title: "Indicator 5"}]}, 
+										{title: "Web Use", indicators: [{title: "Indicator 5"}]}]
+									}									
+								] };
+
+*/
+
+$(function() 
+{
+	//var accordion = $("#accordion");
+	
+	var autocompleteTags = [];
+
+	//var indicatorList = indicators.indicators;
+
+	//new IndicatorList(accordion, indicatorList, autocompleteTags);
+	
+	autocomplete(autocompleteTags) 
+});
+
