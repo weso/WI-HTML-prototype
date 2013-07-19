@@ -1,0 +1,46 @@
+<html>
+	<head>
+		<title>Animated Sparkline using SVG Path and d3.js</title>
+		<script src="http://mbostock.github.com/d3/d3.v2.js"></script>
+		<style>
+			/* tell the SVG path to be a thin blue line without any area fill */
+			path {
+				stroke: steelblue;
+				stroke-width: 1;
+				fill: none;
+			}
+		</style>
+	</head>
+	<body>
+
+	<script>
+	
+var lineData = [ { "x": 1,   "y": 5},  { "x": 20,  "y": 20},
+                  { "x": 40,  "y": 10}, { "x": 60,  "y": 40},
+                  { "x": 80,  "y": 5},  { "x": 100, "y": 60}];
+ 
+ //This is the accessor function we talked about above
+ var lineFunction = d3.svg.line()
+                          .x(function(d) { return d.x; })
+                          .y(function(d) { return d.y; })
+                         .interpolate("linear");
+
+//The SVG Container
+var svgContainer = d3.select("body").append("svg")
+                                    .attr("width", 200)
+                                    .attr("height", 200);
+                                    
+//The line SVG Path we draw
+var lineGraph = svgContainer.selectAll("line").data(lineData).enter().append("line")
+                            .attr("x1", function(d, i) { return i > 0 ? lineData[i - 1].x : d.x; })
+                            .attr("y1", function(d, i) { return i > 0 ? lineData[i - 1].y : d.y; })
+                            .attr("x2", function(d, i) { return d.x; })
+                            .attr("y2", function(d, i) { return d.y; })
+                            .attr("stroke-width", 2)
+                            .transition().delay(function(d, i) { return 300 * i; })
+                            .attr("stroke", "blue");
+                           
+	</script>
+
+	</body>
+</html>

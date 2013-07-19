@@ -60,97 +60,18 @@ var graphData = [{"code":"SE", "value": 100},
 {"code":"ZW", "value": 1.96},
 {"code":"YE", "value": 0}];
 
-function setBasicYearSelector(container, yeminYear, maxYearars) {
-	var yearSelector = document.getElementById(container);
-	
-	for (var i = minYear; i <= maxYear; i++)
-	{
-		var option = document.createElement("option");
-		yearSelector.appendChild(option);
-		
-		text(option, i);
-	}
-}
-
-function YearSelector(container, minYear, maxYear, selectedYear)
+$(function() 
 {
-	var selected = null;
-	var slider = null;
+	//var accordion = $("#accordion");
 	
-	selectYear(selectedYear ? selectedYear : maxYear);
-	init();
+	var autocompleteTags = [];
+
+	//var indicatorList = indicators.indicators;
+
+	//new IndicatorList(accordion, indicatorList, autocompleteTags);
 	
-	function selectYear(year)
-	{
-		if (selected)
-			selected.className = "year-name";
-			
-		selected = document.getElementById(container + "-" + year);
-		
-		if (selected)
-			selected.className = "year-name-selected";
-	}
-	
-	function selectYearByName(year)
-	{
-		selectYear(year);
-		$(slider).slider('value', year);
-	}
-	
-	function init()
-	{
-		var parent = document.getElementById(container);
-		parent.className = "year-selector";
-		
-		var div = document.createElement("div");
-		div.className = "year-selector-wrapper";
-		parent.appendChild(div);
-		
-		slider = document.createElement("div");
-		slider.className = "year-selector-slider";
-		div.appendChild(slider);
-	
-		$(slider).slider({
-			value : selectedYear,
-			min : minYear,
-			max : maxYear,
-			step : 1,
-			slide : function(event, ui) {
-				selectYear(ui.value);
-			}
-		});
-		
-		var years = document.createElement("section");
-		years.className = "available-years";
-		parent.appendChild(years);
-		
-		var columnWidth = 12 / (maxYear - minYear + 1);
-		
-		for (var i = minYear; i <= maxYear; i++)
-		{
-			var div = document.createElement("div");
-			div.className = "small-" + columnWidth + " large-" + columnWidth + " columns centered";
-			years.appendChild(div);
-			
-			var strong = document.createElement("strong");
-			strong.id = container + "-" + i;
-			text(strong, i);
-			strong.year = i;
-			strong.className = "year-name";
-			div.appendChild(strong);
-			
-			strong.onclick = function() {
-				selectYearByName(this.year);
-			}
-			
-			if (i == selectedYear)
-			{
-				strong.className = "year-name-selected";
-				selected = strong;
-			}
-		}
-	}
-}
+	autocomplete(autocompleteTags) 
+});
 
 $(window).resize(function() {
 
@@ -183,8 +104,6 @@ $(window).resize(function() {
 	
 	$(p.container).html("");
 	new D3Connector().drawBarChart(p);
-
-
 });
 
 
@@ -221,117 +140,6 @@ $(function()
 	
 	autocomplete(autocompleteTags) 
 }); */
-
-function IndicatorList(accordion, indicatorList, autocompleteTags)
-{
-	var openedTab = [];
-	var selectedTitle = [];
-	
-	init();
-
-	function init()
-	{
-		for (var i = 0; i < indicatorList.length; i++)
-		{
-			var section = createIndicatorListSection(indicatorList[i], autocompleteTags, 0);
-		
-			accordion.append(section);
-		}
-	}
-
-	function createIndicatorListSection (indicator, autocompleteTags, depth)
-	{
-		if (indicator.indicators)
-		{	
-			var section  = document.createElement('section');
-			section.className = (depth == 0 ? 'indicator-section' : '');
-			section.id = indicator.name;
-								
-			var p = document.createElement('p');
-			p.className = "title" + depth;
-			section.appendChild(p);
-			
-			var a = document.createElement('a');
-			a.className = 'indicator-link';
-			a.href = "#";
-			text(a, indicator.name);
-			
-			a.paragraph = p;
-			a.depth = depth;
-			
-			a.onclick = function() { setAsActive(this, depth); };
-			
-			p.appendChild(a);
-			
-			autocompleteTags.push(indicator.title);
-			
-			var content = document.createElement('div');
-			content.className = "list-content";
-			section.appendChild(content);
-			a.content = content;
-			
-			var nav = document.createElement('nav');
-			content.appendChild(nav);
-			
-			var ul = document.createElement('ul');
-			ul.className = "no-bullet";
-			nav.appendChild(ul);
-			
-			for (var i = 0; i < indicator.indicators.length; i++)
-			{
-				var li = document.createElement('li');
-				li.className = "list-element" + (depth + 1);
-				ul.appendChild(li);
-			
-				autocompleteTags.push(indicator.indicators[i].name);
-				
-				if (indicator.indicators[i].indicators)
-				{
-					var node = document.createElement('div');
-				
-					var subSection = createIndicatorListSection (indicator.indicators[i], autocompleteTags, depth + 1);
-					node.appendChild(subSection);
-					
-					li.appendChild(node)
-				}
-				else
-				{
-					var p = document.createElement('paragraph');
-					li.appendChild(p);
-					
-					var a = document.createElement('a');
-					a.href = indicator.indicators[i].uri;
-					a.paragraph = p;
-					a.depth = depth + 1;
-					text(a, indicator.indicators[i].name);
-					p.appendChild(a);
-					
-					a.onclick = function() { setAsActive(this, depth + 1); };
-				}
-			}
-		console.log(section)	
-			return section;
-		}
-	}
-	
-	function setAsActive(element, depth)
-	{
-		for (var i = element.depth; i < openedTab.length; i++)
-			openedTab[i].style.display = "none";
-			
-		if (element.content)
-		{
-			openedTab[element.depth] = element.content;
-			openedTab[element.depth].style.display = "block";
-		}
-		
-		for (var i = 0; i < selectedTitle.length; i++)
-			selectedTitle[i].className = "title" + i;
-			
-		selectedTitle[element.depth] = element.paragraph;
-		selectedTitle[element.depth].className = "title" + depth + " active-node";
-	}
-}
 
 function text(obj, content)
 {
@@ -544,7 +352,7 @@ $(function()
 	new D3Connector().drawLineChart(p);
 	
 	// Organization comparison
-	
+return;	
 	p = new Params();
 	
 	p.regions[4] = new Region("United States", [9]);
@@ -673,90 +481,3 @@ $(function()
 
 	new D3Connector().drawLineChart(p);
 });
-
-
-// AJAX
-
-$(function(){
-	$.ajax({
-	  type: "GET",
-	  url: "http://156.35.82.101:9006/wiLodPortal/observations/ESP",
-	  dataType: "json",
-	  contentType: "application/javascript; charset=UTF-8"
-	}).done(function ( data ) {
-		processCountryData(data);
-	});
-});
-
-function processCountryData(data) {
-	var indicatorsPerYear = [];
-	var maxYear = 0;
-	var minYear = Number.MAX_VALUE;
-
-	for (var i = 0; i < data.observations.collection.length; i++)
-	{
-		var value = data.observations.collection[i];
-		var year = value.year;
-		
-		if (year > maxYear)
-			maxYear = year;
-			
-		if (year < minYear)
-			minYear = year;
-		
-		var indicator = value.indicator;
-		
-		if (!indicatorsPerYear[year])
-			indicatorsPerYear[year] = [];
-			
-		indicatorsPerYear[year].push(indicator);
-	}
-
-	var accordion = $("#accordion");
-	
-	var autocompleteTags = [];
-
-	var indicatorList = new Object();
-	indicatorList.name = "Indicators";
-	indicatorList.indicators = indicatorsPerYear[maxYear];
-
-	new IndicatorList(accordion, [ indicatorList ], autocompleteTags);
-	
-	new YearSelector("year-selector", minYear, maxYear, maxYear);
-	setBasicYearSelector("year-select", yeminYear, maxYearars)
-}
-
-
-
-/*
-var indicators = { indicators : [
-									{
-										title: "Impact",
-										indicators: [{title: "Indicator 1"}, {title: "Indicator 2"}]
-									},
-									{
-										title: "Readiness",
-										indicators: [{title: "Indicator 3"}, {title: "Indicator 4"}]
-									},
-									{
-										title: "The Web",
-										indicators: [{title: "Web Content", indicators: [{title: "Indicator 5"}]}, 
-										{title: "Web Use", indicators: [{title: "Indicator 5"}]}]
-									}									
-								] };
-
-*/
-
-$(function() 
-{
-	//var accordion = $("#accordion");
-	
-	var autocompleteTags = [];
-
-	//var indicatorList = indicators.indicators;
-
-	//new IndicatorList(accordion, indicatorList, autocompleteTags);
-	
-	autocomplete(autocompleteTags) 
-});
-

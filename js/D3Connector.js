@@ -69,7 +69,7 @@ function D3Connector() {
 		
 		var xAxis = d3.svg.axis().scale(x).orient("bottom").tickValues(params.indexes);
 		var yAxis = d3.svg.axis().scale(y).orient("left").ticks(params.options.ticks);
-		
+	
 		var line = d3.svg.line().x(function(d, i) {
 			return x(i) + (params.options.width / params.indexes.length) / 2;
 		}).y(function(d) {
@@ -89,9 +89,10 @@ function D3Connector() {
 		var region = svg.selectAll(".region").data(params.regions).enter().append("g").attr("class", "region");
 		var currentSeries = -1;
 		
+		
 		region.append("path").attr("class", "line").style("stroke", function(d, i) {
 			return params.options.colours[i % params.options.colours.length];
-		}).attr("d", function(d) {
+		}).transition().delay(function(d, i) { return 300 * i; }).attr("d", function(d) {
 			svg.selectAll(params.container + " svg").data(d.data).enter().append("svg:circle").attr("cx", function(d, i) {
 				if (i == 0) {
 					currentSeries++;
@@ -109,7 +110,8 @@ function D3Connector() {
 				d3.select(this).transition().duration(100).attr("r", 4);
 			});
 			return line(d.data);
-		}).style("stroke-width", "2px").attr("fill", "none");
+		}).attr("fill", "none");
+		
 		
 		if (params.options.legend) {
 			addLegend(params);
@@ -233,25 +235,13 @@ function D3Connector() {
 	this.drawBarChart = function(params) {
 		params = composeParams(params);
 	
-		// This is a reimplementation of the Grouped Bar Chart by Mike Bostock
-		  // (http://bl.ocks.org/882152). Although useful, I found the original's
-		  // minimal comments and inverted axes hard to follow, so I created the
-		  // version you see here.
-		
-		  // First, we define sizes and colours...
 		  var outerW = params.options.width;
 		  var outerH = params.options.height;
-		  //var padding = { t: 0, r: 0, b: 0, l: 0 };
+		 
 		  var width = outerW - params.options.margins[3] - params.options.margins[1]; // inner width
 		  var height = outerH - params.options.margins[0] - params.options.margins[2]; // inner height
 		  var colours = params.options.colours; // ColorBrewer Set 1
 	
-		  // Second, we define our data...
-		  // Create a two-dimensional array.
-		  // The first dimension has as many Array elements as there are series.
-		  // The second dimension has as many Number elements as there are groups.
-		  // It looks something like this...
-		  
 		  var data = [];
 		  var topValue = 0;
 		  
@@ -272,7 +262,6 @@ function D3Connector() {
 		  	  	
 		  var numberGroups = data[0].length; // groups
 		  var numberSeries = data.length;  // series in each group
-		  //var data = d3.range(numberSeries).map(function () { return d3.range(numberGroups).map(Math.random); });
 		
 		  var svgId = "svg" + Math.floor(Math.random() * 10000);
 		
@@ -369,10 +358,13 @@ function D3Connector() {
 		    
 		    groups.append("svg:rect")
 		        .attr("x", params.options.barPadding / 2)
-		        .attr("y", function (d) { return y(d.value); })
+		        .attr("y", function (d) { return height; })
 		        .attr("width", x1.rangeBand() - params.options.barPadding)
+		        .attr("transform", function (d, i) { return "translate(" + x0(i) + ")"; })
+		        .transition().duration(1500).delay(100)
 		        .attr("height", function (d) { return height - y(d.value); })
-		        .attr("transform", function (d, i) { return "translate(" + x0(i) + ")"; });
+		        .attr("y", function(d) { return y(d.value); });
+		        
 		      
 		 if (params.options.showBarLabels)
 		 {  
@@ -381,6 +373,9 @@ function D3Connector() {
 			        .attr("y", height + 10)
 			        .attr("transform", function (d, i) { return "translate(" + x0(i) + ")"; })
 			        .style("fill", "#333")
+			        .style("opacity", 0)
+			        .transition().duration(1500).delay(1800)
+			        .style("opacity", 1)
 			        .text(function(d, i) { return d.name; })
 			        .style("text-anchor", "middle");
 		 }  
@@ -393,7 +388,10 @@ function D3Connector() {
 			        .attr("transform", function (d, i) { return "translate(" + x0(i) + ")"; })
 			        .style("text-anchor", "middle")
 			        .style("fill", "#fff")
-			        .text(function (d) { return d.value; });
+ 			        .text(function (d) { return d.value; })
+			        .style("visibility", "hidden")
+			        .transition().duration(1500).delay(1800)
+			        .style("visibility", "visible");
 		 }
 		 
 		 // Mean
@@ -412,7 +410,10 @@ function D3Connector() {
 	            .attr("x2", width)
 	            .attr("y2", value)
 	            .attr("stroke-width", 2)                         
-	            .attr("stroke", params.options.meanColour);
+	            .attr("stroke", params.options.meanColour)
+	            .style("opacity", 0)
+			    .transition().duration(1500).delay(1800)
+			    .style("opacity", 1);
 	            
 	         svg.append("text")
                 .attr("x", 0)
@@ -420,7 +421,10 @@ function D3Connector() {
                 .text("MEAN")
                 .attr("font-family", "sans-serif")
                 .attr("font-size", "11px")
-                .attr("fill", "#000");
+                .attr("fill", "#000")
+                .style("opacity", 0)
+			    .transition().duration(1500).delay(1800)
+			    .style("opacity", 1);
                 
             svg.append("text")
                 .attr("x", width)
@@ -430,7 +434,10 @@ function D3Connector() {
                 .attr("font-family", "sans-serif")
                 .attr("text-align", "right")
                 .attr("font-size", "11px")
-                .attr("fill", "#000");
+                .attr("fill", "#000")
+                .style("opacity", 0)
+			    .transition().duration(1500).delay(1800)
+			    .style("opacity", 1);
 		 }
 		 
 		 // Median
@@ -447,7 +454,10 @@ function D3Connector() {
 	            .attr("y2", value)
 	            .attr("stroke-width", 1)                         
 	            .attr("stroke", params.options.medianColour)
-	            .attr("stroke-dasharray", "8, 8");
+	            .attr("stroke-dasharray", "8, 8")
+                .style("opacity", 0)
+			    .transition().duration(1500).delay(1800)
+			    .style("opacity", 1);
 	            
 	         svg.append("text")
                 .attr("x", 0)
@@ -455,7 +465,10 @@ function D3Connector() {
                 .text("MEDIAN")
                 .attr("font-family", "sans-serif")
                 .attr("font-size", "11px")
-                .attr("fill", "#000");
+                .attr("fill", "#000")
+                .style("opacity", 0)
+			    .transition().duration(1500).delay(1800)
+			    .style("opacity", 1);
                 
             svg.append("text")
                 .attr("x", width)
@@ -465,7 +478,10 @@ function D3Connector() {
                 .attr("font-family", "sans-serif")
                 .attr("text-align", "right")
                 .attr("font-size", "11px")
-                .attr("fill", "#000");
+                .attr("fill", "#000")
+                .style("opacity", 0)
+			    .transition().duration(1500).delay(1800)
+			    .style("opacity", 1);
 		 }
 		 
 		 return svgId;

@@ -412,7 +412,7 @@ div.country-table td.country:hover, div.country-table td.country-hover {
 }
 
 .organization-bar {
-	background-color: #f4f4f4;
+	background-color: #dfdfdf;
 	color: #555;
 	font-size: 0.8em;
 
@@ -465,7 +465,7 @@ div.country-table td.country:hover, div.country-table td.country-hover {
 }
 
 .organization-blank {
-	background-color: #efefef;
+	background-color: #dfdfdf;
 	width: 30%;
 	padding-right: 10px;
 }

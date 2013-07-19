@@ -21,10 +21,45 @@
 		<link rel="stylesheet" href="css/app.css">
 		<link rel="stylesheet" href="css/wesCountry.css">
 		<script src="js/vendor/custom.modernizr.js"></script>
+		<script>
+			document.write('<script src=js/vendor/' + ('__proto__' in {} ? 'zepto' : 'jquery') + '.js><\/script>');
+		</script>
+		<script src="js/vendor/jquery.js"></script>
+		<script src="js/vendor/jquery-ui.js"></script>
+		<script src="js/vendor/jquery-jvectormap-1.2.2.min.js"></script>
+		<script src="js/vendor/world.map.js"></script>
+		<script src="js/vendor/d3.v3.js"></script>
+		<script src="js/vendor/foundation.min.js"></script>
+		<script src="js/vendor/jQueryRotateCompressed.js"></script>
+		<script src="js/plugins.js"></script>
+		<script src="js/main.js"></script>
+		<script src="js/yearSelector.js"></script>
+		<script src="js/indicatorList.js"></script>
+		<script src="js/webIndexLoad.js"></script>
+		<script src="js/webindex.js"></script>
+		<script type="text/javascript" src="js/wesCountry.js"></script>
+		<script type="text/javascript" src="js/D3Connector.js"></script>
+		<script type="text/javascript" src="js/vendor/rainbowvis.js"></script>
+		<script type="text/javascript" src="js/vendor/colorlegend.js"></script>
+		<script type="text/javascript" src="js/vendor/jquery.tipsy.js"></script>
+		<script>
+			$(function() {
+				$(document).foundation();
+			})
+		</script>
+
+		<!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
+		<script>
+			var _gaq = [['_setAccount', 'UA-XXXXX-X'], ['_trackPageview']]; ( function(d, t) {
+					var g = d.createElement(t), s = d.getElementsByTagName(t)[0];
+					g.src = '//www.google-analytics.com/ga.js';
+					s.parentNode.insertBefore(g, s)
+				}(document, 'script'));
+		</script>
 	</head>
 	<body>
 		<section id="global">
-			<div class="row">
+			<div class="row" style="display:none">
 				<img src="img/header.png" style="width:100%" />
 			</div>
 			<div class="row">
@@ -152,7 +187,7 @@
 					<div id='accordion' class='indicator-list'>
 					</div>
 				</div>
-				<div style="display:none">
+				<div>
 					<button onclick="indicador_creciente()">Indicador creciente</button>
 					<button onclick="indicador_decreciente()">Indicador decreciente</button>
 					<button onclick="indicador_constante()">Indicador estable</button>
@@ -307,38 +342,5 @@
 				</div>
 			</section>
 		</section>
-
-		<script>
-			document.write('<script src=js/vendor/' + ('__proto__' in {} ? 'zepto' : 'jquery') + '.js><\/script>');
-		</script>
-		<script src="js/vendor/jquery.js"></script>
-		<script src="js/vendor/jquery-ui.js"></script>
-		<script src="js/vendor/jquery-jvectormap-1.2.2.min.js"></script>
-		<script src="js/vendor/world.map.js"></script>
-		<script src="js/vendor/d3.v3.js"></script>
-		<script src="js/vendor/foundation.min.js"></script>
-		<script src="js/vendor/jQueryRotateCompressed.js"></script>
-		<script src="js/plugins.js"></script>
-		<script src="js/main.js"></script>
-		<script src="js/webindex.js"></script>
-		<script type="text/javascript" src="js/wesCountry.js"></script>
-		<script type="text/javascript" src="js/D3Connector.js"></script>
-		<script type="text/javascript" src="js/vendor/rainbowvis.js"></script>
-		<script type="text/javascript" src="js/vendor/colorlegend.js"></script>
-		<script type="text/javascript" src="js/vendor/jquery.tipsy.js"></script>
-		<script>
-			$(function() {
-				$(document).foundation();
-			})
-		</script>
-
-		<!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
-		<script>
-			var _gaq = [['_setAccount', 'UA-XXXXX-X'], ['_trackPageview']]; ( function(d, t) {
-					var g = d.createElement(t), s = d.getElementsByTagName(t)[0];
-					g.src = '//www.google-analytics.com/ga.js';
-					s.parentNode.insertBefore(g, s)
-				}(document, 'script'));
-		</script>
 	</body>
 </html>
