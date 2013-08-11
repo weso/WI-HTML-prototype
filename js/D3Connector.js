@@ -87,43 +87,49 @@ function D3Connector() {
 
 		var region = svg.selectAll(".region").data(params.regions).enter().append("g").attr("class", "region");
 		var currentSeries = -1;
+		var mappedDataArray = [];
 		for(var reg = 0; reg < params.regions.length; reg++) {
 			var mappedData = params.regions[reg].data.map(function(d, i) {
-			return [i, d];
-		});
-		var line2 = d3.svg.line().x(function(d) {
-			return x(d[0]) + (params.options.width / params.indexes.length) / 2;
-		}).y(function(d) {
-			return y(d[1]);
-		});
-		region.append("path").attr("class", "line").style("stroke", function(d, i) {
-			return params.options.colours[i % params.options.colours.length];
-		}).attr("d", function(d, i) {
-			line2(mappedData[0]);
-		}).transition().duration(mappedData[0].length / 0.002).attrTween("d", function(d) {
-			svg.selectAll(params.container + " svg").data(d.data).enter().append("svg:circle").attr("cx", function(d, i) {
-				if (i == 0) {
-					currentSeries++;
-				}
-				return x(i) + (params.options.width / params.indexes.length) / 2;
-			}).attr("cy", function(d) {
-				return y(d);
-			}).attr("r", 4).style("fill", params.options.colours[currentSeries % params.options.colours.length]).attr("series", currentSeries).attr("indicator", function(d, i) {
-				return i;
-			}).on("click", function(d, i) {
-				params.options.onClickDatum(d3.select(this.attributes));
-			}).on("mouseover", function() {
-				d3.select(this).transition().duration(100).attr("r", 8);
-			}).on("mouseout", function() {
-				d3.select(this).transition().duration(100).attr("r", 4);
+				return [i, d];
 			});
-			var interpolate = d3.scale.quantile().domain([0, 1]).range(d3.range(1, mappedData.length + 1));
-			return function(t) {
-				return line2(mappedData.slice(0, interpolate(t)));
-			}
-		}).attr("fill", "none");
+			mappedDataArray.push(mappedData);
 		}
-		
+		var animateLine = function(mappedData) {
+			var line2 = d3.svg.line().x(function(d) {
+				return x(d[0]) + (params.options.width / params.indexes.length) / 2;
+			}).y(function(d) {
+				return y(d[1]);
+			});
+			region.append("path").attr("class", "line").style("stroke", function(d, i) {
+				return params.options.colours[i % params.options.colours.length];
+			}).attr("d", function(d, i) {
+				line2(mappedData[0]);
+			}).transition().duration(mappedData[0].length / 0.002).attrTween("d", function(d) {
+				svg.selectAll(params.container + " svg").data(d.data).enter().append("svg:circle").attr("cx", function(d, i) {
+					if (i == 0) {
+						currentSeries++;
+					}
+					return x(i) + (params.options.width / params.indexes.length) / 2;
+				}).attr("cy", function(d) {
+					return y(d);
+				}).attr("r", 4).style("fill", params.options.colours[currentSeries % params.options.colours.length]).attr("series", currentSeries).attr("indicator", function(d, i) {
+					return i;
+				}).on("click", function(d, i) {
+					params.options.onClickDatum(d3.select(this.attributes));
+				}).on("mouseover", function() {
+					d3.select(this).transition().duration(100).attr("r", 8);
+				}).on("mouseout", function() {
+					d3.select(this).transition().duration(100).attr("r", 4);
+				});
+				var interpolate = d3.scale.quantile().domain([0, 1]).range(d3.range(1, mappedData.length + 1));
+				return function(t) {
+					return line2(mappedData.slice(0, interpolate(t)));
+				}
+			}).attr("fill", "none");
+		};
+		for(var mappedDataIndex = 0; mappedDataIndex < mappedDataArray.length; mappedDataIndex++) {
+			animateLine(mappedDataArray[mappedDataIndex]);
+		}
 
 		if (params.options.legend) {
 			addLegend(params);
