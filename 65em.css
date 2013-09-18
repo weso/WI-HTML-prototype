@@ -1,0 +1,32 @@
+@media all and (min-width: 65em) {
+	body {
+		width:70%;
+		max-width:85em;
+		margin:auto;
+		position:relative;
+		background-image: url(bg.png);
+		background-attachment: fixed;
+		background-color: #f8f8f8;
+		box-shadow: 0px 0px 2px 2px #aaa;
+	}
+	
+	div.wrapper {
+		background-color: #fff;
+	}
+	
+	div.main {
+		overflow: auto;
+	}
+	
+	header.site_header {
+		margin-bottom: 0em;
+	}
+	
+	footer {
+		overflow: auto;
+	}
+	
+	footer div.green_line {
+		padding-bottom: 0.5em;
+	}
+}

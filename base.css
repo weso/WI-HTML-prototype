@@ -1,0 +1,48 @@
+html {
+	padding: 0;
+}
+
+header {
+	margin: 0;
+}
+
+body {
+	line-height: 1.5;	
+	font-family: 'trebuchet MS', verdana, arial, sans-serif;
+	padding: 0;
+	margin: 0;
+}
+
+body > main > div, body > main > header > div {
+	margin: 0.5em 0em;
+	padding: 0.25em;
+}
+
+.main {
+	padding: 0.4em;
+	background-color: #fff;
+}
+
+div {
+
+}
+
+h2 {
+	position:relative;
+	margin: 0.25em 0em;
+	font-weight: 100;
+	font-size: 1em;
+}
+
+h3 {
+	font-weight: 100;
+	color: #C4262E;
+	font-size: 0.9em;
+}
+
+select, input {
+	width: 100%;
+	padding: 0.25em;
+	border-radius: 0%;
+	font-size: 1.5em;
+}

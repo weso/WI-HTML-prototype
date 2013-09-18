@@ -1,0 +1,267 @@
+@media all and (min-width: 50em) {
+
+	header.site_header {
+		padding-right: 2em;
+	}
+	
+	div.W3F > img {
+		margin: 0.5em 2.5em 0 1em;
+	}
+	
+	a.donate {
+		right: 17em;
+	}
+	
+	img.web-index {
+		margin-left: 2em;
+	}
+	
+	div.main {
+		padding-left: 3%;
+		padding-right: 3%;
+	}
+	
+	div.main .map {
+		width: 106%;
+		margin-left: -3%;
+		margin-right: -3%;
+	}
+	
+	div.newsletter {
+		font-size: 0.9em;
+	}
+	
+	div.newsletter h2 {
+		font-size: 1.1em;
+	}
+	
+	div.newsletter input[type=text] {
+		font-size: 1em;
+		border: 0.1em solid #C4262E;
+		padding: 0.5em 2%;
+		width: 96%;
+	}
+	
+	a.donate-now {
+		margin-top: 1.5em;
+	}
+	
+	div.newsletter input[type=submit] {
+		margin: 1.5em 0 0 0;	
+	}
+	
+	a.nav-link {
+		font-size: 1em;
+	}
+	
+	nav.sidebar {
+		float: left;
+		width: 30%;
+		font-size: 0.9em;
+		margin-top: 1.5em;
+	}
+	
+	div.info-section {
+		display: block;
+		padding-left: 35%;
+		background-color: #fff;
+	}
+	
+	.about .selected p {
+		background-color: #C4262E;
+		color: #fff;
+		padding-top: 0.2em;
+		padding-bottom: 0.2em;
+	}
+	
+	.about .selected p:after {
+		float: right;
+		content: url(circle.png);
+		margin: 0.15em 0.15em 0 0;
+	}
+	
+	.about li {
+		margin-bottom: 0.5em;
+	}
+	
+	 .about li ul {
+		 margin-top: 0.5em;
+	 }
+
+	.about .red {
+		border: none;
+		border-bottom: 0.1em solid #C4262E;
+		padding-left: 0.5em;
+	}
+	
+	nav.about li li {
+		border: none;
+		border-bottom: 0.1em solid #aaa;
+		font-size: 0.9em;
+		padding-left: 1.5em;
+	}
+	
+	/* Index */
+	
+	div.column_left {
+		width: 47%;
+		float: left;
+		margin-right: 4%;
+		margin-bottom: 2em;
+	}
+	
+	div.column_right {
+		padding-left: 54%;
+		margin-bottom: 2em;
+	}
+	
+	div.column_right .news {
+		margin-top: 0;
+	}
+	
+	/* Footer */
+	
+	footer {
+		clear: both;
+	}
+	
+	footer nav.right {
+		margin-right: 2em;
+	}
+	
+	.copyright {
+		margin-left: 2em;
+	}
+	
+	.news {
+		display: block;
+	}
+	
+	article.new {
+		font-size: 0.9em;
+		padding: 0;
+		padding-bottom: 1.5em;
+		margin-bottom: 1.5em;
+	}
+	
+	article.new h3.title {
+		font-size: 1.1em;
+	}
+	
+	.news .tags a, .info-section .tags a {
+		margin-left: 0.5em;
+		font-size: 1.1em;
+		padding: 0.1em 0.8em;
+	}
+	
+	.feedback input, .feedback textarea, .feedback select {
+		font-size: 0.8em;
+	}
+	
+	/* Visualizations */
+	
+	button.compare_countries > img {
+		left: 2em;
+	}
+	
+	header.webindex-header {
+		overflow: auto;
+	}
+	
+	div.div_compare_countries {
+		width: 20%;
+		float: left;
+		overflow: auto;
+	}
+	
+	div.country_tendency {
+		width: 50%;
+		float: left;
+		overflow: auto;
+	}
+	
+	div.country_descripcion {
+		width: 30%;
+		float: left;
+		overflow: auto;
+	}
+	
+	div.country_webindex {
+		clear: both;
+		width: 60%;
+		float: left;
+		overflow: auto;
+	}
+	
+	div.country_map {
+		width: 40%;
+		float: left;
+		overflow: auto;
+	}
+	
+	div.year_selector {
+		clear: both;
+	}
+	
+	button.compare_countries {
+		font-size: 0.9em;
+	}
+	
+	button.compare_countries img {
+		display: none;
+	}
+	
+	div.index-sidebar {
+		width: 25%;
+		float: left;	
+	}
+	
+	div.index-panel {
+		padding-left: 30%;
+		margin: 0;
+	}
+	
+	select.indicator_selector {
+		font-size: 0.9em;
+	}
+	
+	nav.graph_buttons {
+		font-size: 0.8em;
+		width: 20em;
+		margin: 0 auto;
+		overflow: auto;
+	}
+	
+	nav.graph_buttons > button.selected {
+		box-shadow: -0.1em -0.1em 0.1em 0.1em #aaa;
+	}
+	
+	nav.graph_buttons button {
+		padding: 0.5em 0;
+		height: 4.5em;
+		box-shadow: inset 0 0 0.2em #ddd;
+	}
+	
+	nav.graph_buttons img {
+		height: 1.8em;
+	}
+	
+	div.indicator_graph_container {
+		clear: both;
+	}
+	
+	h2.title {
+		font-size: 0.8em;
+		margin: 2em 0;
+	}
+	
+	nav.graph_buttons > button {
+		background: none;
+		border: 0.15em solid #ccc;
+	}
+	
+	nav.graph_buttons > button.central-button {
+		border-left: none;
+		border-right: none;
+	}
+}

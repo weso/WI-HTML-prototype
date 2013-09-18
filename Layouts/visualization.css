@@ -1,0 +1,246 @@
+body {
+	line-height: 1.5;	
+	font-family: 'trebuchet MS', verdana, arial, sans-serif;
+	
+	margin: 0 auto;
+	width: 80%;
+	background-color: #ccc;
+}
+
+.content {
+	overflow: auto;
+	background-color: #fff;
+	padding: 1.5em;
+}
+
+.sidebar-menu {
+	width: 19%;
+	float: right;
+	text-align: center;
+}
+
+.sidebar-menu ul.circles {
+	text-align: center;
+}
+
+.sidebar-menu li.circle {
+	list-style-type: none;
+	width: 3.5em;
+	height: 2.6em;
+	border: 0.1em solid #ccc;
+	border-radius: 1.85em;
+	font-size: 0.8em;
+	text-align: center;
+	padding-top: 0.9em;
+	color: #888;
+	margin: 0 auto;
+	margin-bottom: 1em;
+}
+
+.sidebar-menu li.country {
+	list-style-type: none;
+	margin-bottom: 2em;
+	text-align: left;
+	font-size: 0.7em;
+	color: #888;
+}
+
+.sidebar-menu li.country img {
+	opacity: 0.4;
+}
+
+.sidebar-menu li.flag-selected {
+	color: #333;
+}
+
+.sidebar-menu li.flag-selected img {
+	opacity: 1;
+}
+
+.sidebar-menu li.selected {
+	background-color: #b3c951;
+	border-color: #b3c951;
+	color: #fff;
+}
+
+.main-layout-index {
+	width: 80%;
+	margin-top: 1em;
+}
+
+.main-layout-index header {
+	margin-bottom: 2em;
+	overflow: auto;
+}
+
+.main-layout-index .country {
+	font-size: 1.5em;
+	margin: 0;
+}
+
+.main-layout-index .region {
+	font-size: 1em;
+	margin: 0;
+	color: #7D9900;
+}
+
+.main-layout-index .column-left {
+	width: 60%;
+	float: left;
+}
+
+.main-layout-index .column-right {
+	width: 40%;
+	float: right;
+	text-align: right;
+}
+
+p.breadcrumbs {
+	margin: 0;
+	font-size: 0.7em;
+	text-transform: uppercase;
+	color: #555;
+}
+
+table.data {
+	width: 100%;
+	table-layout: fixed;
+	border-collapse: collapse;
+}
+
+table.data th {
+	border-bottom: 0.1em solid #C4262E;
+	color: #C4262E;
+	font-weight: 1000;
+}
+
+table.data td.indicator {
+	padding-top: 0.4em;
+	padding-bottom: 0.4em;
+}
+
+table.data td.indicator-country {
+	padding-top: 0.8em;
+	padding-bottom: 0.8em;
+}
+
+td.indicator {
+	text-align: center;
+}
+
+td.indicator-country {
+	text-align: left;
+	padding-left: 1em;
+	vertical-align: text-top;
+}
+
+td.indicator span {
+	display: inline-block;
+	background-color: #b3c951;
+	border: 0.5em solid #fff;
+	color: #fff;
+	width: 2.5em;
+	height: 2em;
+	padding-top: 0.5em;
+	border-radius: 1.75em;
+	vertical-align: middle;
+}
+
+img.flag {
+	width: 2.5em;
+	height: 2.5em;
+	box-shadow: 0 0 0.2em #333;
+	border-radius: 1.35em;
+	vertical-align: middle;
+	margin-right: 1em;
+}
+
+td.value {
+	padding-left: 4em;
+}
+
+td.value span.number {
+	display: inline-block;
+	width: 3em;
+	text-align: right;
+	font-size: 1.5em;
+	font-weight: 300;
+}
+
+td.value span.ranking {
+	display: inline-block;
+	background-color: #fff;
+	border: 0.1em solid #C4262E;
+	font-weight: 100;
+	font-size: 0.8em;
+	color: #C4262E;
+	width: 1.5em;
+	height: 1.4em;
+	padding-top: 0.1em;
+	border-radius: 1.25em;
+	margin-left: 1em;
+	text-align: center;
+}
+
+img.country-flag, img.country-map {
+	width: 4.5em;
+	height: 4.5em;
+	border-radius: 2.25em;
+}
+
+img.country-map {
+	background-color: #eee;
+}
+
+h3.title {
+	background: #fff;
+	padding: 0 0.5em 0 0;
+	position: relative;
+	z-index: 5;
+	text-transform: uppercase;
+	font-size: 0.8em;
+	color: #C4262E;
+	font-weight: 100;
+	border-bottom: 0.13em solid #C4262E;
+}
+
+div.indicator-side-name {
+	clear: both;
+	width: 30%;
+	float: left;
+	text-align: center;
+}
+
+div.indicator-side-name span.indicator-name {
+	display: inline-block;
+	text-align: center;
+	width: 4em;
+	height: 2.7em;
+	background-color: #b3c951;
+	color: #fff;
+	font-size: 2em;
+	border-radius: 4em;
+	padding-top: 1.3em;
+}
+
+div.indicator-side-name p.indicator-description {
+	font-size: 0.7em;
+	text-align: justify;
+	color: #555;
+}
+
+div.indicator-side-name p.indicator-source {
+	font-size: 0.8em;
+	text-align: left;
+	color: #333;
+}
+
+div.indicator-side-name p.indicator-source a {
+	color: #7D9900;
+}
+
+table.data-year {
+	width: 60%;
+	float: right;
+	margin-bottom: 5em;
+}
