@@ -168,10 +168,15 @@ function autocomplete(availableTags)
 	);
 }
 
+var barCharts = [];
+var auxRegions = [];
+
 // Indicadores
 
-$(function() 
+function loadCharts()
 {
+	var connector = new D3Connector();
+
 	var p = new Params();
 
 	for (var i = 0; i < graphData.length; i++)
@@ -191,11 +196,16 @@ $(function()
 	rainbow.setSpectrum('#343465', '#269e45', '#deb722', '#932b2f');
 	rainbow.setNumberRange(0, graphData.length);
 
-	p.options.colours = rainbow.getColours(); p.options.colours[17] = "#333";
+	p.options.colours = rainbow.getColours(); 
+	p.options.colours[17] = "#333";
 	p.options.ticks = 2;
 	p.options.showLabels = false;
 	
-	new D3Connector().drawBarChart(p);
+	var chart = new connector.drawBarChart(p);
+	barCharts.push(chart);
+	
+	// ELIMINAR
+	auxRegions.push(p.regions);
 	
 	// Indicator
 	
@@ -230,7 +240,11 @@ $(function()
 	p.options.median = 5;
 	p.options.medianColour = "#111";
 
-	new D3Connector().drawBarChart(p);
+	var chart = new connector.drawBarChart(p);
+	barCharts.push(chart);
+	
+	// ELIMINAR
+	auxRegions.push(p.regions);
 	
 	p = new Params();
 	
@@ -263,7 +277,11 @@ $(function()
 	p.options.median = 5.2;
 	p.options.medianColour = "#111";
 
-	new D3Connector().drawBarChart(p);
+	chart = new connector.drawBarChart(p);
+	barCharts.push(chart);
+	
+		// ELIMINAR
+	auxRegions.push(p.regions);
 	
 	p = new Params();
 	
@@ -296,7 +314,11 @@ $(function()
 	p.options.median = 5.2;
 	p.options.medianColour = "#111";
 
-	new D3Connector().drawBarChart(p);
+	chart = new connector.drawBarChart(p);
+	barCharts.push(chart);
+	
+		// ELIMINAR
+	auxRegions.push(p.regions);
 	
 	// Progression
 	
@@ -334,10 +356,14 @@ $(function()
 	p.options.medianColour = "#111";
 	*/
 
-	var svg = new D3Connector().drawBarChart(p);
+	chart = new connector.drawBarChart(p);
+	barCharts.push(chart);
+	
+		// ELIMINAR
+	auxRegions.push(p.regions);
 	
 	p = new Params();
-	p.container = "#" + svg;
+	p.container = "#" + chart.svgId;
 	p.indexes = ["2007", "2008", "2009", "2010", "2011", "2012"];
 	p.options.min = null;
 	p.options.max = null;
@@ -349,10 +375,10 @@ $(function()
 	p.options.showXAxisLabel = false;
 	p.options.colours = ["#91bf39", "#91bf39", "#91bf39", "#91bf39", "#91bf39", "#91bf39"];
 
-	new D3Connector().drawLineChart(p);
+	new connector.drawLineChart(p);
 	
 	// Organization comparison
-return;	
+
 	p = new Params();
 	
 	p.regions[4] = new Region("United States", [9]);
@@ -384,7 +410,11 @@ return;
 	p.options.median = 5;
 	p.options.medianColour = "#111";
 
-	new D3Connector().drawBarChart(p);
+	chart = new connector.drawBarChart(p);
+	barCharts.push(chart);
+	
+		// ELIMINAR
+	auxRegions.push(p.regions);
 	
 	p = new Params();
 	
@@ -411,7 +441,11 @@ return;
 	p.options.showLabels = false;
 	p.options.showBarLabels = true;
 
-	new D3Connector().drawBarChart(p);
+	chart = new connector.drawBarChart(p);
+	barCharts.push(chart);
+	
+		// ELIMINAR
+	auxRegions.push(p.regions);
 	
 	p = new Params();
 	
@@ -447,10 +481,14 @@ return;
 	p.options.medianColour = "#111";
 	*/
 
-	var svg = new D3Connector().drawBarChart(p);
+	chart = new connector.drawBarChart(p);
+	barCharts.push(chart);
+	
+		// ELIMINAR
+	auxRegions.push(p.regions);
 	
 	p = new Params();
-	p.container = "#" + svg;
+	p.container = "#" + chart.svgId;
 	p.indexes = ["2007", "2008", "2009", "2010", "2011", "2012"];
 	p.options.min = null;
 	p.options.max = null;
@@ -462,7 +500,7 @@ return;
 	p.options.showXAxisLabel = false;
 	p.options.colours = ["#666", "#666", "#666", "#666", "#666", "#666"];
 
-	new D3Connector().drawLineChart(p);
+	new connector.drawLineChart(p);
 	
 	p = new Params();
 	p.container = "#indicator-organization-comparison-both";
@@ -479,5 +517,15 @@ return;
 	p.options.colours = ["#333", "#888"];
 	p.options.legendVerticalPosition = "top";
 
-	new D3Connector().drawLineChart(p);
-});
+	new connector.drawLineChart(p);
+}
+
+$(function() {
+	loadCharts();
+})
+
+function reloadCharts() {
+	for (var i = 0; i < barCharts.length; i++) {
+		barCharts[i].reload(auxRegions[i]);
+	}
+}

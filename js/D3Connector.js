@@ -251,151 +251,251 @@ function D3Connector() {
 	}
 
 	this.drawBarChart = function(params) {
-		params = composeParams(params);
-
-		var outerW = params.options.width;
-		var outerH = params.options.height;
-
-		var width = outerW - params.options.margins[3] - params.options.margins[1];
-		// inner width
-		var height = outerH - params.options.margins[0] - params.options.margins[2];
-		// inner height
-		var colours = params.options.colours;
-		// ColorBrewer Set 1
-
-		var data = [];
-		var topValue = 0;
-
-		for (var i = 0; i < params.regions.length; i++) {
-			data[i] = [];
-
-			for (var j = 0; j < params.regions[i].data.length; j++) {
-				data[i][j] = new Object();
-
-				data[i][j].value = params.regions[i].data[j];
-				data[i][j].name = params.indexes[i] ? params.indexes[i] : "";
-
-				topValue = Math.max(topValue, data[i][j].value);
+		var series = null;
+		var x0 = null;
+		var x1 = null;
+		var y = null;
+		var width = null;
+		var height = null;
+		var svgId = null;
+		var topValue = null;
+		var data = null;
+		var svg = null;
+	
+		this.load = load;
+	
+		function getData() {
+			var data = [];
+			var topValue = 0;
+	
+			for (var i = 0; i < params.regions.length; i++) {
+				data[i] = [];
+	
+				for (var j = 0; j < params.regions[i].data.length; j++) {
+					data[i][j] = new Object();
+	
+					data[i][j].value = params.regions[i].data[j];
+					data[i][j].name = params.indexes[i] ? params.indexes[i] : "";
+	
+					topValue = Math.max(topValue, data[i][j].value);
+				}
 			}
+			
+			return { data : data, topValue : topValue };
 		}
-
-		var numberGroups = data[0].length;
-		// groups
-		var numberSeries = data.length;
-		// series in each group
-
-		var svgId = "svg" + Math.floor(Math.random() * 10000);
-
-		// Visualisation selection
-		var svgElement = d3.select(params.container).append("svg:svg").attr("id", svgId).attr("width", outerW).attr("height", outerH);
-
-		var svg = svgElement.append("g").attr("transform", "translate(" + params.options.margins[3] + "," + params.options.margins[0] + ")");
-
-		// Third, we define our scales...
-		// Groups scale, x axis
-		var x0 = d3.scale.ordinal().domain(params.labels).rangeBands([0, width], params.options.groupPadding);
-
-		// Series scale, x axis
-		// It might help to think of the series scale as a child of the groups scale
-		var x1 = d3.scale.ordinal().domain(d3.range(numberSeries)).rangeBands([0, x0.rangeBand()]);
-
-		// Values scale, y axis
-
-		var y = d3.scale.linear().domain([0, topValue]).range([height, 0]);
-
-		var xAxis = d3.svg.axis().scale(x0).orient("bottom");
-
-		var yAxis = d3.svg.axis().scale(y).orient("left").tickFormat(d3.format(".2s")).tickSize(-width, 0, 0).ticks(params.options.ticks);
-
-		if (params.options.showLabels) {
-			var xAxisContainer = svg.append("g").attr("class", "x axis").attr("transform", "translate(0," + height + ")").call(xAxis)
-
-			if (params.options.showXAxisLabel) {
-				xAxisContainer.append("text").attr("y", 30).attr("x", width / 2).attr("dy", ".71em").style("text-anchor", "middle").text(params.options.xAxisName);
+	
+		function load() {	
+			params = composeParams(params);
+	
+			var outerW = params.options.width;
+			var outerH = params.options.height;
+	
+			width = outerW - params.options.margins[3] - params.options.margins[1];
+			// inner width
+			height = outerH - params.options.margins[0] - params.options.margins[2];
+	
+			var auxData = getData();
+	
+			data = auxData.data;
+			topValue = auxData.topValue;
+	
+			var numberGroups = data[0].length;
+			// groups
+			var numberSeries = data.length;
+			// series in each group
+	
+			svgId = "svg" + Math.floor(Math.random() * 10000);
+	
+			// Visualisation selection
+			var svgElement = d3.select(params.container).append("svg:svg").attr("id", svgId)
+				.attr("width", outerW).attr("height", outerH);
+	
+			svg = svgElement.append("g")
+				.attr("transform", "translate(" + params.options.margins[3] + "," + params.options.margins[0] + ")");
+	
+			// Third, we define our scales...
+			// Groups scale, x axis
+			x0 = d3.scale.ordinal().domain(params.labels).rangeBands([0, width], params.options.groupPadding);
+	
+			// Series scale, x axis
+			// It might help to think of the series scale as a child of the groups scale
+			x1 = d3.scale.ordinal().domain(d3.range(numberSeries)).rangeBands([0, x0.rangeBand()]);
+	
+			// Values scale, y axis
+	
+			y = d3.scale.linear().domain([0, topValue]).range([height, 0]);
+	
+			var xAxis = d3.svg.axis().scale(x0).orient("bottom");
+	
+			var yAxis = d3.svg.axis().scale(y).orient("left").tickFormat(d3.format(".2s"))
+				.tickSize(-width, 0, 0).ticks(params.options.ticks);
+	
+			if (params.options.showLabels) {
+				var xAxisContainer = svg.append("g").attr("class", "x axis").attr("transform", "translate(0," + height + ")").call(xAxis)
+	
+				if (params.options.showXAxisLabel) {
+					xAxisContainer.append("text").attr("y", 30).attr("x", width / 2)
+						.attr("dy", ".71em").style("text-anchor", "middle").text(params.options.xAxisName);
+				}
 			}
+	
+			var yAxisContainer = svg.append("g").attr("class", "y axis").call(yAxis);
+	
+			if (params.options.showYAxisLabel) {
+				yAxisContainer.append("text").attr("transform", "rotate(-90)").attr("y", -30)
+					.attr("x", -height / 2).attr("dy", ".71em").style("text-anchor", "middle").text(params.options.yAxisName);
+			}
+	
+			loadBars();
 		}
-
-		var yAxisContainer = svg.append("g").attr("class", "y axis").call(yAxis);
-
-		if (params.options.showYAxisLabel) {
-			yAxisContainer.append("text").attr("transform", "rotate(-90)").attr("y", -30).attr("x", -height / 2).attr("dy", ".71em").style("text-anchor", "middle").text(params.options.yAxisName);
-		}
-
-		// Series selection
-		// We place each series into its own SVG group element. In other words,
-		// each SVG group element contains one series (i.e. bars of the same colour).
-		// It might be helpful to think of each SVG group element as containing one bar chart.
-		var gSeries = svg.selectAll("g.series").data(data).enter();
-
-		var series = gSeries.append("svg:g").attr("class", "series")// Not strictly necessary, but helpful when inspecting the DOM
-		.attr("fill", function(d, i) {
-			return colours[i];
-		}).attr("transform", function(d, i) {
-			return "translate(" + x1(i) + ")";
-		});
-
-		// Groups selection
-		var groups = series.selectAll("rect").data(Object)// The second dimension in the two-dimensional data array
-		.enter();
-
-		groups.append("svg:rect").attr("x", params.options.barPadding / 2).attr("y", function(d) {
-			return height;
-		}).attr("width", x1.rangeBand() - params.options.barPadding).attr("transform", function(d, i) {
-			return "translate(" + x0(i) + ")";
-		}).transition().duration(1500).delay(100).attr("height", function(d) {
-			return height - y(d.value);
-		}).attr("y", function(d) {
-			return y(d.value);
-		});
-
-		if (params.options.showBarLabels) {
-			var barLabels = groups.append("text").attr("x", x1.rangeBand() / 2).attr("y", height + 10).attr("transform", function(d, i) {
-				return "translate(" + x0(i) + ")";
-			}).style("fill", "#333").style("opacity", 0).transition().duration(1500).delay(1800).style("opacity", 1).text(function(d, i) {
-				return d.name;
-			}).style("text-anchor", "middle");
-		}
-
-		if (params.options.showValueOnBar) {
-			var number = groups.append("text").attr("x", x1.rangeBand() / 2).attr("y", function(d) {
-				return y(d.value) + 15;
+	
+		function loadBars()
+		{
+			// Series selection
+			// We place each series into its own SVG group element. In other words,
+			// each SVG group element contains one series (i.e. bars of the same colour).
+			// It might be helpful to think of each SVG group element as containing one bar chart.
+			var gSeries = svg.selectAll("g.series").data(data).enter();
+	
+			series = gSeries.append("svg:g").attr("class", "series")// Not strictly necessary, but helpful when inspecting the DOM
+			.attr("fill", function(d, i) {
+				return params.options.colours[i];
 			}).attr("transform", function(d, i) {
+				return "translate(" + x1(i) + ")";
+			});		
+		
+			// Groups selection
+			var groups = series.selectAll("rect").data(Object)// The second dimension in the two-dimensional data array
+			.enter();
+	
+			groups.append("svg:rect").attr("class", "barChartBar").attr("x", params.options.barPadding / 2).attr("y", function(d) {
+				return height;
+			}).attr("width", x1.rangeBand() - params.options.barPadding).attr("transform", function(d, i) {
 				return "translate(" + x0(i) + ")";
-			}).style("text-anchor", "middle").style("fill", "#fff").text(function(d) {
-				return d.value;
-			}).style("visibility", "hidden").transition().duration(1500).delay(1800).style("visibility", "visible");
+			}).transition().duration(1500).delay(100).attr("height", function(d) {
+				return height - y(d.value);
+			}).attr("y", function(d) {
+				return y(d.value);
+			});
+	
+			if (params.options.showBarLabels) {
+				var barLabels = groups.append("text").attr("class", "barLabel").attr("x", x1.rangeBand() / 2).attr("y", height + 10)
+					.attr("transform", function(d, i) {
+					return "translate(" + x0(i) + ")";
+				}).style("fill", "#333").style("opacity", 0).transition().duration(1500).delay(1800)
+					.style("opacity", 1).text(function(d, i) {
+					return d.name;
+				}).style("text-anchor", "middle");
+			}
+	
+			if (params.options.showValueOnBar) {
+				var number = groups.append("text").attr("class", "valueOnBar").attr("x", x1.rangeBand() / 2).attr("y", function(d) {
+					return y(d.value) + 15;
+				}).attr("transform", function(d, i) {
+					return "translate(" + x0(i) + ")";
+				}).style("text-anchor", "middle").style("fill", "#fff").text(function(d) {
+					return d.value;
+				}).style("visibility", "hidden").transition().duration(1500).delay(1800).style("visibility", "visible");
+			}
+	
+			// Mean
+	
+			var mean = params.options.mean ? params.options.mean : 0;
+			var median = params.options.median ? params.options.median : 0;
+	
+			if (params.options.mean) {
+				var value = height - height * (mean / topValue);
+				var textPos = mean > median ? value - 5 : value + 12;
+	
+				var g = svg.append("g").attr("class", "mean");
+	
+				g.append("line").attr("x1", 0).attr("y1", value).attr("x2", width).attr("y2", value)
+					.attr("stroke-width", 2).attr("stroke", params.options.meanColour)
+					.style("opacity", 0).transition().duration(1500).delay(1800).style("opacity", 1);
+	
+				g.append("text").attr("x", 0).attr("y", textPos).text("MEAN")
+					.attr("font-family", "sans-serif").attr("font-size", "11px").attr("fill", "#000")
+					.style("opacity", 0).transition().duration(1500).delay(1800).style("opacity", 1);
+	
+				g.append("text").attr("x", width).attr("y", textPos).attr("text-anchor", "end")
+					.text(mean).attr("font-family", "sans-serif").attr("text-align", "right")
+					.attr("font-size", "11px").attr("fill", "#000").style("opacity", 0)
+					.transition().duration(1500).delay(1800).style("opacity", 1);
+			}
+	
+			// Median
+	
+			if (params.options.median) {
+				var value = height - height * (median / topValue);
+				var textPos = median > mean ? value - 5 : value + 12;
+	
+				var g = svg.append("g").attr("class", "median");
+	
+				g.append("line").attr("x1", 0).attr("y1", value).attr("x2", width)
+					.attr("y2", value).attr("stroke-width", 1).attr("stroke", params.options.medianColour)
+					.attr("stroke-dasharray", "8, 8").style("opacity", 0)
+					.transition().duration(1500).delay(1800).style("opacity", 1);
+	
+				g.append("text").attr("x", 0).attr("y", textPos).text("MEDIAN")
+					.attr("font-family", "sans-serif").attr("font-size", "11px")
+					.attr("fill", "#000").style("opacity", 0)
+					.transition().duration(1500).delay(1800).style("opacity", 1);
+	
+				g.append("text").attr("x", width).attr("y", textPos).attr("text-anchor", "end")
+					.text(median).attr("font-family", "sans-serif").attr("text-align", "right")
+					.attr("font-size", "11px").attr("fill", "#000").style("opacity", 0)
+					.transition().duration(1500).delay(1800).style("opacity", 1);
+			}
+	
+			this.svgId = svgId;
 		}
-
-		// Mean
-
-		var mean = params.options.mean ? params.options.mean : 0;
-		var median = params.options.median ? params.options.median : 0;
-
-		if (params.options.mean) {
-			var value = height - height * (mean / topValue);
-			var textPos = mean > median ? value - 5 : value + 12;
-
-			svg.append("line").attr("x1", 0).attr("y1", value).attr("x2", width).attr("y2", value).attr("stroke-width", 2).attr("stroke", params.options.meanColour).style("opacity", 0).transition().duration(1500).delay(1800).style("opacity", 1);
-
-			svg.append("text").attr("x", 0).attr("y", textPos).text("MEAN").attr("font-family", "sans-serif").attr("font-size", "11px").attr("fill", "#000").style("opacity", 0).transition().duration(1500).delay(1800).style("opacity", 1);
-
-			svg.append("text").attr("x", width).attr("y", textPos).attr("text-anchor", "end").text(mean).attr("font-family", "sans-serif").attr("text-align", "right").attr("font-size", "11px").attr("fill", "#000").style("opacity", 0).transition().duration(1500).delay(1800).style("opacity", 1);
+		
+		this.load();
+		
+		this.clear = clear;
+		
+		function clear() {
+			d3.select(params.container).selectAll("g.series").remove();
 		}
-
-		// Median
-
-		if (params.options.median) {
-			var value = height - height * (median / topValue);
-			var textPos = median > mean ? value - 5 : value + 12;
-
-			svg.append("line").attr("x1", 0).attr("y1", value).attr("x2", width).attr("y2", value).attr("stroke-width", 1).attr("stroke", params.options.medianColour).attr("stroke-dasharray", "8, 8").style("opacity", 0).transition().duration(1500).delay(1800).style("opacity", 1);
-
-			svg.append("text").attr("x", 0).attr("y", textPos).text("MEDIAN").attr("font-family", "sans-serif").attr("font-size", "11px").attr("fill", "#000").style("opacity", 0).transition().duration(1500).delay(1800).style("opacity", 1);
-
-			svg.append("text").attr("x", width).attr("y", textPos).attr("text-anchor", "end").text(median).attr("font-family", "sans-serif").attr("text-align", "right").attr("font-size", "11px").attr("fill", "#000").style("opacity", 0).transition().duration(1500).delay(1800).style("opacity", 1);
+		
+		this.unload = function(){
+			d3.select(params.container).selectAll("rect.barChartBar").transition()
+			.duration(1000).attr("height", 0).attr("y", height);
+			
+			d3.select(params.container).selectAll("text.barLabel").transition()
+			.style("visibility", "hidden");
+			
+			d3.select(params.container).selectAll("g.median").transition()
+			.style("visibility", "hidden");
+			
+			d3.select(params.container).selectAll("g.mean").transition()
+			.style("visibility", "hidden");
+			
+			d3.select(params.container).selectAll("text.valueOnBar").transition()
+			.style("visibility", "hidden");
 		}
+		
+		this.reload = function(regions) {
+			params.regions = regions;
+			
+			this.unload();
+			
+			setTimeout(function() {
 
-		return svgId;
+				clear();
+				
+				setTimeout(function() {
+					
+					var auxData = getData();
+					data = auxData.data;
+					topValue = auxData.topValue;
+
+					loadBars();
+					
+				}, 1000);
+				
+			}, 1000);
+		}
 	}
 
 	this.drawScatterplot = function(params) {
