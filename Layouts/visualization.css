@@ -14,7 +14,7 @@ body {
 }
 
 .sidebar-menu {
-	width: 19%;
+	width: 22%;
 	float: right;
 	text-align: center;
 }
@@ -45,6 +45,23 @@ body {
 	color: #888;
 }
 
+.sidebar-menu li.continent {
+	list-style-type: none;
+	margin-bottom: 1em;
+	text-align: left;
+	font-size: 0.8em;
+	color: #888;
+	text-transform: uppercase;
+}
+
+.sidebar-menu li.continent-selected {
+	color: #333;
+}
+
+.sidebar-menu li.continent ul {
+	margin-top: 1em;
+}
+
 .sidebar-menu li.country img {
 	opacity: 0.4;
 }
@@ -64,7 +81,7 @@ body {
 }
 
 .main-layout-index {
-	width: 80%;
+	width: 77%;
 	margin-top: 1em;
 }
 
@@ -106,6 +123,8 @@ table.data {
 	width: 100%;
 	table-layout: fixed;
 	border-collapse: collapse;
+	margin-top: 1em;
+	margin-bottom: 2em;
 }
 
 table.data th {
@@ -139,10 +158,10 @@ td.indicator span {
 	background-color: #b3c951;
 	border: 0.5em solid #fff;
 	color: #fff;
-	width: 2.5em;
-	height: 2em;
-	padding-top: 0.5em;
-	border-radius: 1.75em;
+	width: 3em;
+	height: 2.2em;
+	padding-top: 0.8em;
+	border-radius: 2em;
 	vertical-align: middle;
 }
 
@@ -157,6 +176,11 @@ img.flag {
 
 td.value {
 	padding-left: 4em;
+}
+
+td.value {
+	padding-right: 4em;
+	text-align: center;
 }
 
 td.value span.number {
@@ -243,4 +267,235 @@ table.data-year {
 	width: 60%;
 	float: right;
 	margin-bottom: 5em;
+}
+
+.webindex-nav, .webindex-nav ul {
+	overflow: auto;
+	padding: 0;
+}
+
+.webindex-nav li {
+	width: 6em;
+	height: 4.8em;
+	border: 0.1em solid #99ca3c;
+	border-radius: 3em;
+	list-style: none;
+	color: #99ca3c;
+	font-weight: 100;
+	text-align: center;
+	padding-top: 1.2em;
+	float: left;
+	margin-right: 1.2em;
+}
+
+.webindex-nav li.link {
+	padding-top: 1.2em;
+	height: 4.8em;
+	float: right;
+	margin-right: 0;
+	margin-left: 1em;
+}
+
+.webindex-nav li.selected {
+	background-color: #99ca3c;
+	color: #fff;
+}
+
+.webindex-nav li.one {
+	padding-top: 1.6em;
+	height: 4.4em;
+}
+
+.webindex-nav li.link p {
+	font-size: 0.8em;
+	padding: 0 0.5em;
+	text-align: center;
+}
+
+.webindex-nav div {
+	margin: 0;
+	padding: 0;
+}
+
+.webindex-nav .webindex-title {
+	font-size: 0.6em;
+	text-transform: uppercase;
+}
+
+.webindex-nav .webindex-rank {
+	font-size: 2em;
+	line-height: 1em;
+}
+
+.webindex-nav .webindex-score {
+	font-size: 0.7em;
+	text-transform: uppercase;
+}
+
+h3.index-title {
+	color: #98ca3c;
+	font-weight: 600;
+	font-size: 1.2em;
+}
+
+nav.filter-nav {
+	overflow: auto;
+	margin: 0 auto 1.5em auto;
+	padding: 0;
+	width: 15em;
+}
+
+nav.filter-nav span.label {
+	float: left;
+	font-size: 0.7em;
+	margin-right: 1em;
+	padding-top: 0.4em;
+	font-style: italic;
+	color: #888;
+}
+
+nav.filter-nav ul {
+	float: left;
+	margin: 0;
+	padding: 0;
+}
+
+nav.filter-nav li {
+	float: left;
+	list-style: none;
+	font-size: 0.7em;
+	margin: 0 1em;
+	text-align: center;
+	color: #888;
+}
+
+nav.filter-nav li div {
+	width: 2.5em;
+	height: 2.5em;
+	border: 0.1em solid #ccc;
+	border-radius: 1.35em;
+	margin: 0 auto;
+}
+
+nav.filter-nav li div.selected {
+	background-color: #99ca3c;
+}
+
+nav.indicators ul {
+	padding: 0;
+	margin-top: 0;
+	overflow: auto;
+	margin: 0 auto 2em auto;
+	width: 33em;
+}
+
+nav.indicators li {
+	float: left;
+	width: 3em;
+	height: 2.2em;
+	border: 0.1em solid #99ca3c;
+	border-radius: 1.6em;
+	text-align: center;
+	color: #99ca3c;
+	list-style: none;
+	margin-right: 1em;
+	padding-top: 0.8em;
+}
+
+nav.indicators li.selected {
+	background-color: #99ca3c;
+	color: #fff;
+}
+
+ul.indicator-list {
+	margin-top: 1em;
+	padding: 0;
+}
+
+ul.indicator-list li {
+	list-style: none;
+	font-size: 0.8em;
+	font-weight: 100;
+	text-align: left;
+	margin-bottom: 1em;
+	padding-left: 0.5em;
+	border-left: 1.4em solid #fff;
+}
+
+ul.indicator-list > li {
+	text-transform: uppercase;
+	margin-bottom: 1.5em;
+}
+
+ul.indicator-list li ul {
+	padding-left: 0em;
+	margin-left: 2em;
+	text-transform: none;
+	margin-top: 1em;
+}
+
+ul.indicator-list li.selected {
+	background-color: #fff;
+	border-left: 1.4em solid #99ca3c;
+	color: #7D9900
+}
+
+ul.indicator-list li.closed {
+	color: #888;
+}
+
+nav.nav-centered {
+	width: 29em;
+	margin: 0 auto 2em auto;
+}
+
+div.values {
+	width: 70%;
+	margin: 0 auto 3em auto;
+	overflow: auto;
+}
+
+div.circle {
+	font-size: 3em;
+	width: 3em;
+	height: 2.3em;
+	padding-top: 0.7em;
+	border-radius: 1.5em;
+	color: #fff;
+	text-align: center;
+	margin: 0 auto 0.5em auto;
+}
+
+div.ranking {
+	background-color: #99ca3c;
+}
+
+div.score {
+	background-color: #666;
+}
+
+div.left {
+	float: left;
+	width: 10em;
+	text-align: center;
+}
+
+div.left span {
+	color: #99ca3c;
+}
+
+div.right {
+	float: right;
+	width: 10em;
+	text-align: center;
+}
+
+div.right span {
+	color: #666;
+}
+
+div.values span {
+	text-transform: uppercase;
+	font-weight: 800;
+	letter-spacing: 0.2em;
 }
