@@ -5,12 +5,52 @@ body {
 	margin: 0 auto;
 	width: 80%;
 	background-color: #ccc;
+	background-image: url('img/bg.png');
+	background-attachment: fixed;
 }
 
-.content {
-	overflow: auto;
+div.wrapper {
 	background-color: #fff;
-	padding: 1.5em;
+	padding: 1em 1em 0 2em;
+	box-shadow: 0 0.1em 0.2em #333;
+}
+
+img.logo {
+	margin-top: -1em;
+	margin-left: -2em;
+}
+
+div.data-bank {
+	width: 40%;
+	float: right;
+}
+
+div.data-bank h1 {
+	color: #116699;	
+	text-align: right;
+	margin: -0.5em 0 0 0;
+	padding-right: 0;
+	text-transform: uppercase;
+	font-weight: 100;
+	letter-spacing: 0.2em;
+	font-family: 'Source Sans Pro', sans-serif;
+}
+
+div.data-bank h2 {
+	color: #000;	
+	text-align: right;
+	margin: -0.3em 0 0 0;
+	padding-right: 0;
+	text-transform: uppercase;
+	font-weight: 100;
+	letter-spacing: 0.2em;
+	font-family: 'Source Sans Pro', sans-serif;
+	font-size: 2.5em;
+}
+
+header.main-header {
+	border-bottom: 0.1em solid #ccc;
+	padding-bottom: 2em;
 }
 
 .sidebar-menu {
@@ -82,7 +122,7 @@ body {
 
 .main-layout-index {
 	width: 77%;
-	margin-top: 1em;
+	margin-top: 0;
 }
 
 .main-layout-index header {
@@ -98,7 +138,7 @@ body {
 .main-layout-index .region {
 	font-size: 1em;
 	margin: 0;
-	color: #7D9900;
+	color: #116699;
 }
 
 .main-layout-index .column-left {
@@ -128,8 +168,8 @@ table.data {
 }
 
 table.data th {
-	border-bottom: 0.1em solid #C4262E;
-	color: #C4262E;
+	border-bottom: 0.1em solid #116699;
+	color: #116699;
 	font-weight: 1000;
 }
 
@@ -155,7 +195,7 @@ td.indicator-country {
 
 td.indicator span {
 	display: inline-block;
-	background-color: #b3c951;
+	background-color: #116699;
 	border: 0.5em solid #fff;
 	color: #fff;
 	width: 3em;
@@ -223,9 +263,9 @@ h3.title {
 	z-index: 5;
 	text-transform: uppercase;
 	font-size: 0.8em;
-	color: #C4262E;
+	color: #116699;
 	font-weight: 100;
-	border-bottom: 0.13em solid #C4262E;
+	border-bottom: 0.13em solid #116699;
 }
 
 div.indicator-side-name {
@@ -240,7 +280,7 @@ div.indicator-side-name span.indicator-name {
 	text-align: center;
 	width: 4em;
 	height: 2.7em;
-	background-color: #b3c951;
+	background-color: #116699;
 	color: #fff;
 	font-size: 2em;
 	border-radius: 4em;
@@ -260,7 +300,7 @@ div.indicator-side-name p.indicator-source {
 }
 
 div.indicator-side-name p.indicator-source a {
-	color: #7D9900;
+	color: #116699;
 }
 
 table.data-year {
@@ -277,10 +317,10 @@ table.data-year {
 .webindex-nav li {
 	width: 6em;
 	height: 4.8em;
-	border: 0.1em solid #99ca3c;
+	border: 0.1em solid #888;
 	border-radius: 3em;
 	list-style: none;
-	color: #99ca3c;
+	color: #888;
 	font-weight: 100;
 	text-align: center;
 	padding-top: 1.2em;
@@ -297,13 +337,19 @@ table.data-year {
 }
 
 .webindex-nav li.selected {
-	background-color: #99ca3c;
+	background-color: #116699;
+	border-color: #116699;
 	color: #fff;
 }
 
 .webindex-nav li.one {
 	padding-top: 1.6em;
 	height: 4.4em;
+}
+
+.webindex-nav li.selected-value {
+	border-color: #116699;
+	color: #116699;
 }
 
 .webindex-nav li.link p {
@@ -333,16 +379,106 @@ table.data-year {
 }
 
 h3.index-title {
-	color: #98ca3c;
+	color: #116699;
 	font-weight: 600;
 	font-size: 1.2em;
 }
 
+nav.indicator-filter-nav {
+	overflow: auto;
+	margin-top: 0em;
+	margin-bottom: 1em;
+}
+
+nav.indicator-filter-nav ul {
+
+	padding: 0;
+}
+
+nav.indicator-filter-nav li {
+	float: left;
+	list-style: none;
+	font-size: 0.7em;
+	margin: 0 2.5em 0.4em 0;
+	text-align: center;
+	color: #888;
+	text-transform: uppercase;
+	letter-spacing: 0.1em;
+}
+
+/* Web Index */
+
+nav.indicator-filter-nav li.web-index {
+	color: #000;
+}
+
+nav.indicator-filter-nav li.web-index div {
+	border-color: #000;
+}
+
+nav.indicator-filter-nav li.selected div {
+	background-color: #000;
+}
+
+/* Universal Access */
+
+nav.indicator-filter-nav li.universal {
+	color: #116699;
+}
+
+nav.indicator-filter-nav li.universal div {
+	border-color: #116699;
+}
+
+nav.indicator-filter-nav li.universal div.selected {
+	background-color: #116699;
+}
+
+/* Freedom & Openness */
+
+nav.indicator-filter-nav li.freedom {
+	color: #006644;
+}
+
+nav.indicator-filter-nav li.freedom div {
+	border-color: #006644;
+}
+
+/* Relevant Content */
+
+nav.indicator-filter-nav li.relevant {
+	color: #882222;
+}
+
+nav.indicator-filter-nav li.relevant div {
+	border-color: #882222;
+}
+
+/* Empowerment */
+
+nav.indicator-filter-nav li.empowerment {
+	color: #EE6611;
+}
+
+nav.indicator-filter-nav li.empowerment div {
+	border-color: #EE6611;
+}
+
+nav.indicator-filter-nav li div {
+	width: 1.5em;
+	height: 1.5em;
+	border: 0.1em solid #ccc;
+	border-radius: 0.85em;
+	margin-right: 1em;
+	float: left;
+}
+
 nav.filter-nav {
+	clear: both;
 	overflow: auto;
 	margin: 0 auto 1.5em auto;
 	padding: 0;
-	width: 15em;
+	width: 25em;
 }
 
 nav.filter-nav span.label {
@@ -370,15 +506,15 @@ nav.filter-nav li {
 }
 
 nav.filter-nav li div {
-	width: 2.5em;
-	height: 2.5em;
-	border: 0.1em solid #ccc;
-	border-radius: 1.35em;
+	width: 2em;
+	height: 2em;
+	border: 0.1em solid #888;
+	border-radius: 1.1em;
 	margin: 0 auto;
 }
 
 nav.filter-nav li div.selected {
-	background-color: #99ca3c;
+	background-color: #333;
 }
 
 nav.indicators ul {
@@ -393,17 +529,17 @@ nav.indicators li {
 	float: left;
 	width: 3em;
 	height: 2.2em;
-	border: 0.1em solid #99ca3c;
+	border: 0.1em solid #116699;
 	border-radius: 1.6em;
 	text-align: center;
-	color: #99ca3c;
+	color: #116699;
 	list-style: none;
 	margin-right: 1em;
 	padding-top: 0.8em;
 }
 
 nav.indicators li.selected {
-	background-color: #99ca3c;
+	background-color: #116699;
 	color: #fff;
 }
 
@@ -467,7 +603,7 @@ div.circle {
 }
 
 div.ranking {
-	background-color: #99ca3c;
+	background-color: #116699;
 }
 
 div.score {
@@ -481,7 +617,7 @@ div.left {
 }
 
 div.left span {
-	color: #99ca3c;
+	color: #116699;
 }
 
 div.right {
@@ -498,4 +634,314 @@ div.values span {
 	text-transform: uppercase;
 	font-weight: 800;
 	letter-spacing: 0.2em;
+}
+
+/* Footer map */
+
+footer.map {
+	overflow: auto;
+	margin-left: -2em;
+	margin-right: -1em;
+	margin-top: 4em;
+	background-color: #EEAA11;
+}
+
+footer.map ul {
+	overflow: auto;
+	width: 100%;
+	padding: 0;
+	margin: 0;
+}
+
+footer.map ul li.general {
+	float: left;
+	list-style: none;
+	width: 16%;
+	height: 6em;
+	text-transform: uppercase;
+	font-size: 0.8em;
+	color: #fff;
+	text-align: left;
+	padding: 2em 2%;
+	letter-spacing: 0.1em;
+}
+
+footer.map li li {
+	font-size: 0.8em;
+	text-transform: none;
+}
+
+footer.general {
+	background-color: #222;
+	color: #fff;
+	margin-left: -2em;
+	margin-right: -1em;
+	padding: 0.5em 1em;
+}
+
+footer.general span {
+	font-size: 0.8em;
+	letter-spacing: 0.1em;
+}
+
+/* Comparer */
+
+div.comparer-container {
+	padding: 0;
+	margin-top: 1em;
+}
+
+div.comparer-container h3 {
+	letter-spacing: 0.2em;
+	font-family: 'Source Sans Pro', sans-serif;
+	font-weight: 100;
+	font-size: 2em;
+	text-transform: uppercase;
+	margin: 0.5em 0;
+}
+
+div.comparer-container div.column {
+	width: 31.33%;
+	float: left;
+}
+
+div.comparer-container div.middle {
+	margin-left: 2%;
+	margin-right: 2%;
+}
+
+div.comparer-container div.compare {
+	clear: both;
+	padding-bottom: 2em;
+	text-align: center;
+	padding-top: 1em;
+}
+
+div.comparer-container div.compare button {
+	width: 33%;
+	font-size: 2em;
+	margin: 0.5em auto;
+	text-transform: uppercase;
+	background-color: #000;
+	color: #fff;
+	font-weight: 100;
+	letter-spacing: 0.2em;
+	font-family: "Century Gothic", Arial;
+	border: none;
+	padding: 0.5em 0;
+}
+
+.country-selector ul.circles {
+	text-align: center;
+}
+
+.country-selector li.circle {
+	list-style-type: none;
+	width: 3.5em;
+	height: 2.6em;
+	border: 0.1em solid #ccc;
+	border-radius: 1.85em;
+	font-size: 0.8em;
+	text-align: center;
+	padding-top: 0.9em;
+	color: #888;
+	margin: 0 auto;
+	margin-bottom: 1em;
+}
+
+.country-selector li.country {
+	list-style-type: none;
+	margin-bottom: 2em;
+	text-align: left;
+	font-size: 0.7em;
+	color: #888;
+}
+
+.country-selector li.continent {
+	list-style-type: none;
+	margin-bottom: 1em;
+	text-align: left;
+	font-size: 0.8em;
+	color: #888;
+	text-transform: uppercase;
+}
+
+.country-selector li.continent-selected {
+	color: #333;
+}
+
+.country-selector li.continent ul {
+	margin-top: 1em;
+}
+
+.country-selector li.country img {
+	opacity: 0.4;
+}
+
+.country-selector li.flag-selected {
+	color: #333;
+}
+
+.country-selector li.flag-selected img {
+	opacity: 1;
+}
+
+.country-selector li.selected {
+	background-color: #b3c951;
+	border-color: #b3c951;
+	color: #fff;
+}
+
+div.circle-step {
+	font-size: 2em;
+	width: 2em;
+	height: 1.75em;
+	padding-top: 0.25em;
+	border-radius: 1.5em;
+	background-color: #333;
+	color: #fff;
+	text-align: center;
+	margin: 0 auto;
+}
+
+p.description {
+	text-align: center;
+	color: #333;
+	font-family: "Century Gothic", Arial;
+	font-style: italic;
+	border-bottom: 0.1em solid #ccc;
+	padding-bottom: 0.5em;
+}
+
+nav.indicator-selector {
+	color: #333;
+}
+
+nav.indicator-selector ul {
+	margin: 0;
+	padding: 0;
+}
+
+nav.indicator-selector li {
+	list-style: none;
+	padding: 0.4em 0;
+	font-size: 0.9em;
+	text-transform: uppercase;
+	letter-spacing: 0.1em;
+}
+
+nav.indicator-selector li li {
+	padding-left: 3em;
+	text-transform: none;
+	letter-spacing: 0em;
+}
+
+nav.indicator-selector div {
+	width: 1.4em;
+	height: 1.4em;
+	border: 0.1em solid #888;
+	border-radius: 0.75em;
+	float: left;
+	margin-right: 0.5em;
+}
+/*
+nav.indicator-selector li.universal {
+	color: #116699;
+}
+
+nav.indicator-selector li.universal div {
+	border-color: #116699;
+}
+
+nav.indicator-selector li.freedom {
+	color: #006644;
+}
+
+nav.indicator-selector li.freedom div {
+	border-color: #006644;
+}
+
+nav.indicator-selector li.content {
+	color: #882222;
+}
+
+nav.indicator-selector li.content div {
+	border-color: #882222;
+}
+
+nav.indicator-selector li.empowerment {
+	color: #DAA427;
+}
+
+nav.indicator-selector li.empowerment div {
+	border-color: #DAA427;
+}
+*/
+/* Year selector */
+
+ul.year-selector {
+	padding: 0;
+}
+
+ul.year-selector li {
+	list-style: none;
+	text-align: center;
+	color: #888;
+	font-size: 1em;
+	margin-bottom: 1em;
+}
+
+ul.year-selector li div {
+	width: 2em;
+	height: 2em;
+	border: 0.1em solid #ccc;
+	border-radius: 1.05em;
+	margin: 0 auto;
+}
+
+ul.year-selector li.selected {
+	color: #333;
+}
+
+ul.year-selector li.selected div {
+	background-color: #CC2222;
+}
+
+/* Country selector */
+
+li.continent {
+
+}
+
+li.continent span {
+	margin-right: 1em;
+}
+
+li.continent div {
+	width: 1.4em;
+	height: 1.4em;
+	border: 0.1em solid #888;
+	border-radius: 0.75em;
+	float: left;
+	margin-right: 0.5em;
+	color: #666;
+	text-align: center;
+	padding: 0;
+}
+
+li.continent div.counter {
+	float: none;
+	margin-right: 0;
+	background-color: #CC2222;
+	border-color: #CC2222;
+	color: #fff;
+	display: inline-block;
+}
+
+li.continent div.invisible {
+	visibility: hidden;
+}
+
+nav.country-selector > ul {
+	padding: 0;
 }

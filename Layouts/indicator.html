@@ -3,68 +3,83 @@
 	<head>
 		<meta name="viewport" content="width=device-width"/>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-		<title>Web Index</title>
-		<link rel="stylesheet" href="../General/base.css" type="text/css" media="screen"></link>
-		<link rel="stylesheet" href="../General/class.css" type="text/css" media="screen"></link>
-		<link rel="stylesheet" href="../General/37em.css" type="text/css" media="screen"></link>
-		<link rel="stylesheet" href="../General/50em.css" type="text/css" media="screen"></link>
-		<link rel="stylesheet" href="../General/65em.css" type="text/css" media="screen"></link>
+		<title>World Wide Web Foundation</title>
+		<link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:200,400' rel='stylesheet' type='text/css'>
 		<link rel="stylesheet" href="visualization.css" type="text/css" media="screen"></link>
 	</head>
 	<body>
 		<div class="wrapper">
-			<header class="site_header">
-				<div class="green_line"></div>
-				<div class="W3F">
-					<img alt="World Wide Web Foundation" src="../General/world-wide-web-foundation.png" />
+			<header class="main-header">
+				<div class="data-bank">
+					<h1>Data Bank</h1>
 				</div>
-				<img class="web-index" alt="Web Index" src="../General/web-index.png" />
-				<a class="donate">Donate Now</a>
-				<div class="header-content">
-					<div class="search">
-						<img alt="" class="magnifier" src="../General/magnifier.png" />
-						<input type="text" placeholder="Search" />
-					</div>
-					<div class="navigation">
-						<nav class="right">
-							<a class="nav-link link-selected" alt="Visualizations" href="visualizations.html">
-								<span>Visualisations</span>
-							</a>
-							<a class="nav-link" alt="News" href="../news.html"><span>News &amp; Media</span></a>
-							<a class="nav-link" alt="Contact" href="../contact.html"><span>Contact</span></a>
-						</nav>
-						<nav class="left">
-							<a class="nav-link" alt="Home" href="../index.html"><span>Home</span></a>
-							<a class="nav-link" alt="About" href="../about.html"><span>About</span></a>
-							<a class="nav-link" alt="Index" href="../webindex.html"><span>Index</span></a>
-						</nav>
-					</div>
-				</div>
+				<img src="img/W3F-logo.png" class="logo" alt="World Wide Web Foundation" />
 			</header>
-			<div class="main">
-				
+			<div class="main">				
 				<div class="sidebar-menu">
 					<nav>
-						<ul class="indicator-list">
-							<li class="opened">
-								Universal Access
-								<ul>
-									<li class="selected">Communications Infrastructure</li>
-									<li> Access and Affordability</li>
-									<li>Education and Awareness</li>
-								</ul>
+						<ul>
+							<li class="continent">
+								Africa
 							</li>
-							<li class="closed">Freedom and Openness</li>
-							<li class="closed">Relevant Content</li>
-							<li class="closed">Empowerment</li>
+							<li class="continent">
+								East Asia & Pacific
+							</li>
+							<li class="continent">
+								Europe & Central Asia
+							</li>
+							<li class="continent">
+								Latin America & Caribbean
+							</li>
+							<li class="continent">
+								Middle East
+							</li>
+							<li class="continent">
+								North America
+							</li>
+							<li class="continent">
+								South Asia
+							</li>
 						</ul>
 					</nav>
 				</div>
 				<div class="main-layout-index">
 					<header>
-						<nav class="filter-nav">
-							<span class="label">Select year</span>
+						<nav class="indicator-filter-nav">
 							<ul>
+								<li class="web-index">
+									<div></div>
+									Web Index
+								</li>
+								<li class="universal">
+									<div class="selected"></div>
+									Universal Access
+								</li>
+								<li class="freedom">
+									<div></div>
+									Freedom &amp; Openness
+								</li>
+								<li class="relevant">
+									<div></div>
+									Relevant Content
+								</li>
+								<li class="empowerment">
+									<div></div>
+									Empowerment
+								</li>
+							</ul>
+						</nav>
+						<nav class="filter-nav">
+							<span class="label">Select a year</span>
+							<ul>
+								<li>
+									<div></div>
+									2007
+								</li>
+								<li>
+									<div></div>
+									2008
+								</li>
 								<li>
 									<div></div>
 									2009
@@ -77,12 +92,16 @@
 									<div></div>
 									2011
 								</li>
+								<li>
+									<div></div>
+									2012
+								</li>
 							</ul>
 						</nav>
-						<p class="breadcrumbs">
-							Web Index &gt; Universal Access &gt; Communications Infrastructure
-						</p>
 						<div class="column-left">
+							<p class="breadcrumbs">
+								Web Index &gt; Universal Access
+							</p>
 							<h1 class="country">Communications Infrastructure</h1>
 							<h2 class="region">Universal Access</h2>
 						</div>
@@ -185,58 +204,46 @@
 						</tr>
 					</table>
 				</div>
-
-				
+				<footer class="map">
+					<ul>
+						<li class="general" style="background-color:#000">
+							Web Index
+						</li>	
+						<li class="general" style="background-color:#116699">
+							Universal Access
+							<ul>
+								<li>Communications Infrastructure</li>
+								<li>Access &amp; Affordability</li>
+								<li>Education &amp; Awareness</li>
+							</ul>
+						</li>
+						<li class="general" style="background-color:#88CC22">
+							Freedom &amp; Openness
+							<ul>
+								<li>Freedom</li>
+								<li>Openness</li>
+							</ul>
+						</li>
+						<li class="general" style="background-color:#CC2222">
+							Relevant Content
+							<ul>
+								<li>Content Creation</li>
+								<li>Web Use</li>
+							</ul>
+						</li>
+						<li class="general" style="background-color:#EEAA11">
+							Empowerment
+							<ul>
+								<li>Economic Impact</li>
+								<li>Political Impact</li>
+								<li>Social &amp; Environmental Impact</li>
+							</ul>
+						</li>
+					</ul>
+				</footer>
 			</div>
-			<footer>
-				<div class="navigation">
-					<nav>
-						<ul>
-							<li>
-								<a class="nav-link-footer">About</a>
-								<ul class="sub-nav">
-									<li>About the Web Index</li>
-									<li>FAQs</li>
-									<li>Methodology</li>
-									<li>Expert Survey</li>
-									<li>Who We Are</li>
-								</ul>
-							</li>
-							<li>
-								<a class="nav-link-footer">Index</a>
-								<ul class="sub-nav">
-									<li>Web Index</li>
-									<li>Downloads</li>
-									<li>The Data</li>
-								</ul>
-							</li>
-							<li>
-								<a class="nav-link-footer">Visualisations</a>
-							</li>
-							<li>
-								<a class="nav-link-footer">News &amp; Media</a>
-								<ul class="sub-nav">
-									<li>News</li>
-									<li>Press</li>
-									<li>Videos / Interviews</li>
-								</ul>
-							</li>
-							<li>
-								<a class="nav-link-footer">Contact</a>
-							</li>
-						</ul>
-					</nav>
-				</div>
-				<div class="red_line">
-					<nav class="right">
-						<a class="nav-link-footer">Terms of Use</a>
-						<a class="nav-link-footer">Privacy Policy</a>
-					</nav>
-					<div class="copyright">
-						&copy; 2013 World Wide Web Foundation.This work is licensed under 
-						<a title="Creative Commons 3.0" href="http://creativecommons.org/licenses/by/3.0/">CC by 3.0</a>.
-					</div>
-				</div>
+			<footer class="general">
+				<span>&copy; 2013 World Wide Web Foundation.</span>
 			</footer>
 		</div>
 	</body>
