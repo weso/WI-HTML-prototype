@@ -9,6 +9,7 @@ Sample visualizations
 - [Example with navigation](http://156.35.82.101:9006/wiLodPortal/observation/IND/2010/A)
 - [Sample charts](http://weso.github.io/WI-HTML-prototype/chart-sample.html)
 - [Country selector](http://weso.github.io/WI-HTML-prototype/)
+- [Chart generator](156.35.82.103:3000/help)
 
 
 Feedback
