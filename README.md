@@ -6,10 +6,9 @@ HTML Prototype for the Webindex visualizations website
 Sample visualizations
 ---------------------
 
-- [Example with navigation](http://156.35.82.101:9006/wiLodPortal/observation/IND/2010/A)
+- [Chart generator](http://156.35.82.103:3000/help/)
 - [Sample charts](http://weso.github.io/WI-HTML-prototype/chart-sample.html)
 - [Country selector](http://weso.github.io/WI-HTML-prototype/)
-- [Chart generator](http://156.35.82.103:3000/help/)
 
 
 Feedback
