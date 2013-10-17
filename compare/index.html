@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns='http://www.w3.org/1999/xhtml' lang="es">
+	<head>
+		<meta name="viewport" content="width=device-width"/>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+		<link rel="stylesheet" href="css/style.css" type="text/css" media="screen"></link>
+		<link rel="stylesheet" href="css/Selector.min.css" type="text/css" media="screen"></link>
+		<link href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:200,400" rel="stylesheet" type="text/css">
+		<title></title>
+	</head>
+	<body>
+		<div class="content">
+			<header>
+				<div class="leftHeader">
+					<img alt="World Wide Web Foundation" src="img/W3F-logo.png" class="W3F-logo" />
+				</div>
+				<div class="rightHeader">
+					<h1><span>DATA PORTAL</span></h1>
+					<h2><span>COMPARER</span></h2>
+				</div>
+				<div class="border"></div>
+			</header>
+			<div class="body">
+				<div id="help" class="help"></div>
+				<div class="columns">
+					<div class="column">
+						<div id="countryColumn">
+							<div class="circle-step">1</div>
+							<p class="description">Select ONE or MORE countries.</p>
+						</div>
+						<div id="countrySelector" class="hidden-selector"></div>
+					</div>
+					<div class="column center-column">
+						<div id="indicatorColumn">
+							<div class="circle-step">2</div>
+							<p class="description">Select ONE or MORE indicators.</p>
+						</div>
+						<div id="indicatorSelector" class="hidden-selector"></div>					
+					</div>
+					<div class="column">
+						<div id="yearColumn">
+							<div class="circle-step">3</div>
+							<p class="description">Select ONE or MORE years.</p>
+						</div>	
+						<div id="yearSelector" class="hidden-selector"></div>				
+					</div>
+				</div>
+				<div class="buttons">
+					<button id="clearButton" class="clear">Clear</button>
+					<button id="compareButton">Compare</button>
+				</div>
+			</div>
+			<footer>
+				&copy; 2013 World Wide Web Foundation.
+			</footer>
+		</div>
+		<script src="js/Selector.min.js"></script>
+		<script src="js/comparer.js"></script>
+	</body>
+</html>
